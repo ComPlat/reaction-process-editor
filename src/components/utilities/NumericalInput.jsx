@@ -513,7 +513,9 @@ class NumericalInput extends Component {
    * updates
    */
   saveSelection(): void {
+    // eslint-disable-next-line
     this.state.selectionStart = this.refsInput.selectionStart
+    // eslint-disable-next-line
     this.state.selectionEnd = this.refsInput.selectionEnd
   }
 
@@ -752,6 +754,7 @@ class NumericalInput extends Component {
   /**
    * Stops the widget from auto-changing by clearing the timer (if any)
    */
+  // eslint-disable-next-line
   stop(): void {
     if (this._timer) {
       clearTimeout(this._timer);
@@ -826,6 +829,7 @@ class NumericalInput extends Component {
     }
   }
 
+  //eslint-disable-next-line
   onTouchEnd(e: Event): void {
     e.preventDefault();
     this.stop();

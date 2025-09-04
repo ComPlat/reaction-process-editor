@@ -14,6 +14,7 @@ const VialButton = (
 
   const backgroundColorStyle = vial ? VialSelectDecorator.colorFor(colorGroup) : "transparent"
 
+  // eslint-disable-next-line
   const [{ isDragging }, dragRef, previewRef] = useDrag(() => ({
     type: DndItemTypes.VIALBUTTON,
     item: {
