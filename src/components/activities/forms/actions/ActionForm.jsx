@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useContext } from 'react';
+
+import { Label } from 'reactstrap';
 
 import ActivityForm from "../ActivityForm";
 import AddSampleForm from "./AddSampleForm";
@@ -9,7 +11,15 @@ import SaveSampleForm from "./SaveSampleForm";
 import TransferForm from "./TransferForm";
 import DefineFractionForm from './DefineFractionForm';
 import DiscardForm from './DiscardForm';
+
+import ButtonGroupToggle from '../formgroups/ButtonGroupToggle';
 import FractionFormGroup from '../formgroups/FractionFormGroup';
+import OntologySelectFormGroup from '../formgroups/OntologySelectFormGroup';
+
+import OptionsDecorator from '../../../../decorators/OptionsDecorator';
+import OntologiesDecorator from '../../../../decorators/OntologiesDecorator';
+
+import { SelectOptions } from '../../../../contexts/SelectOptions';
 
 const ActionForm = (
   {
@@ -24,6 +34,8 @@ const ActionForm = (
 
   const actionTypeName = activity.activity_name
   const workup = activity.workup
+
+  let ontologies = useContext(SelectOptions).ontologies
 
   const customActivityForm = () => {
     switch (actionTypeName) {
@@ -104,6 +116,60 @@ const ActionForm = (
     }
   }
 
+  const handleChangeAutomation = (newAutomationMode) => {
+    onWorkupChange({ name: 'automation_mode', value: newAutomationMode })
+  }
+
+  const handleChangeDevice = (device) => {
+    onWorkupChange({ name: 'device', value: device?.value })
+  }
+
+  const handleChangeMethod = (method) => {
+    onWorkupChange({ name: 'method', value: method?.value })
+  }
+
+  const filteredOntologiesForRole = (roleName) => OntologiesDecorator.activeOptionsMeetingDependencies({ roleName: roleName, options: ontologies, workup: workup })
+
+
+  const currentDeviceOption = OptionsDecorator.inclusiveOptionForValue(workup.device, ontologies)
+
+  const filterMethodsByDetectors = (detectors, methods) => {
+    if (!methods) { return [] }
+    return (detectors?.length > 0) ?
+      methods.filter((method) => detectors.every(detector => method.detectors?.map(item => item.value)?.includes(detector)))
+      :
+      methods
+  }
+
+  const filteredMethodOptions = filterMethodsByDetectors(workup.detector, currentDeviceOption?.methods)
+
+
+  const renderDeviceOntologiesForm = () => {
+    return (
+      <>
+        <Label>Mode</Label>
+        <ButtonGroupToggle
+          value={workup.automation_mode}
+          options={filteredOntologiesForRole('automation_mode')}
+          onChange={handleChangeAutomation} />
+
+        <OntologySelectFormGroup
+          key={"device" + workup.device}
+          roleName={'device'}
+          workup={workup}
+          onChange={handleChangeDevice}
+        />
+        <OntologySelectFormGroup
+          key={"method" + workup.method}
+          roleName={'method'}
+          workup={workup}
+          options={filteredMethodOptions}
+          onChange={handleChangeMethod}
+        />
+      </>
+    )
+  }
+
   return (
     <ActivityForm
       type='action'
@@ -113,6 +179,7 @@ const ActionForm = (
       onWorkupChange={onWorkupChange}
       onChangeDuration={onChangeDuration}>
       <FractionFormGroup fraction={activity.consumed_fraction} />
+      {renderDeviceOntologiesForm()}
       {customActivityForm()}
     </ActivityForm>
   );
