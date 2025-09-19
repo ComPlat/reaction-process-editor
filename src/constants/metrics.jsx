@@ -103,7 +103,7 @@ export const metrics = {
     label: 'Volume',
     analysisTypeLabel: 'volumetric',
     defaultUnit: 'ml',
-    units: ['ml', 'l']
+    units: ['mcl', 'ml', 'l']
   },
   'INJECT_VOLUME': {
     label: 'Volume',
