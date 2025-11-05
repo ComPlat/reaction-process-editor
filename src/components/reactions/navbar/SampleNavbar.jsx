@@ -21,16 +21,12 @@ import ReactionConditionsFormButton from "./ReactionConditionsFormButton";
 
 import SamplesDecorator from "../../../decorators/SamplesDecorator";
 
-import { useReactionsFetcher } from "../../../fetchers/ReactionsFetcher";
 import {
   SubFormController,
   SubFormToggle,
 } from "../../../contexts/SubFormController";
 
 const SampleNavbar = ({ reactionProcess }) => {
-  console.log("SampleProcess in SampleNavbar:");
-  console.log(reactionProcess);
-  const api = useReactionsFetcher();
   const [open, setOpen] = useState("scheme");
   const [schemeIsEnlarged, setSchemeIsEnlarged] = useState(false);
   const zoomIcon = schemeIsEnlarged ? "search-minus" : "search-plus";

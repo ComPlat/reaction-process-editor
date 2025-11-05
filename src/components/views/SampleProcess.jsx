@@ -76,9 +76,6 @@ const SampleProcess = () => {
   }, [location, auth_token, username])
 
   const fetchReactionProcess = () => {
-
-    console.log("fetchReactionProcess", reactionId, sampleId)
-
     if (reactionId) {
       api.getReactionProcess(reactionId).then((data) => {
         data ? setReactionProcess(data['reaction_process']) : setReactionProcess(null)

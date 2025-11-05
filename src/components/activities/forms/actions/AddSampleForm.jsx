@@ -56,8 +56,7 @@ const AddSampleForm = ({ workup, preconditions, onWorkupChange }) => {
   const currentSampleActsAs =
     workup["acts_as"] === "DIVERSE_SOLVENT" ? "SOLVENT" : workup["acts_as"];
   const currentSampleOptions = selectOptions.materials[currentSampleActsAs] || [];
-  console.log("selectOptions")
-  console.log(selectOptions)
+
   const [sample, setSample] = useState(
     currentSampleOptions.find(
       (sample) =>

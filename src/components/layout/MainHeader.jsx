@@ -134,20 +134,11 @@ const MainHeader = () => {
     return localStorage.getItem("username") ? "/reactions" : "/";
   };
 
-
-  // // superquick superdirty hack to have sample options for the header dropdown
-  // const sampleOptions = [
-  //   { id: 1, label: "Test Sample 1", value: 1, url: sampleLinkTarget(1), },
-  //   { id: 2, label: "Test Sample 2 ", value: 1, url: sampleLinkTarget(2), }]
-
-  console.log("select options")
-  console.log(selectOptions)
-
-  const sampleOptions = selectOptions.samples.map(({ id, label }) => ({
+  const sampleOptions = selectOptions.samples?.map(({ id, label }) => ({
     key: id,
     url: sampleLinkTarget(id),
     label: id + ": " + label,
-  }));
+  })) || [];
 
   return (
     <SelectOptions.Provider value={selectOptions}>

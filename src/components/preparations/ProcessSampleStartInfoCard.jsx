@@ -1,7 +1,6 @@
 import React, { useContext, useState } from "react";
 
 import ProcedureCard from "../utilities/ProcedureCard";
-import SamplePreparationInfo from "./SamplePreparationInfo";
 
 import VesselableFormSection from "../vesselables/VesselableFormSection";
 
@@ -26,8 +25,6 @@ const ProcessSampleStartInfoCard = ({ reactionProcess }) => {
   const [reactionProcessVessel, setReactionProcessVessel] = useState(reactionProcess?.sample_initial_info?.reaction_process_vessel);
 
   const vesselPreparationOptions = selectOptions.vessel_preparations.preparation_types || {};
-  console.log("selectionOptions:");
-  console.log(selectOptions);
 
   const [showForm, setShowForm] = useState(false);
 
@@ -35,59 +32,27 @@ const ProcessSampleStartInfoCard = ({ reactionProcess }) => {
     api.updateSampleInitialInfo(reactionProcess.id,
       { 'reaction_process_vessel': reactionProcessVessel });
     closeForm();
-    // onSave(stepName, reactionProcessVessel, automationStatus);
   };
 
-
-
-  // const onSave = () => {
-  //   // Placeholder for save functionality
-  // }
 
   const handleCancel = () => {
     setReactionProcessVessel(reactionProcess?.sample_initial_info?.reaction_process_vessel);
     closeForm();
   }
 
-  const currentSamplePreparation = reactionProcess.samples_preparations
-    .find(preparation => preparation.sample_id === reactionProcess.sample_id) || {
-    sample: reactionProcess.sample, preparations: [], equipment: [], details: ""
-  }
-
-  console.log("Current Sample Preparation:");
-  console.log(reactionProcessVessel);
-  console.log(reactionProcess);
 
   const displayMode = () => {
     return showForm ? "form" : "info";
   };
 
-  // const renderSample = () => {
-  //   console.log("Current Sample Preparation:");
-  //   console.log(currentSamplePreparation);
-  //   console.log(reactionProcess);
-
-  //   return (
-  //     < SamplePreparationInfo
-  //       preparation={currentSamplePreparation}
-  //       preparationOptions={preparationOptions}
-  //     />
-  //   )
-  // };
 
   const onDelete = () => {
-    // api.deleteSamplePreparation(reactionProcessId, preparation.id);
     closeForm();
   };
 
-  const openForm = () => {
-    setShowForm(true);
-  };
 
   const closeForm = () => {
-    console.log("closeForm")
     setShowForm(false);
-    // setInitPreparation(false);
   };
 
   const toggleForm = () => setShowForm(!showForm);
@@ -115,7 +80,6 @@ const ProcessSampleStartInfoCard = ({ reactionProcess }) => {
       showDeleteBtn={false}
       showCancelBtn={showForm}
       onEdit={toggleForm}
-      onDelete={onDelete}
       onCancel={closeForm}
       showForm={showForm}
       displayMode={displayMode()}

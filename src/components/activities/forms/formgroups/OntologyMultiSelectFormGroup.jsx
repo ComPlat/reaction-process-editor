@@ -26,9 +26,9 @@ const OntologyMultiSelectFormGroup = (
 
   let value = workup[roleName]
 
-  let selectableOptionsForWorkupDependencies = OntologiesDecorator.selectableMultiOptionsForWorkupDependencies({ options: options, ontologies: ontologies, roleName: roleName, workup: workup })
+  let selectableOptionsMatchingWorkupDependencies = OntologiesDecorator.selectableMultiOptionsForWorkupDependencies({ options: options, ontologies: ontologies, roleName: roleName, workup: workup })
 
-  let selectedOptions = OntologiesDecorator.findAllByOntologyIds({ ontologyIds: value, ontologies: selectableOptionsForWorkupDependencies })
+  let selectedOptions = OntologiesDecorator.findAllByOntologyIds({ ontologyIds: value, ontologies: selectableOptionsMatchingWorkupDependencies })
 
   const inactiveSelection = (selected) => selected.find(item => !item.active)
   const unavailableSelection = (selected) => selected.find(item => item.unavailable)
@@ -58,7 +58,7 @@ const OntologyMultiSelectFormGroup = (
         className="react-select--overwrite"
         classNamePrefix="react-select"
         name={roleName}
-        options={selectableOptionsForWorkupDependencies}
+        options={selectableOptionsMatchingWorkupDependencies}
         value={selectedOptions}
         onChange={onChange}
         isClearable={false}
