@@ -312,14 +312,6 @@ const AnalysisChromatographyForm = (
             samples={workup.molecular_entitites}
             onChange={handleWorkupChange('molecular_entities')}
           />
-          <Select
-            key={"sample" + currentSample?.value}
-            className="react-select--overwrite"
-            classNamePrefix="react-select"
-            name="sample_id"
-            options={sampleOptions}
-            value={currentSample}
-            onChange={handleWorkupChange("molecular_entities")} />
         </FormGroup>
 
         <Label>Mode</Label>

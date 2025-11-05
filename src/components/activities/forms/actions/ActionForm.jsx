@@ -133,7 +133,9 @@ const ActionForm = (
   const currentDeviceOption = OptionsDecorator.inclusiveOptionForValue(workup.device, ontologies)
 
   const renderDeviceOntologiesForm = () => {
-    return (
+    const deviceFormIncluded = actionTypeName === 'ANALYSIS' || (actionTypeName === 'PURIFICATION' && workup['purification_type'] === 'CHROMATOGRAPHY')
+
+    return deviceFormIncluded ? <></> :
       <>
         <Label>Mode</Label>
         <ButtonGroupToggle
@@ -144,7 +146,7 @@ const ActionForm = (
         <OntologySelectFormGroup
           key={"device" + workup.device}
           roleName={'device'}
-          // workup={workup}
+          workup={workup}
           options={ontologiesByRoleName('device')}
           onChange={handleChangeDevice}
         />
@@ -156,7 +158,6 @@ const ActionForm = (
           onChange={handleChangeMethod}
         />
       </>
-    )
   }
 
   return (
