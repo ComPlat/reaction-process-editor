@@ -10,7 +10,7 @@ export const actionTypeClusters = [
         createLabel: 'Sample',
         activity: {
           activity_name: "ADD",
-          workup: { acts_as: 'SAMPLE' }
+          workup: { acts_as: 'SAMPLE', automation_mode: ontologyId.automation_modes.automated, }
         }
       },
       {
@@ -18,7 +18,7 @@ export const actionTypeClusters = [
         createLabel: 'Solvent',
         activity: {
           activity_name: "ADD",
-          workup: { acts_as: 'SOLVENT' }
+          workup: { acts_as: 'SOLVENT', automation_mode: ontologyId.automation_modes.automated, }
         }
       },
       {
@@ -26,7 +26,7 @@ export const actionTypeClusters = [
         createLabel: 'Additive',
         activity: {
           activity_name: 'ADD',
-          workup: { acts_as: 'ADDITIVE' }
+          workup: { acts_as: 'ADDITIVE', automation_mode: ontologyId.automation_modes.automated, }
         }
       },
       {
@@ -34,7 +34,7 @@ export const actionTypeClusters = [
         createLabel: 'Medium',
         activity: {
           activity_name: 'ADD',
-          workup: { acts_as: 'MEDIUM' }
+          workup: { acts_as: 'MEDIUM', automation_mode: ontologyId.automation_modes.automated, }
         }
       },
       {
@@ -42,7 +42,7 @@ export const actionTypeClusters = [
         createLabel: 'Transfer',
         activity: {
           activity_name: 'TRANSFER',
-          workup: {}
+          workup: { automation_mode: ontologyId.automation_modes.automated, }
         }
       },
     ]
@@ -59,7 +59,7 @@ export const actionTypeClusters = [
           activity_name: 'PURIFICATION',
           workup: {
             purification_type: 'FILTRATION',
-            automation_mode: 'AUTOMATED',
+            automation_mode: ontologyId.automation_modes.automated,
             filtration_mode: 'KEEP_PRECIPITATE'
           }
         }
@@ -71,7 +71,7 @@ export const actionTypeClusters = [
           activity_name: 'PURIFICATION',
           workup: {
             purification_type: 'EXTRACTION',
-            automation_mode: 'AUTOMATED',
+            automation_mode: ontologyId.automation_modes.automated,
             phase: 'ORGANIC'
           }
         }
@@ -97,7 +97,7 @@ export const actionTypeClusters = [
           activity_name: 'PURIFICATION',
           workup: {
             purification_type: 'CRYSTALLIZATION',
-            automation_mode: 'AUTOMATED'
+            automation_mode: ontologyId.automation_modes.automated,
           }
         }
       },
@@ -145,7 +145,7 @@ export const actionTypeClusters = [
         createLabel: 'Remove',
         activity: {
           activity_name: 'REMOVE',
-          workup: { origin_type: 'FROM_REACTION', automation_mode: 'AUTOMATED' }
+          workup: { origin_type: 'FROM_REACTION', automation_mode: ontologyId.automation_modes.automated, }
         }
       },
     ]
@@ -157,7 +157,7 @@ export const actionTypeClusters = [
       {
         id: 'time_wait',
         createLabel: 'Wait',
-        activity: { activity_name: 'WAIT', workup: {} }
+        activity: { activity_name: 'WAIT', workup: { automation_mode: ontologyId.automation_modes.automated, } }
       }
     ]
   },
@@ -171,6 +171,7 @@ export const actionTypeClusters = [
         activity: {
           activity_name: 'SAVE',
           workup: {
+            automation_mode: ontologyId.automation_modes.automated,
             intermediate_type: 'CRUDE',
             target_amount: { unit: 'ml' },
             purity: { value: 1, unit: 'PURITY' }
