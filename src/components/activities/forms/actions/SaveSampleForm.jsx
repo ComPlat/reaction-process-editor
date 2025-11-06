@@ -20,6 +20,7 @@ const SaveSampleForm = ({ workup, onWorkupChange, reactionProcessVessel, onChang
 
   const selectOptions = useContext(SelectOptions);
   const saveSampleOptions = selectOptions.FORMS.SAVE
+  const molecularEntitiesOptions = selectOptions.materials['MOLECULAR_ENTITY']
 
   const stepSelectOptions = useContext(StepSelectOptions);
 
@@ -145,6 +146,7 @@ const SaveSampleForm = ({ workup, onWorkupChange, reactionProcessVessel, onChang
           isMulti
           isClearable={false}
           samples={workup.molecular_entities}
+          options={molecularEntitiesOptions}
           onChange={handleWorkupChange("molecular_entities")} />
       </FormGroup>
 

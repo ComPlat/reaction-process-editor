@@ -8,7 +8,7 @@ import { amountsDefaultUnits } from '../constants/metrics'
 
 export default class SamplesDecorator {
   static sampleSvgImg = (sample) => {
-    if (sample && sample.sample_svg_file) {
+    if (sample && sample.svg_file) {
       return (
         <img
           src={this.sampleSvgPath(sample)}
@@ -19,7 +19,7 @@ export default class SamplesDecorator {
     }
   }
 
-  static sampleSvgPath = (sample) => `${apiHostname}/images/samples/${sample.sample_svg_file}`
+  static sampleSvgPath = (sample) => `${apiHostname}/images/samples/${sample.svg_file}`
 
   static infoAvailableAmounts = (availableAmounts) => {
     return amountsDefaultUnits.map((unit) =>

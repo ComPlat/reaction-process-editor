@@ -34,7 +34,7 @@ const SampleSelection = ({ sampleOptions, sample, onChange }) => {
         <h5>{previewSample ? previewSample.label : "Select sample"}</h5>
         <Row className="gx-2 mb-2">
           <Col xs={6}>
-            {previewSample && previewSample.sample_svg_file ? (
+            {previewSample && previewSample.svg_file ? (
               SamplesDecorator.sampleSvgImg(previewSample)
             ) : (
               <div className="sample-molecule-image bg-white border rounded-3" />

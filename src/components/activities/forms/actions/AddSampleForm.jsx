@@ -150,7 +150,7 @@ const AddSampleForm = ({ workup, preconditions, onWorkupChange }) => {
           <SamplesIconSelect
             isMulti
             isClearable={false}
-            options={selectOptions.materials['SAMPLE']}
+            options={selectOptions.materials['MOLECULAR_ENTITY']}
             samples={workup.molecular_entitites}
             onChange={handleChange('molecular_entities')}
           />

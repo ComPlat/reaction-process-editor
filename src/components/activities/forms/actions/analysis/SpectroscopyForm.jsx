@@ -19,6 +19,7 @@ import SamplesIconSelect from '../../../../utilities/SamplesIconSelect'
 
 const SpectroscopyForm = ({ workup, onWorkupChange }) => {
 	const ontologies = useContext(SelectOptions).ontologies
+	const molecularEntitiesOptions = useContext(SelectOptions).materials['MOLECULAR_ENTITY']
 
 	const filteredOntologiesByRoleName = (roleName) => OntologiesDecorator.activeOptionsForWorkupDependencies({ roleName: roleName, options: ontologies, workup: workup })
 
@@ -60,14 +61,13 @@ const SpectroscopyForm = ({ workup, onWorkupChange }) => {
 			</FormGroup>
 			<FormGroup>
 				<Label>Molecular Entity</Label>
-				<Select
-					key={"sample" + currentSample?.value}
-					className="react-select--overwrite"
-					classNamePrefix="react-select"
-					name="sample_id"
-					options={sampleOptions}
-					value={currentSample}
-					onChange={handleWorkupChange("molecular_entities")} />
+				<SamplesIconSelect
+					isMulti
+					isClearable={false}
+					options={molecularEntitiesOptions}
+					samples={workup.molecular_entitites}
+					onChange={handleWorkupChange('molecular_entities')}
+				/>
 			</FormGroup>
 			<ButtonGroupToggle
 				value={workup.automation_mode}
