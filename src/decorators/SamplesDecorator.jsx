@@ -8,7 +8,9 @@ import { amountsDefaultUnits } from '../constants/metrics'
 
 export default class SamplesDecorator {
   static sampleSvgImg = (sample) => {
-    if (sample && sample.svg_file) {
+    console.log("sampleSvgImg")
+    console.log(sample)
+    if (sample && sample.sample_svg_file) {
       return (
         <img
           src={this.sampleSvgPath(sample)}
@@ -19,12 +21,16 @@ export default class SamplesDecorator {
     }
   }
 
-  static sampleSvgPath = (sample) => `${apiHostname}/images/samples/${sample.svg_file}`
+  static sampleSvgPath = (sample) => `${apiHostname}/images/samples/${sample.sample_svg_file}`
 
   static infoAvailableAmounts = (availableAmounts) => {
     return amountsDefaultUnits.map((unit) =>
       availableAmounts && availableAmounts[unit] &&
       MetricsDecorator.infoLineAmount({ value: Number(availableAmounts[unit]).toFixed(2), unit: unit })
-    ).filter((el) => el)
+    ).filter((el) => el).map((amount, index) => (
+      <p key={index + "" + amount} className="mb-0">
+        {amount}
+      </p>
+    ))
   }
 }

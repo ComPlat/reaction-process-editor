@@ -22,20 +22,20 @@ const ProcessSampleStartInfoCard = ({ reactionProcess }) => {
 
   const currentSample = reactionProcess.sample || {};
 
-  const [reactionProcessVessel, setReactionProcessVessel] = useState(reactionProcess?.sample_initial_info?.reaction_process_vessel);
+  const [reactionProcessVessel, setReactionProcessVessel] = useState(reactionProcess?.sample_setup?.reaction_process_vessel);
 
   const vesselPreparationOptions = selectOptions.vessel_preparations.preparation_types || {};
 
   const [showForm, setShowForm] = useState(false);
 
   const handleSave = () => {
-    api.updateSampleInitialInfo(reactionProcess.id,
+    api.updateSampleSetup(reactionProcess.id,
       { 'reaction_process_vessel': reactionProcessVessel });
     closeForm();
   };
 
   const handleCancel = () => {
-    setReactionProcessVessel(reactionProcess?.sample_initial_info?.reaction_process_vessel);
+    setReactionProcessVessel(reactionProcess?.sample_setup?.reaction_process_vessel);
     closeForm();
   }
 
@@ -53,12 +53,7 @@ const ProcessSampleStartInfoCard = ({ reactionProcess }) => {
     return (
       <SingleLineFormGroup label={SamplesDecorator.sampleSvgImg(currentSample)}>
         <span className="sample-id">{currentSample.short_label}</span>
-
-        {SamplesDecorator.infoAvailableAmounts(currentSample['amounts']).map((amount, index) => (
-          <p key={index + "" + amount} className="mb-0">
-            {amount}
-          </p>
-        ))}
+        {SamplesDecorator.infoAvailableAmounts(currentSample['amounts'])}
       </SingleLineFormGroup>
     )
   }
