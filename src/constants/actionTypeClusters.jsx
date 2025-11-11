@@ -6,35 +6,11 @@ export const actionTypeClusters = [
     label: 'Add',
     types: [
       {
-        id: 'add_sample',
-        createLabel: 'Sample',
+        id: 'add_material',
+        createLabel: 'Add',
         activity: {
           activity_name: "ADD",
-          workup: { acts_as: 'SAMPLE', automation_mode: ontologyId.automation_modes.automated, }
-        }
-      },
-      {
-        id: 'add_solvent',
-        createLabel: 'Solvent',
-        activity: {
-          activity_name: "ADD",
-          workup: { acts_as: 'SOLVENT', automation_mode: ontologyId.automation_modes.automated, }
-        }
-      },
-      {
-        id: 'add_additive',
-        createLabel: 'Additive',
-        activity: {
-          activity_name: 'ADD',
-          workup: { acts_as: 'ADDITIVE', automation_mode: ontologyId.automation_modes.automated, }
-        }
-      },
-      {
-        id: 'add_medium',
-        createLabel: 'Medium',
-        activity: {
-          activity_name: 'ADD',
-          workup: { acts_as: 'MEDIUM', automation_mode: ontologyId.automation_modes.automated, }
+          workup: { automation_mode: ontologyId.automation_modes.automated, }
         }
       },
       {

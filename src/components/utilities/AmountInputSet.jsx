@@ -10,7 +10,8 @@ const AmountInputSet = (
   {
     amount,
     maxAmounts,
-    onChangeAmount
+    onChangeAmount,
+    disabledMetrics
   }) => {
 
   const currentBaseUnit = MetricsDecorator.baseUnit(amount?.unit) || MetricsDecorator.defaultUnit('WEIGHT')
@@ -46,6 +47,8 @@ const AmountInputSet = (
             currentFraction={currentFraction}
             maxAmountInBaseUnit={maxAmountInBaseUnit(metricName)}
             onChange={handleChangeAmountInput(MetricsDecorator.defaultUnit(metricName))}
+            disabled={disabledMetrics.includes(metricName)
+            }
           />
         ))
       }

@@ -11,6 +11,7 @@ import SamplesIconSelect from "../../../utilities/SamplesIconSelect";
 
 import MetricsDecorator from "../../../../decorators/MetricsDecorator";
 import OptionsDecorator from "../../../../decorators/OptionsDecorator";
+import StringDecorator from "../../../../decorators/StringDecorator";
 
 import { SelectOptions } from "../../../../contexts/SelectOptions";
 import SampleSelection from "../../../utilities/SampleSelection";
@@ -25,6 +26,8 @@ const AddSampleForm = ({ workup, preconditions, onWorkupChange }) => {
 
   const selectOptions = useContext(SelectOptions)
   const additionOptions = selectOptions.FORMS.ADD
+
+
 
   useEffect(() => {
     inputMetrics.forEach(([metricName, workupKey]) => {
@@ -56,6 +59,10 @@ const AddSampleForm = ({ workup, preconditions, onWorkupChange }) => {
   const currentSampleActsAs =
     workup["acts_as"] === "DIVERSE_SOLVENT" ? "SOLVENT" : workup["acts_as"];
   const currentSampleOptions = selectOptions.materials[currentSampleActsAs] || [];
+  const materialOptions = selectOptions.materials
+
+  const displayMolecularEntity = !["ADDITIVE", "MEDIUM", "SOLVENT"].includes(currentSampleActsAs)
+  const displayAbsButton = ["SOLVENT"].includes(currentSampleActsAs)
 
   const [sample, setSample] = useState(
     currentSampleOptions.find(
@@ -65,10 +72,8 @@ const AddSampleForm = ({ workup, preconditions, onWorkupChange }) => {
     )
   );
 
-  const handleSampleChange = ({ sampleId, label }) => {
-    // We have a risk of collisions on sampleID alone as we are coping with 2 different ActiveRecord
-    // models (Solvent, DiverseSolvent). So we also compare the label.
-    const newSample = currentSampleOptions.find(
+  const handleMaterialChange = (actsAs) => ({ sampleId, label }) => {
+    const newSample = materialOptions[actsAs].find(
       (sample) => sample.value === sampleId && sample.label === label
     );
     if (newSample) {
@@ -86,7 +91,7 @@ const AddSampleForm = ({ workup, preconditions, onWorkupChange }) => {
         });
     }
     setSample(newSample);
-  };
+  }
 
   const handleChange = (name) => (value) =>
     onWorkupChange({ name: name, value: value });
@@ -106,35 +111,49 @@ const AddSampleForm = ({ workup, preconditions, onWorkupChange }) => {
     });
   };
 
+  const renderMaterialForms = () => {
+    return ['SOLVENT', 'ADDITIVE', 'MEDIUM'].map((materialType) => {
+      return (
+        <SingleLineFormGroup label={StringDecorator.toLabelSpelling(materialType)} key={materialType + '_select' + sample?.id}>
+          <Select
+            className="react-select--overwrite"
+            classNamePrefix="react-select"
+            name={materialType + '_id'}
+            options={materialOptions[materialType]}
+            value={OptionsDecorator.optionForValue(sample?.id, materialOptions[materialType])}
+            onChange={(selected) =>
+              handleMaterialChange(materialType)({
+                sampleId: selected.value,
+                label: selected.label,
+              })
+            }
+          />
+        </SingleLineFormGroup>
+      )
+
+    })
+  }
+
+
+  const disabledMetrics = () => {
+    return currentSampleActsAs === 'SOLVENT' ? ['WEIGHT'] : []
+  }
+
   return (
     <>
       <FormSection type="action">
-        {currentSampleActsAs === "SAMPLE" ? (
-          <SampleSelection
-            sampleOptions={currentSampleOptions}
-            sample={sample}
-            onChange={handleSampleChange}
-          />
-        ) : (
-          <SingleLineFormGroup label="Solvent">
-            <Select
-              className="react-select--overwrite"
-              classNamePrefix="react-select"
-              name="sample_id"
-              options={currentSampleOptions}
-              value={sample}
-              onChange={(selected) =>
-                handleSampleChange({
-                  sampleId: selected.value,
-                  label: selected.label,
-                })
-              }
-            />
-          </SingleLineFormGroup>
-        )}
-        {currentSampleActsAs === "SOLVENT" && (
-          <SingleLineFormGroup label="abs." check className="mb-3">
+        <SampleSelection
+          key={'SAMPLE_select' + sample?.id}
+          sampleOptions={materialOptions['SAMPLE']}
+          sample={OptionsDecorator.optionForValue(sample?.id, materialOptions['SAMPLE'])}
+          onChange={handleMaterialChange('SAMPLE')}
+        />
 
+        {renderMaterialForms()}
+      </FormSection>
+      <FormSection type="action">
+        {displayAbsButton &&
+          <SingleLineFormGroup label="abs." check className="mb-3">
             <Input
               type="checkbox"
               checked={workup["is_waterfree_solvent"]}
@@ -144,22 +163,25 @@ const AddSampleForm = ({ workup, preconditions, onWorkupChange }) => {
             />
 
           </SingleLineFormGroup>
-        )}
-        <FormGroup>
-          <Label>Molecular Entity</Label>
-          <SamplesIconSelect
-            isMulti
-            isClearable={false}
-            options={selectOptions.materials['MOLECULAR_ENTITY']}
-            samples={workup.molecular_entitites}
-            onChange={handleChange('molecular_entities')}
-          />
-        </FormGroup>
+        }
+        {displayMolecularEntity &&
+          <FormGroup>
+            <Label>Molecular Entity</Label>
+            <SamplesIconSelect
+              isMulti
+              isClearable={false}
+              options={materialOptions['MOLECULAR_ENTITY']}
+              samples={workup.molecular_entitites}
+              onChange={handleChange('molecular_entities')}
+            />
+          </FormGroup>
 
+        }
         <AmountInputSet
           amount={workup["target_amount"]}
           maxAmounts={sample?.unit_amounts}
           onChangeAmount={handleChange("target_amount")}
+          disabledMetrics={disabledMetrics()}
         />
       </FormSection>
       <FormSection type="action">

@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 
-import { Label } from 'reactstrap';
+import { FormGroup, Label } from 'reactstrap';
 
 import ActivityForm from "../ActivityForm";
 import AddSampleForm from "./AddSampleForm";
@@ -15,6 +15,8 @@ import DiscardForm from './DiscardForm';
 import ButtonGroupToggle from '../formgroups/ButtonGroupToggle';
 import FractionFormGroup from '../formgroups/FractionFormGroup';
 import OntologySelectFormGroup from '../formgroups/OntologySelectFormGroup';
+
+import FormSection from '../../../utilities/FormSection';
 
 import OptionsDecorator from '../../../../decorators/OptionsDecorator';
 import OntologiesDecorator from '../../../../decorators/OntologiesDecorator';
@@ -136,12 +138,15 @@ const ActionForm = (
     const deviceFormIncluded = actionTypeName === 'ANALYSIS' || (actionTypeName === 'PURIFICATION' && workup['purification_type'] === 'CHROMATOGRAPHY')
 
     return deviceFormIncluded ? <></> :
-      <>
-        <Label>Mode</Label>
-        <ButtonGroupToggle
-          value={workup.automation_mode}
-          options={ontologiesByRoleName('automation_mode')}
-          onChange={handleChangeAutomation} />
+      <FormSection name={"subFormLabel"} type={"typeColor"}>
+
+        <FormGroup className='row gx-2 pt-1'>
+          <Label>Mode</Label>
+          <ButtonGroupToggle
+            value={workup.automation_mode}
+            options={ontologiesByRoleName('automation_mode')}
+            onChange={handleChangeAutomation} />
+        </FormGroup>
 
         <OntologySelectFormGroup
           key={"device" + workup.device}
@@ -158,7 +163,8 @@ const ActionForm = (
           options={currentDeviceOption?.methods}
           onChange={handleChangeMethod}
         />
-      </>
+      </FormSection>
+
   }
 
   return (

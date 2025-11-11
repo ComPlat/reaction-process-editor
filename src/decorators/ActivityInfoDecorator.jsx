@@ -5,29 +5,29 @@ import TimeDecorator from "./TimeDecorator";
 
 export default class ActivityInfoDecorator {
   static cardTitle = (activity) => {
-    let title = activity.activity_name;
+    let title = this.toLabel(activity.activity_name);
     const workup = activity.workup;
 
     if (workup && !!Object.keys(workup).length) {
       switch (activity.activity_name) {
         case "PURIFICATION":
-          title = 'Purification ' + workup.purification_type;
+          title = 'Purification ' + this.toLabel(workup.purification_type);
           break;
         case "CONDITION":
           title = "Change Condition";
           break;
         case "ANALYSIS":
           if (workup.analysis_type) {
-            title += " " + workup.analysis_type;
+            title += " " + this.toLabel(workup.analysis_type);
           }
           break;
         case "ADD":
         case "REMOVE":
           title += " ";
           if (workup.sample_name) {
-            title += workup.sample_name;
+            title += this.toLabel(workup.acts_as) + ' ' + workup.sample_name;
           } else {
-            title += workup.origin_type
+            title += ' Chemical'
           }
           break;
         case "TRANSFER":
@@ -37,8 +37,10 @@ export default class ActivityInfoDecorator {
           break;
       }
     }
-    return StringDecorator.toLabelSpelling(title);
+    return title;
   };
+
+  static toLabel = (text) => StringDecorator.toLabelSpelling(text)
 
   static conditionInfo = (
     metricName,
