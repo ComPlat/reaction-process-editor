@@ -16,20 +16,20 @@ import OptionsDecorator from "../../decorators/OptionsDecorator";
 
 import { useReactionsFetcher } from "../../fetchers/ReactionsFetcher";
 
-const ProcessSampleStartInfoCard = ({ reactionProcess }) => {
+const ProcessSampleSetupCard = ({ reactionProcess }) => {
   const api = useReactionsFetcher()
   const selectOptions = useContext(SelectOptions);
 
   const currentSample = reactionProcess.sample || {};
 
-  const [reactionProcessVessel, setReactionProcessVessel] = useState(reactionProcess?.sample_setup?.reaction_process_vessel);
+  const [reactionProcessVessel, setReactionProcessVessel] = useState(reactionProcess.reaction_process_vessel);
 
   const vesselPreparationOptions = selectOptions.vessel_preparations.preparation_types || {};
 
   const [showForm, setShowForm] = useState(false);
 
   const handleSave = () => {
-    api.updateSampleSetup(reactionProcess.id,
+    api.updateReactionProcess(reactionProcess.id,
       { 'reaction_process_vessel': reactionProcessVessel });
     closeForm();
   };
@@ -77,10 +77,10 @@ const ProcessSampleStartInfoCard = ({ reactionProcess }) => {
         {reactionProcessVessel ?
           <>
             <span className="procedure-card__info-line">
-              {VesselableDecorator.vesselableType(reactionProcessVessel)}
+              {VesselableDecorator.vesselableType(reactionProcessVessel.vesselable)}
             </span>
             <span className="procedure-card__info-line">
-              {VesselableDecorator.vesselVolumeAndMaterial(reactionProcessVessel)}
+              {VesselableDecorator.vesselVolumeAndMaterial(reactionProcessVessel.vesselable)}
             </span>
             {reactionProcessVessel.preparations?.length > 0 && (
               <span className="procedure-card__info-line">
@@ -110,4 +110,4 @@ const ProcessSampleStartInfoCard = ({ reactionProcess }) => {
   );
 };
 
-export default ProcessSampleStartInfoCard;
+export default ProcessSampleSetupCard;

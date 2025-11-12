@@ -31,7 +31,7 @@ function useReactionsFetcher() {
     updateActivityPosition,
     updateProcessStepPosition,
     createFractionActivities,
-    updateSampleSetup
+    updateReactionProcess
   }
 
   function index() {
@@ -98,9 +98,8 @@ function useReactionsFetcher() {
     return api.put(`/reaction_process_vessels/${reactionProcessVessel.id}`, { 'reaction_process_vessel': reactionProcessVessel })
   }
 
-  function updateSampleSetup(reactionProcessId, sampleSetup) {
-    return api.put(`/reaction_processes/${reactionProcessId}/sample_setup`,
-      { 'sample_setup': sampleSetup })
+  function updateReactionProcess(reactionProcessId, params) {
+    return api.put(`/reaction_processes/${reactionProcessId}`, params)
   }
 
   function updateSamplePreparation(reactionProcessId, samplePreparation) {

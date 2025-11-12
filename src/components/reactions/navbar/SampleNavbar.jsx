@@ -53,11 +53,8 @@ const SampleNavbar = ({ reactionProcess }) => {
           <NavbarBrand>
             <span className="h3 reaction-name">
               Sample id {sample.id}: {sample.short_label}
-
-
             </span>
             <span className="reaction-id"> {sample.name}</span>
-
           </NavbarBrand>
           <Nav className="reaction-navbar bg-preparation" >
             <ReactionConditionsFormButton

@@ -11,7 +11,7 @@ const AmountInputSet = (
     amount,
     maxAmounts,
     onChangeAmount,
-    disabledMetrics
+    disabledMetrics = []
   }) => {
 
   const currentBaseUnit = MetricsDecorator.baseUnit(amount?.unit) || MetricsDecorator.defaultUnit('WEIGHT')
