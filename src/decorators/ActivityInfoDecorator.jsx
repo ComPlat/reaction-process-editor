@@ -25,13 +25,15 @@ export default class ActivityInfoDecorator {
         case "REMOVE":
           title += " ";
           if (workup.sample_name) {
-            title += this.toLabel(workup.acts_as) + ' ' + workup.sample_name;
+            title += this.toLabel(workup.acts_as) + ': ' + workup.sample_name;
           } else {
             title += ' Chemical'
           }
           break;
-        case "TRANSFER":
         case "SAVE":
+          title += ' ' + workup.short_label
+          break;
+        case "TRANSFER":
         case "WAIT":
         default:
           break;

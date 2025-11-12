@@ -8,7 +8,7 @@ import DefaultConditionsFormModal from "../../utilities/DefaultConditionsFormMod
 const ReactionConditionsFormButton = (
   {
     preconditions,
-    defaultConditions,
+    defaultConditions
   }) => {
 
   const [showModal, setShowModal] = useState(false)

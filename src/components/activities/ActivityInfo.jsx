@@ -23,7 +23,7 @@ const ActivityInfo = (props) => {
 
   const renderActivityInfo = () => {
 
-    let ActivityComponent = {
+    let ActivityInfoComponent = {
       'ADD': AddInfo,
       'ANALYSIS': AnalysisInfo,
       'CONDITION': ConditionInfo,
@@ -36,8 +36,8 @@ const ActivityInfo = (props) => {
       'WAIT': WaitInfo,
     }[activity.activity_name]
 
-    if (ActivityComponent) {
-      return (<ActivityComponent {...props} />
+    if (ActivityInfoComponent) {
+      return (<ActivityInfoComponent {...props} />
       )
     } else {
       return activity.activity_name || "Error in ActivityInfo. Activity has no activity_name."

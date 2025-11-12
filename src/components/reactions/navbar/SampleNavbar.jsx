@@ -49,13 +49,17 @@ const SampleNavbar = ({ reactionProcess }) => {
   return (
     <SubFormController.Provider value={SubFormToggle()}>
       <div className="reaction-header">
-        <Navbar className="reaction-navbar bg-primary" dark>
+        <Navbar className="reaction-navbar bg-preparation" >
           <NavbarBrand>
             <span className="h3 reaction-name">
               Sample id {sample.id}: {sample.short_label}
+
+
             </span>
+            <span className="reaction-id"> {sample.name}</span>
+
           </NavbarBrand>
-          <Nav>
+          <Nav className="reaction-navbar bg-preparation" >
             <ReactionConditionsFormButton
               defaultConditions={reactionProcess.reaction_default_conditions}
               preconditions={reactionProcess.user_reaction_default_conditions}
@@ -68,7 +72,7 @@ const SampleNavbar = ({ reactionProcess }) => {
           open={open}
           toggle={toggleScheme}
           flush
-          className="bg-primary container-fluid pb-2 reaction-header__scheme-accordion"
+          className="bg-preparation container-fluid pb-2 reaction-header__scheme-accordion"
         >
           <AccordionItem>
             <AccordionBody accordionId="scheme" className="text-center">
@@ -81,7 +85,6 @@ const SampleNavbar = ({ reactionProcess }) => {
                 <div className="reaction-header__scheme-enlarge-button-container">
                   <IconButton
                     icon={zoomIcon}
-                    positive={true}
                     size="lg"
                     onClick={toggleSchemeEnlarge}
                   />
@@ -92,7 +95,7 @@ const SampleNavbar = ({ reactionProcess }) => {
         </Accordion>
         <div className="text-center scheme-drawer-button-container">
           <Button
-            color="primary"
+            color="preparation"
             className="scheme-drawer-button"
             size="sm"
             onClick={toggleScheme}
