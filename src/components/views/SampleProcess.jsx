@@ -110,7 +110,7 @@ const SampleProcess = () => {
             <div className='px-5 py-6 d-inline-block'>
               <div className='d-inline-flex flex-nowrap align-items-start gap-5'>
                 <div className='d-flex gap-5 flex-column'>
-                  <ProcessSampleSetupCard reactionProcess={reactionProcess} />
+                  <ProcessSampleSetupCard reactionProcess={reactionProcess} key={"react-is-so-f*reak*ing-marvelously-great-it-needs-an-extra-key-with-the-id-value-to-notice-that-the-reaction_process_vessel-has-changed" + reactionProcess.reaction_process_vessel?.id} />
                   <VesselPreparationColumnCard reactionProcess={reactionProcess} />
                 </div>
                 <StepsContainer reactionProcess={reactionProcess} />
