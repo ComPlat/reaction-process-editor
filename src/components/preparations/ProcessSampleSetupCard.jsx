@@ -29,14 +29,22 @@ const ProcessSampleSetupCard = ({ reactionProcess }) => {
   const [showForm, setShowForm] = useState(false);
 
   const handleSave = () => {
+    console.log("handleSave")
+    console.log(reactionProcessVessel)
     api.updateReactionProcess(reactionProcess.id,
       { 'reaction_process_vessel': reactionProcessVessel });
     closeForm();
   };
 
   const handleCancel = () => {
-    setReactionProcessVessel(reactionProcess?.sample_setup?.reaction_process_vessel);
+    setReactionProcessVessel(reactionProcess?.reaction_process_vessel);
     closeForm();
+  }
+
+  const handleChangeVessel = (vesselable) => {
+    console.log("handleChangeVessel")
+    console.log(vesselable)
+    setReactionProcessVessel(vesselable);
   }
 
   const displayMode = () => {
@@ -58,8 +66,12 @@ const ProcessSampleSetupCard = ({ reactionProcess }) => {
     )
   }
 
+  console.log("vsessel")
+  console.log(reactionProcessVessel)
+
   return (
     <ProcedureCard
+      key={"arschho" + reactionProcessVessel?.id}
       title="Initial"
       type="preparation"
       showEditBtn={!showForm}
@@ -72,10 +84,12 @@ const ProcessSampleSetupCard = ({ reactionProcess }) => {
       displayMode={displayMode()}
       customClass="procedure-card--column"
     >
-      <ProcedureCard.Info>
+      <ProcedureCard.Info
+        key={"arsch" + reactionProcessVessel?.id}
+      >
         {renderSampleFormGroup()}
-        {reactionProcessVessel ?
-          <>
+        {reactionProcessVessel?.vesselable ?
+          <span >
             <span className="procedure-card__info-line">
               {VesselableDecorator.vesselableType(reactionProcessVessel.vesselable)}
             </span>
@@ -89,13 +103,13 @@ const ProcessSampleSetupCard = ({ reactionProcess }) => {
                 )}
               </span>
             )}
-          </> : <>No vessel assigned</>
+          </span> : <>No vessel assigned</>
         }
       </ProcedureCard.Info>
       <ProcedureCard.Form>
         {renderSampleFormGroup()}
         <VesselableFormSection
-          onChange={setReactionProcessVessel}
+          onChange={handleChangeVessel}
           reactionProcessVessel={reactionProcessVessel}
           typeColor="step"
         />
