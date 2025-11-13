@@ -29,8 +29,6 @@ const ProcessSampleSetupCard = ({ reactionProcess }) => {
   const [showForm, setShowForm] = useState(false);
 
   const handleSave = () => {
-    console.log("handleSave")
-    console.log(reactionProcessVessel)
     api.updateReactionProcess(reactionProcess.id,
       { 'reaction_process_vessel': reactionProcessVessel });
     closeForm();
@@ -39,12 +37,6 @@ const ProcessSampleSetupCard = ({ reactionProcess }) => {
   const handleCancel = () => {
     setReactionProcessVessel(reactionProcess?.reaction_process_vessel);
     closeForm();
-  }
-
-  const handleChangeVessel = (vesselable) => {
-    console.log("handleChangeVessel")
-    console.log(vesselable)
-    setReactionProcessVessel(vesselable);
   }
 
   const displayMode = () => {
@@ -71,7 +63,6 @@ const ProcessSampleSetupCard = ({ reactionProcess }) => {
 
   return (
     <ProcedureCard
-      key={"arschho" + reactionProcessVessel?.id}
       title="Initial"
       type="preparation"
       showEditBtn={!showForm}
@@ -84,9 +75,7 @@ const ProcessSampleSetupCard = ({ reactionProcess }) => {
       displayMode={displayMode()}
       customClass="procedure-card--column"
     >
-      <ProcedureCard.Info
-        key={"arsch" + reactionProcessVessel?.id}
-      >
+      <ProcedureCard.Info>
         {renderSampleFormGroup()}
         {reactionProcessVessel?.vesselable ?
           <>
@@ -109,7 +98,7 @@ const ProcessSampleSetupCard = ({ reactionProcess }) => {
       <ProcedureCard.Form>
         {renderSampleFormGroup()}
         <VesselableFormSection
-          onChange={handleChangeVessel}
+          onChange={setReactionProcessVessel}
           reactionProcessVessel={reactionProcessVessel}
           typeColor="step"
         />
