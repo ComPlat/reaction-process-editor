@@ -89,7 +89,7 @@ const ProcessSampleSetupCard = ({ reactionProcess }) => {
       >
         {renderSampleFormGroup()}
         {reactionProcessVessel?.vesselable ?
-          <span >
+          <>
             <span className="procedure-card__info-line">
               {VesselableDecorator.vesselableType(reactionProcessVessel.vesselable)}
             </span>
@@ -103,7 +103,7 @@ const ProcessSampleSetupCard = ({ reactionProcess }) => {
                 )}
               </span>
             )}
-          </span> : <>No vessel assigned</>
+          </> : <>No vessel assigned</>
         }
       </ProcedureCard.Info>
       <ProcedureCard.Form>
