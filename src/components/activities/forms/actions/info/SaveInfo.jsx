@@ -8,18 +8,18 @@ import VesselableDecorator from '../../../../../decorators/VesselableDecorator';
 import InfoLinesBox from './InfoLinesBox';
 
 const SaveInfo = ({ activity }) => {
-	let workup = activity.workup
+	let sample = activity.sample
 
-	let infoTitle = StringDecorator.toLabelSpelling(workup.intermediate_type) + " " + workup.short_label;
+	let infoTitle = StringDecorator.toLabelSpelling(sample.intermediate_type) + " " + sample.short_label;
 
 	let infoLines = []
-	infoLines.push(workup.description);
+	infoLines.push(sample.description);
 
-	if (workup.target_amount) {
-		infoLines.push(MetricsDecorator.infoLineAmount(workup.target_amount));
+	if (sample.target_amount) {
+		infoLines.push(MetricsDecorator.infoLineAmount(sample.target_amount));
 	}
 	infoLines.push(VesselableDecorator.vesselableSingleLine(activity.reaction_process_vessel?.vessel));
-	infoLines.push(workup.location);
+	infoLines.push(sample.location);
 
 	return (
 		<InfoLinesBox title={infoTitle} lines={infoLines} />

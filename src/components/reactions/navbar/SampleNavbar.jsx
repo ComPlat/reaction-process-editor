@@ -54,7 +54,7 @@ const SampleNavbar = ({ reactionProcess }) => {
             <span className="h3 reaction-name">
               Sample id {sample.id}: {sample.short_label}
             </span>
-            <span className="reaction-id"> {sample.name}</span>
+            <span className="reaction-id"> {sample.preferred_label}</span>
           </NavbarBrand>
           <Nav className="reaction-navbar bg-preparation" >
             <ReactionConditionsFormButton
@@ -73,20 +73,27 @@ const SampleNavbar = ({ reactionProcess }) => {
         >
           <AccordionItem>
             <AccordionBody accordionId="scheme" className="text-center">
-              <div className="reaction-header__scheme-container">
-                <img
-                  src={SamplesDecorator.sampleSvgPath(sample)}
-                  alt={sample.short_label}
-                  className={schemeImageClass}
-                />
-                <div className="reaction-header__scheme-enlarge-button-container">
-                  <IconButton
-                    icon={zoomIcon}
-                    size="lg"
-                    onClick={toggleSchemeEnlarge}
-                  />
-                </div>
-              </div>
+              {sample.sample_svg_file ?
+                <>
+                  <div className="reaction-header__scheme-container">
+
+                    <img
+                      src={SamplesDecorator.sampleSvgPath(sample)}
+                      alt={sample.external_label}
+                      className={schemeImageClass}
+                    />
+                    <div className="reaction-header__scheme-enlarge-button-container">
+                      <IconButton
+                        icon={zoomIcon}
+                        positive={true}
+                        size="lg"
+                        onClick={toggleSchemeEnlarge}
+                      />
+                    </div>
+                  </div>
+                </>
+                : <div>No scheme image available</div>
+              }
             </AccordionBody>
           </AccordionItem>
         </Accordion>

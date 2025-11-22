@@ -134,11 +134,6 @@ const AddSampleForm = ({ workup, preconditions, onWorkupChange }) => {
     })
   }
 
-
-  const disabledMetrics = () => {
-    return currentSampleActsAs === 'SOLVENT' ? ['WEIGHT'] : []
-  }
-
   return (
     <>
       <FormSection type="action">
@@ -181,7 +176,6 @@ const AddSampleForm = ({ workup, preconditions, onWorkupChange }) => {
           amount={workup["target_amount"]}
           maxAmounts={sample?.unit_amounts}
           onChangeAmount={handleChange("target_amount")}
-          disabledMetrics={disabledMetrics()}
         />
       </FormSection>
       <FormSection type="action">
