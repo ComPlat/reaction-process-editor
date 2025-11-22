@@ -40,6 +40,8 @@ const PurificationInfo = ({ activity }) => {
 	}
 
 	switch (workup.purification_type) {
+		case "CENTRIFUGATION":
+			break;
 		case "CRYSTALLIZATION":
 			addAutomationToTitle()
 			addPurificationSolventsToLines()
