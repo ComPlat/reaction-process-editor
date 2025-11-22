@@ -2,10 +2,21 @@
   display: flex;
   flex-wrap: wrap;
   margin: 0 -.375rem;
+
+  &__action {
+    margin-bottom: 1.375rem;
+
+    &:first-child {
+      margin-bottom: .75rem;
+    }
+  }
+
   &__cluster {
     padding: .75rem .375rem 0;
+
     .btn {
       margin-bottom: .5rem;
+
       &:last-child {
         margin-bottom: 0;
       }
