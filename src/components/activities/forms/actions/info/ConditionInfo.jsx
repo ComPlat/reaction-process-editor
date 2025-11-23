@@ -3,19 +3,21 @@ import React, { useContext } from 'react'
 import InfoLinesBox from './InfoLinesBox';
 
 import ActivityInfoDecorator from '../../../../../decorators/ActivityInfoDecorator';
+import OptionsDecorator from '../../../../../decorators/OptionsDecorator';
 
 import { conditionFormMetricNames } from '../../../../../constants/metrics';
 
 import { SelectOptions } from "../../../../../contexts/SelectOptions";
 
 const ConditionInfo = ({ activity, preconditions }) => {
-
 	const selectOptions = useContext(SelectOptions);
 
 	let workup = activity.workup
 	let infoTitle = ''
-
 	let infoLines = []
+
+	let device = OptionsDecorator.inclusiveOptionForValue(workup.device, selectOptions.ontologies)
+	infoLines.push(device?.label + ' / ' + workup.method)
 
 	for (let [metricName, conditionWorkup] of Object.entries(workup)) {
 		if (conditionFormMetricNames.includes(metricName)) {

@@ -3,6 +3,9 @@ import React from 'react'
 import ActivityForm from "../ActivityForm";
 import MetricFormGroup from "./MetricFormGroup";
 
+import DeviceMethodFormSet from '../formsets/DeviceMethodFormSet.jsx';
+import OptionalFormSet from '../formsets/OptionalFormSet.jsx';
+
 import { conditionFormMetricNames } from "../../../../constants/metrics.jsx";
 
 const ConditionForm = (
@@ -15,6 +18,11 @@ const ConditionForm = (
     onChangeDuration,
   }) => {
 
+  const workup = activity.workup
+  const deviceMethodSummary = workup.device ?
+    workup.device + ' ' + (workup.method || '')
+    : ""
+
   return (
     <ActivityForm
       type='condition'
@@ -24,6 +32,18 @@ const ConditionForm = (
       onWorkupChange={onWorkupChange}
       onChangeDuration={onChangeDuration}
     >
+      <OptionalFormSet
+        subFormLabel={"Device & Method"}
+        valueSummary={deviceMethodSummary}
+        onSave={onSave}
+        onCancel={onCancel}
+        isEqualToPredefinedValue={!workup.device}
+        typeColor={"condition"}
+      >
+        <DeviceMethodFormSet
+          workup={activity.workup}
+          onWorkupChange={onWorkupChange} />
+      </OptionalFormSet>
       {
         conditionFormMetricNames.map((metricName) => (
           <MetricFormGroup

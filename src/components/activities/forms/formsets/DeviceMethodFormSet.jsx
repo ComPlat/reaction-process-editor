@@ -1,0 +1,63 @@
+import React, { useContext } from 'react'
+import { FormGroup, Label } from 'reactstrap';
+
+import ButtonGroupToggle from '../formgroups/ButtonGroupToggle';
+import OntologySelectFormGroup from '../formgroups/OntologySelectFormGroup';
+
+import OntologiesDecorator from '../../../../decorators/OntologiesDecorator';
+import OptionsDecorator from '../../../../decorators/OptionsDecorator';
+
+import { SelectOptions } from '../../../../contexts/SelectOptions';
+
+const DeviceMethodFormSet = ({
+	workup,
+	onWorkupChange,
+}) => {
+	let ontologies = useContext(SelectOptions).ontologies
+
+	const ontologiesByRoleName = (roleName) => OntologiesDecorator.activeOptionsForRoleName({ roleName: roleName, options: ontologies })
+
+	const handleChangeAutomation = (newAutomationMode) => {
+		onWorkupChange({ name: 'automation_mode', value: newAutomationMode })
+	}
+
+	const handleChangeDevice = (device) => {
+		onWorkupChange({ name: 'device', value: device?.value })
+	}
+
+	const handleChangeMethod = (method) => {
+		onWorkupChange({ name: 'method', value: method?.value })
+	}
+
+	const currentDeviceOption = OptionsDecorator.inclusiveOptionForValue(workup.device, ontologies)
+
+	return (
+		<>
+			<FormGroup className='row gx-2 pt-1'>
+				<Label>Mode</Label>
+				<ButtonGroupToggle
+					value={workup.automation_mode}
+					options={ontologiesByRoleName('automation_mode')}
+					onChange={handleChangeAutomation} />
+			</FormGroup>
+
+			<OntologySelectFormGroup
+				key={"device" + workup.device}
+				roleName={'device'}
+				workup={workup}
+				options={ontologiesByRoleName('device')}
+				ignoreWorkupDependencies={true}
+				onChange={handleChangeDevice}
+			/>
+			<OntologySelectFormGroup
+				key={"method" + workup.method}
+				roleName={'method'}
+				workup={workup}
+				options={currentDeviceOption?.methods}
+				onChange={handleChangeMethod}
+			/>
+		</>
+	);
+};
+
+export default DeviceMethodFormSet

@@ -1,6 +1,4 @@
-import React, { useContext } from 'react';
-
-import { FormGroup, Label } from 'reactstrap';
+import React from 'react';
 
 import ActivityForm from "../ActivityForm";
 import AddSampleForm from "./AddSampleForm";
@@ -12,16 +10,11 @@ import TransferForm from "./TransferForm";
 import DefineFractionForm from './DefineFractionForm';
 import DiscardForm from './DiscardForm';
 
-import ButtonGroupToggle from '../formgroups/ButtonGroupToggle';
 import FractionFormGroup from '../formgroups/FractionFormGroup';
-import OntologySelectFormGroup from '../formgroups/OntologySelectFormGroup';
 
 import FormSection from '../../../utilities/FormSection';
 
-import OptionsDecorator from '../../../../decorators/OptionsDecorator';
-import OntologiesDecorator from '../../../../decorators/OntologiesDecorator';
-
-import { SelectOptions } from '../../../../contexts/SelectOptions';
+import DeviceMethodFormSet from '../formsets/DeviceMethodFormSet';
 
 const ActionForm = (
   {
@@ -36,8 +29,6 @@ const ActionForm = (
 
   const actionTypeName = activity.activity_name
   const workup = activity.workup
-
-  let ontologies = useContext(SelectOptions).ontologies
 
   const customActivityForm = () => {
     switch (actionTypeName) {
@@ -118,53 +109,16 @@ const ActionForm = (
     }
   }
 
-  const handleChangeAutomation = (newAutomationMode) => {
-    onWorkupChange({ name: 'automation_mode', value: newAutomationMode })
-  }
-
-  const handleChangeDevice = (device) => {
-    onWorkupChange({ name: 'device', value: device?.value })
-  }
-
-  const handleChangeMethod = (method) => {
-    onWorkupChange({ name: 'method', value: method?.value })
-  }
-
-  const ontologiesByRoleName = (roleName) => OntologiesDecorator.activeOptionsForRoleName({ roleName: roleName, options: ontologies })
-
-  const currentDeviceOption = OptionsDecorator.inclusiveOptionForValue(workup.device, ontologies)
-
   const renderDeviceOntologiesForm = () => {
-    const deviceFormIncluded = actionTypeName === 'ANALYSIS' || (actionTypeName === 'PURIFICATION' && workup['purification_type'] === 'CHROMATOGRAPHY')
+    const deviceFormIncluded = actionTypeName === 'ANALYSIS'
+      || (actionTypeName === 'PURIFICATION' && workup['purification_type'] === 'CHROMATOGRAPHY')
 
     return deviceFormIncluded ? <></> :
-      <FormSection name={"subFormLabel"} type={"typeColor"}>
-
-        <FormGroup className='row gx-2 pt-1'>
-          <Label>Mode</Label>
-          <ButtonGroupToggle
-            value={workup.automation_mode}
-            options={ontologiesByRoleName('automation_mode')}
-            onChange={handleChangeAutomation} />
-        </FormGroup>
-
-        <OntologySelectFormGroup
-          key={"device" + workup.device}
-          roleName={'device'}
+      <FormSection type="action">
+        <DeviceMethodFormSet
           workup={workup}
-          options={ontologiesByRoleName('device')}
-          ignoreWorkupDependencies={true}
-          onChange={handleChangeDevice}
-        />
-        <OntologySelectFormGroup
-          key={"method" + workup.method}
-          roleName={'method'}
-          workup={workup}
-          options={currentDeviceOption?.methods}
-          onChange={handleChangeMethod}
-        />
+          onWorkupChange={onWorkupChange} />
       </FormSection>
-
   }
 
   return (
