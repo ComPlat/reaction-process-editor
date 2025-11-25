@@ -122,7 +122,7 @@ export const metrics = {
     analysisTypeLabel: 'Voltage',
     defaultUnit: 'mV',
     units: ['mV', 'V']
-  }
+  },
 }
 
 export const unitTypes = {

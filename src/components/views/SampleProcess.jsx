@@ -1,15 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useLocation } from 'react-router-dom';
 
+import {
+  SubFormController,
+  SubFormToggle,
+} from "../../contexts/SubFormController";
+
 import SampleNavbar from '../reactions/navbar/SampleNavbar';
+import CreateTransferZone from '../preparations/CreateTransferZone';
 import ProcessSampleSetupCard from '../preparations/ProcessSampleSetupCard';
 import VesselPreparationColumnCard from '../preparations/VesselPreparationColumnCard';
+
+import ActivityCard from '../activities/ActivityCard';
 
 import SpinnerWithMessage from "../utilities/SpinnerWithMessage";
 import StepsContainer from '../steps/StepsContainer';
 
 import { useReactionsFetcher } from '../../fetchers/ReactionsFetcher';
 import { useVesselsFetcher } from '../../fetchers/VesselsFetcher';
+
 import { SelectOptions } from '../../contexts/SelectOptions';
 import { VesselOptions } from '../../contexts/VesselOptions';
 
@@ -63,14 +72,6 @@ const SampleProcess = () => {
     }
     setReactionProcess(null);
     fetchReactionProcess()
-    // React's state model requires `fetchReactionProcess` in the dependencies array to assert state consistency.
-    // When done however it will be called every time when dependencies are checked (i.e. after refetch),
-    // triggering another refetch (endless loop).
-    // Wrapping fetchReactionProcess in a useCallback as recommended by the React guidelines
-    // does not work either as it depends on the api = useReactionsFetcher(),
-    // which then again can not be used in hooks as useReactionsFetcher() is a hook itself.
-    //
-    // We ignore the warnings which is recommended only if you know exactly what you are doing which I do not. cbuggle.
     // eslint-disable-next-line
   }, [location, auth_token, username])
 
@@ -85,7 +86,6 @@ const SampleProcess = () => {
         data ? setReactionProcess(data['reaction_process']) : setReactionProcess(null)
         window.dispatchEvent(new Event("reloadDone"))
       })
-
     }
   }
 
@@ -101,27 +101,48 @@ const SampleProcess = () => {
     )
   }
 
+  const onSave = (actionForm) => {
+    api.updateActivity(actionForm)
+  }
+
+  const renderTransfers = () => {
+    return reactionProcess.initial_sample_transfers.map((activity) => {
+      return (<ActivityCard
+        key={'initial-sample-transfer-' + activity.id}
+        activity={activity}
+        type={"preparation"}
+        onSave={onSave}
+        preconditions={activity.preconditions}
+        hideMoveButton
+      />)
+    })
+  }
+
   return (
-    <VesselOptions.Provider value={vessels}>
-      {reactionProcess ?
-        <SelectOptions.Provider value={reactionProcess.select_options}>
-          {renderReactionNavbar()}
-          <div className="scroll-body overflow-auto flex-grow-1">
-            <div className='px-5 py-6 d-inline-block'>
-              <div className='d-inline-flex flex-nowrap align-items-start gap-5'>
-                <div className='d-flex gap-5 flex-column'>
-                  <ProcessSampleSetupCard reactionProcess={reactionProcess} key={"react-is-so-f*reak*ing-marvelously-great-it-needs-an-extra-key-with-the-id-value-to-notice-that-the-reaction_process_vessel-has-changed" + reactionProcess.reaction_process_vessel?.id} />
-                  <VesselPreparationColumnCard reactionProcess={reactionProcess} />
+    <SubFormController.Provider value={SubFormToggle()}>
+      <VesselOptions.Provider value={vessels}>
+        {reactionProcess ?
+          <SelectOptions.Provider value={reactionProcess.select_options}>
+            {renderReactionNavbar()}
+            <div className="scroll-body overflow-auto flex-grow-1">
+              <div className='px-5 py-6 d-inline-block'>
+                <div className='d-inline-flex flex-nowrap align-items-start gap-5'>
+                  <div className='d-flex gap-5 flex-column'>
+                    <ProcessSampleSetupCard reactionProcess={reactionProcess} key={"react-is-so-freaking-marvelously-great-it-needs-an-extra-key-with-the-id-value-to-notice-that-the-reaction_process_vessel-has-changed" + reactionProcess.reaction_process_vessel?.id} />
+                    {renderTransfers()}
+                    <CreateTransferZone reactionProcess={reactionProcess} />
+                    <VesselPreparationColumnCard reactionProcess={reactionProcess} />
+                  </div>
+                  <StepsContainer reactionProcess={reactionProcess} />
                 </div>
-                <StepsContainer reactionProcess={reactionProcess} />
               </div>
             </div>
-          </div>
-        </SelectOptions.Provider>
-        :
-        <SpinnerWithMessage message={'Fetching reaction process data'} isOpen={true} />
-      }
-    </VesselOptions.Provider>
+          </SelectOptions.Provider>
+          :
+          <SpinnerWithMessage message={'Fetching reaction process data'} isOpen={true} />
+        }
+      </VesselOptions.Provider >
+    </SubFormController.Provider>
   );
 }
 

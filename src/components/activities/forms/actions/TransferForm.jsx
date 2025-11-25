@@ -7,7 +7,7 @@ import SingleLineFormGroup from "../formgroups/SingleLineFormGroup";
 import OptionsDecorator from '../../../../decorators/OptionsDecorator';
 import SamplesDecorator from '../../../../decorators/SamplesDecorator';
 
-import { StepSelectOptions } from '../../../../contexts/StepSelectOptions';
+import { SelectOptions } from '../../../../contexts/SelectOptions';
 import FormSection from "../../../utilities/FormSection";
 
 const TransferForm = (
@@ -17,7 +17,7 @@ const TransferForm = (
     isPersisted,
   }) => {
 
-  const transferOptions = useContext(StepSelectOptions).FORMS.TRANSFER
+  const transferOptions = useContext(SelectOptions).FORMS.TRANSFER
   const sampleOptions = transferOptions.transferable_samples
 
   const currentSample = OptionsDecorator.optionForValue(workup['sample_id'], sampleOptions)
@@ -81,8 +81,8 @@ const TransferForm = (
         />
       </SingleLineFormGroup>
 
+      {/* Setting label even though initially/usually/most saved Samples have no sampleSvgImg */}
       <SingleLineFormGroup label={SamplesDecorator.sampleSvgImg(currentSample)}>
-        {/* Setting label even though initially/usually/most saved Samples have no sampleSvgImg */}
         {currentSample && SamplesDecorator.infoAvailableAmounts(currentSample['unit_amounts'])}
       </SingleLineFormGroup>
 

@@ -58,9 +58,6 @@ const ProcessSampleSetupCard = ({ reactionProcess }) => {
     )
   }
 
-  console.log("vsessel")
-  console.log(reactionProcessVessel)
-
   return (
     <ProcedureCard
       title="Initial"

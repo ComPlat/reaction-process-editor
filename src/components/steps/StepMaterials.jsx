@@ -9,8 +9,8 @@ const StepMaterials = () => {
   return (
     <div className="procedure-card__info-section procedure-card__info-section--step">
       <h6>Materials</h6>
-      {stepSelectOptions.added_materials.map((material) => (
-        <MaterialBox key={material.id} material={material} />
+      {stepSelectOptions.added_materials.map((material, idx) => (
+        <MaterialBox key={"material" + material.id + idx} material={material} />
       ))}
     </div>
   );

@@ -27,7 +27,10 @@ const ActivityCreator = ({
     }
   };
 
-  const cancel = () => setDisplayState("buttons");
+  const cancel = () => {
+    setDisplayState("buttons");
+    onClose()
+  }
 
   const createActivity = () => setDisplayState("action");
 

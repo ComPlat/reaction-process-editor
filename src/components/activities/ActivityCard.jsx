@@ -24,6 +24,8 @@ const ActivityCard = ({
   preconditions,
   customClass,
   dragRef,
+  forceShowForm,
+  hideMoveButton
 }) => {
   const api = useReactionsFetcher();
   const subFormController = useContext(SubFormController);
@@ -36,14 +38,14 @@ const ActivityCard = ({
   const workup = isInitialised ? activity.workup : {}
 
   const uninitialisedForm = isCondition ? { activity_name: "CONDITION", workup: workup } : undefined;
-  const uninitialisedDisplayMode = isCondition ? "form" : "type-panel";
+  const uninitialisedDisplayMode = isCondition || forceShowForm ? "form" : "type-panel";
   const uninitialisedTitle = isCondition ? "Change Condition" : "New Action";
 
   const [activityForm, setActivityForm] = useState(
     isInitialised ? JSON.parse(JSON.stringify(activity)) : uninitialisedForm
   );
   const [displayMode, setDisplayMode] = useState(
-    isInitialised ? "info" : uninitialisedDisplayMode
+    isInitialised && !forceShowForm ? "info" : uninitialisedDisplayMode
   );
 
   const fillActivityForm = (activity) => {
@@ -54,7 +56,7 @@ const ActivityCard = ({
     ? ActivityInfoDecorator.cardTitle(activityForm)
     : uninitialisedTitle;
 
-  const isEditable = displayMode === "info" && !stepLock;
+  const isEditable = displayMode === "info" && !stepLock
   const isCanceable = displayMode !== "info" && !stepLock;
 
   const edit = () => setDisplayMode(isInitialised ? "form" : uninitialisedDisplayMode());
@@ -71,7 +73,7 @@ const ActivityCard = ({
     if (activityValidator.validate(activityForm)) {
       onSave(activityForm);
       subFormController.closeAllSubForms();
-      if (isInitialised) {
+      if (isInitialised && !forceShowForm) {
         setDisplayMode("info");
       } else {
         fillActivityForm({ workup: {} });
@@ -80,7 +82,7 @@ const ActivityCard = ({
   };
 
   const handleCancel = () => {
-    if (isInitialised) {
+    if (isInitialised && !forceShowForm) {
       fillActivityForm(activity);
       setDisplayMode("info");
     } else {
@@ -132,7 +134,7 @@ const ActivityCard = ({
       onDelete={onDelete}
       onCancel={handleCancel}
       showEditBtn={isEditable}
-      showMoveBtn={isEditable}
+      showMoveBtn={isEditable && !hideMoveButton}
       showDeleteBtn={isEditable}
       showCancelBtn={isCanceable}
       displayMode={displayMode}
