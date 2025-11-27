@@ -14,6 +14,8 @@ import UserMenu from "./UserMenu";
 
 import { useReactionsFetcher } from "../../fetchers/ReactionsFetcher";
 
+import OptionsQuickNavigator from "../utilities/OptionsQuickNavigator";
+
 import { SelectOptions } from "../../contexts/SelectOptions";
 import {
   SubFormController,
@@ -27,7 +29,6 @@ const MainHeader = () => {
   const reactionApi = useReactionsFetcher();
 
   const [reactionOptions, setReactionOptions] = useState([]);
-  // const [sampleOptions, setSampleOptions] = useState([]);
   const [collectionOptions, setCollectionOptions] = useState([]);
   const [selectOptions, setSelectOptions] = useState([]);
   const [userDefaultConditions, setUserDefaultConditions] = useState([]);
@@ -86,12 +87,12 @@ const MainHeader = () => {
         // setReactions(data["reactions"]);
         const options = data["reactions"].map(({ id, short_label }) => ({
           key: id,
-          url: reactionLinkTarget(id),
+          path: reactionLinkTarget(id),
           label: id + ": " + short_label,
         }));
         options.unshift({
           key: "index",
-          url: reactionIndexLinkTarget,
+          path: reactionIndexLinkTarget,
           label: "Reaction Index",
         });
         setReactionOptions(options);
@@ -105,13 +106,6 @@ const MainHeader = () => {
         setCollectionOptions(data["collection_select_options"]);
     });
   };
-
-  // const fetchSampleOptions = () => {
-  //   reactionApi.sampleSelectOptions().then((data) => {
-  //     data?.sample_select_options &&
-  //       setSampleOptions(data["sample_select_options"]);
-  //   });
-  // };
 
   const fetchUserDefaultConditions = () => {
     reactionApi.geDefaultConditions().then((data) => {
@@ -136,7 +130,7 @@ const MainHeader = () => {
 
   const sampleOptions = selectOptions.samples?.map(({ id, label }) => ({
     key: id,
-    url: sampleLinkTarget(id),
+    path: sampleLinkTarget(id),
     label: id + ": " + label,
   })) || [];
 
@@ -178,29 +172,18 @@ const MainHeader = () => {
                       <DropdownItem
                         key={reaction.key}
                         tag={Link}
-                        to={reaction.url}
+                        to={reaction.path}
                       >
                         {reaction.label}
                       </DropdownItem>
                     ))}
                   </DropdownMenu>
                 </UncontrolledDropdown>
-                <UncontrolledDropdown nav>
-                  <DropdownToggle nav caret>
-                    Samples ({sampleOptions.length})
-                  </DropdownToggle>
-                  <DropdownMenu>
-                    {sampleOptions.map((reaction) => (
-                      <DropdownItem
-                        key={reaction.key}
-                        tag={Link}
-                        to={reaction.url}
-                      >
-                        {reaction.label}
-                      </DropdownItem>
-                    ))}
-                  </DropdownMenu>
-                </UncontrolledDropdown>
+                <OptionsQuickNavigator
+                  label={'Samples'}
+                  options={sampleOptions}
+                />
+
               </Nav>
               <Nav navbar className="justify-content-end align-items-center">
                 <UserMenu
