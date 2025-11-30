@@ -40,7 +40,7 @@ function useAuthenticationFetcher() {
             addNotification({
               title: "Username or Password wrong.",
               message: "Please check your spelling.",
-              type: "error",
+              type: "warning",
             });
             destroySession();
             return;

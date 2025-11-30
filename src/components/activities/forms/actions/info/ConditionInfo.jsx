@@ -5,7 +5,7 @@ import InfoLinesBox from './InfoLinesBox';
 import ActivityInfoDecorator from '../../../../../decorators/ActivityInfoDecorator';
 import OptionsDecorator from '../../../../../decorators/OptionsDecorator';
 
-import { conditionFormMetricNames } from '../../../../../constants/metrics';
+import { conditionFormMetricNames } from '../../../../../constants/formMetrics';
 
 import { SelectOptions } from "../../../../../contexts/SelectOptions";
 

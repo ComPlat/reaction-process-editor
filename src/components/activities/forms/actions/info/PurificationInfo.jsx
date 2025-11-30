@@ -6,9 +6,13 @@ import OptionsDecorator from '../../../../../decorators/OptionsDecorator'
 import PurificationDecorator from '../../../../../decorators/PurificationDecorator'
 
 import { SelectOptions } from "../../../../../contexts/SelectOptions";
+
+import ActivityInfoDecorator from '../../../../../decorators/ActivityInfoDecorator';
 import OntologiesDecorator from '../../../../../decorators/OntologiesDecorator';
 
-const PurificationInfo = ({ activity }) => {
+import { conditionFormMetricNames } from '../../../../../constants/formMetrics';
+
+const PurificationInfo = ({ activity, preconditions }) => {
 
 	let infoTitle = ""
 	let infoLines = []
@@ -16,11 +20,11 @@ const PurificationInfo = ({ activity }) => {
 	let steps = workup["purification_steps"];
 
 	const purificationOptions = useContext(SelectOptions).FORMS.PURIFICATION[workup.purification_type];
-	const ontologies = useContext(SelectOptions).ontologies;
+	const selectOptions = useContext(SelectOptions);
 
 	const addOntologyAutomationToTitle = () => {
 		infoTitle += " "
-		infoTitle += OntologiesDecorator.labelForOntologyId({ ontologyId: workup.automation_mode, ontologies: ontologies })
+		infoTitle += OntologiesDecorator.labelForOntologyId({ ontologyId: workup.automation_mode, ontologies: selectOptions.ontologies })
 	}
 
 	const addAutomationToTitle = () => {
@@ -39,8 +43,12 @@ const PurificationInfo = ({ activity }) => {
 		infoLines = infoLines.concat(PurificationDecorator.infoLinePurificationSolvents(workup, purificationOptions.solvents))
 	}
 
+	const addConditionsToLines = () => infoLines.push(ActivityInfoDecorator.infoLineSampleCondition(workup))
+
 	switch (workup.purification_type) {
 		case "CENTRIFUGATION":
+			addOntologyAutomationToTitle()
+			addConditionsToLines()
 			break;
 		case "CRYSTALLIZATION":
 			addAutomationToTitle()

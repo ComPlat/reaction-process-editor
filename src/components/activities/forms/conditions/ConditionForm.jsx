@@ -6,7 +6,7 @@ import MetricFormGroup from "./MetricFormGroup";
 import DeviceMethodFormSet from '../formsets/DeviceMethodFormSet.jsx';
 import OptionalFormSet from '../formsets/OptionalFormSet.jsx';
 
-import { conditionFormMetricNames } from "../../../../constants/metrics.jsx";
+import { conditionFormMetricNames } from "../../../../constants/formMetrics.jsx";
 
 const ConditionForm = (
   {

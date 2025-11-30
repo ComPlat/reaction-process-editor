@@ -65,11 +65,11 @@ export default class ActivityInfoDecorator {
   static infoLineMotion = (conditionWorkup, selectOptions) => {
     return [
       OptionsDecorator.valueToLabel(
-        conditionWorkup.motion_type,
+        conditionWorkup?.motion_type,
         selectOptions.FORMS.MOTION.motion_types
       ),
       OptionsDecorator.valueToLabel(
-        conditionWorkup.motion_mode,
+        conditionWorkup?.motion_mode,
         selectOptions.FORMS.MOTION.automation_modes
       ),
       MetricsDecorator.infoLineAmount(conditionWorkup.speed),
@@ -92,11 +92,12 @@ export default class ActivityInfoDecorator {
     );
   };
 
-  static infoLineAddSampleCondition = (workup) => {
+  static infoLineSampleCondition = (workup) => {
     return [
-      "add_sample_velocity",
-      "add_sample_temperature",
-      "add_sample_pressure",
+      "MOTION",
+      "VELOCIITY",
+      "TEMPERATURE",
+      "PRESSURE",
     ]
       .map((metric) => {
         return (

@@ -1,12 +1,3 @@
-
-// These conditions will be included in the conditionForm, in order of desired appearance.
-export const amountInputSetMetricNames = ['VOLUME', 'WEIGHT', 'MOLAR']
-
-export const conditionFormMetricNames = ['TEMPERATURE', 'PH', 'PRESSURE', 'IRRADIATION', 'MOTION', 'EQUIPMENT']
-export const predefinableMetricNames = ['TEMPERATURE', 'PH', 'PRESSURE']
-
-export const removeFormMetricNames = ['TEMPERATURE', 'PRESSURE']
-
 export const amountsDefaultUnits = ['ml', 'mg', 'mmol']
 
 // We want to allow 120% of sample amounts when Adding/Transfering

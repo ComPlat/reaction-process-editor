@@ -4,7 +4,7 @@ import { Form } from 'reactstrap';
 import MetricFormGroup from '../activities/forms/conditions/MetricFormGroup';
 import FormButtons from "../utilities/FormButtons";
 
-import { predefinableMetricNames } from '../../constants/metrics';
+import { predefinableMetricNames } from '../../constants/formMetrics';
 
 import { useReactionsFetcher } from '../../fetchers/ReactionsFetcher'
 

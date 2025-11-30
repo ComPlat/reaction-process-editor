@@ -4,7 +4,7 @@ import AmountInput from "./AmountInput";
 import MetricsInputFormGroup from "../activities/forms/formgroups/MetricsInputFormGroup";
 
 import MetricsDecorator from "../../decorators/MetricsDecorator";
-import { amountInputSetMetricNames } from "../../constants/metrics";
+import { amountInputSetMetricNames } from "../../constants/formMetrics";
 
 const AmountInputSet = (
   {

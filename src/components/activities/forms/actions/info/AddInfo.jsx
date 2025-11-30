@@ -14,7 +14,7 @@ const AddInfo = ({ activity }) => {
 	let infoLines = []
 	infoLines.push(StringDecorator.toLabelSpelling(workup.acts_as));
 	workup.acts_as === "DIVERSE_SOLVENT" && infoLines.push(workup.is_waterfree_solvent ? "waterfree" : "not waterfree");
-	infoLines.push(ActivityInfoDecorator.infoLineAddSampleCondition(workup));
+	infoLines.push(ActivityInfoDecorator.infoLineSampleCondition(workup));
 
 	const renderSampleSvg = () => workup.acts_as === "SAMPLE" ? SamplesDecorator.sampleSvgImg(activity.sample) : <></>
 

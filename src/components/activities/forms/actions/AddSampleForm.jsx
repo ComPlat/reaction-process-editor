@@ -18,11 +18,8 @@ import SampleSelection from "../../../utilities/SampleSelection";
 
 const AddSampleForm = ({ workup, preconditions, onWorkupChange }) => {
   // TODO: move to metrics.jsx (and restrict to keys; requires some work as workup_keys depend on it)
-  const inputMetrics = [
-    ["VELOCITY", "add_sample_velocity"],
-    ["TEMPERATURE", "add_sample_temperature"],
-    ["PRESSURE", "add_sample_pressure"],
-  ];
+  const inputMetrics = ["VELOCITY", "TEMPERATURE", "PRESSURE"];
+
 
   const selectOptions = useContext(SelectOptions)
   const additionOptions = selectOptions.FORMS.ADD
@@ -30,18 +27,18 @@ const AddSampleForm = ({ workup, preconditions, onWorkupChange }) => {
 
 
   useEffect(() => {
-    inputMetrics.forEach(([metricName, workupKey]) => {
+    inputMetrics.forEach((metricName) => {
       const unit =
-        workup[workupKey]?.unit ||
+        workup[metricName]?.unit ||
         preconditions[metricName]?.unit ||
         MetricsDecorator.defaultUnit(metricName);
 
-      let value = workup[workupKey]?.value;
+      let value = workup[metricName]?.value;
       value = value === 0 ? 0 : value || preconditions[metricName]?.value;
 
       if (value || value === 0) {
         onWorkupChange({
-          name: workupKey,
+          name: metricName,
           value: { value: value, unit: unit },
         });
       }
@@ -97,14 +94,14 @@ const AddSampleForm = ({ workup, preconditions, onWorkupChange }) => {
     onWorkupChange({ name: name, value: value });
 
   const renderConditionInputs = () => {
-    return inputMetrics.map(([metricName, workupKey]) => {
+    return inputMetrics.map((metricName) => {
       return (
         <>
           <MetricsInputFormGroup
             key={metricName}
             metricName={metricName}
-            amount={workup[workupKey]}
-            onChange={handleChange(workupKey)}
+            amount={workup[metricName]}
+            onChange={handleChange(metricName)}
           />
         </>
       );
