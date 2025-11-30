@@ -95,7 +95,7 @@ export default class ActivityInfoDecorator {
   static infoLineSampleCondition = (workup) => {
     return [
       "MOTION",
-      "VELOCIITY",
+      "VELOCITY",
       "TEMPERATURE",
       "PRESSURE",
     ]

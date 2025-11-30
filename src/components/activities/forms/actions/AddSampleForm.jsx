@@ -16,18 +16,15 @@ import StringDecorator from "../../../../decorators/StringDecorator";
 import { SelectOptions } from "../../../../contexts/SelectOptions";
 import SampleSelection from "../../../utilities/SampleSelection";
 
-const AddSampleForm = ({ workup, preconditions, onWorkupChange }) => {
-  // TODO: move to metrics.jsx (and restrict to keys; requires some work as workup_keys depend on it)
-  const inputMetrics = ["VELOCITY", "TEMPERATURE", "PRESSURE"];
+import { addFormMetricNames } from "../../../../constants/formMetrics";
 
+const AddSampleForm = ({ workup, preconditions, onWorkupChange }) => {
 
   const selectOptions = useContext(SelectOptions)
   const additionOptions = selectOptions.FORMS.ADD
 
-
-
   useEffect(() => {
-    inputMetrics.forEach((metricName) => {
+    addFormMetricNames.forEach((metricName) => {
       const unit =
         workup[metricName]?.unit ||
         preconditions[metricName]?.unit ||
@@ -94,7 +91,7 @@ const AddSampleForm = ({ workup, preconditions, onWorkupChange }) => {
     onWorkupChange({ name: name, value: value });
 
   const renderConditionInputs = () => {
-    return inputMetrics.map((metricName) => {
+    return addFormMetricNames.map((metricName) => {
       return (
         <>
           <MetricsInputFormGroup
@@ -153,7 +150,6 @@ const AddSampleForm = ({ workup, preconditions, onWorkupChange }) => {
                 handleChange("is_waterfree_solvent")(event.target.checked)
               }
             />
-
           </SingleLineFormGroup>
         }
         {displayMolecularEntity &&
@@ -167,7 +163,6 @@ const AddSampleForm = ({ workup, preconditions, onWorkupChange }) => {
               onChange={handleChange('molecular_entities')}
             />
           </FormGroup>
-
         }
         <AmountInputSet
           amount={workup["target_amount"]}
@@ -188,7 +183,6 @@ const AddSampleForm = ({ workup, preconditions, onWorkupChange }) => {
             }
           />
         </SingleLineFormGroup>
-
         {renderConditionInputs()}
       </FormSection>
     </>
