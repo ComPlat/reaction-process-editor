@@ -20,7 +20,7 @@ const VesselableFormSection = ({
   const selectOptions = useContext(SelectOptions);
   const vesselables = useContext(VesselOptions);
 
-  const preparationOptions = selectOptions.vessel_preparations.preparation_types;
+  const preparationOptions = selectOptions.vessel_preparations;
 
   const currentVesselable = VesselableDecorator.getVesselableByParams(
     { vesselable_id: reactionProcessVessel?.vesselable_id, vesselable_type: reactionProcessVessel?.vesselable_type },
@@ -39,6 +39,13 @@ const VesselableFormSection = ({
     onChange({
       ...reactionProcessVessel,
       preparations: preparations,
+    });
+  };
+
+  const handleSelectCleanup = (selected) => {
+    onChange({
+      ...reactionProcessVessel,
+      cleanup: selected.value,
     });
   };
 
@@ -86,14 +93,23 @@ const VesselableFormSection = ({
             className="react-select--overwrite"
             classNamePrefix="react-select"
             name="vesselable_preparations"
-            isDisabled={false}
             isMulti
             isClearable={false}
-            options={preparationOptions}
-            value={OptionsDecorator.optionsForValues(reactionProcessVessel?.preparations, preparationOptions)}
+            options={preparationOptions.preparation_types}
+            value={OptionsDecorator.optionsForValues(reactionProcessVessel?.preparations, preparationOptions.preparation_types)}
             onChange={(selected) =>
               handleSelectPreparations(selected.map((option) => option.value))
             }
+          />
+        </SingleLineFormGroup>
+        <SingleLineFormGroup label="Cleanup:" typeColor={typeColor}>
+          <Select
+            className="react-select--overwrite"
+            classNamePrefix="react-select"
+            name="vesselable_cleanup"
+            options={preparationOptions.cleanup_types}
+            value={OptionsDecorator.optionForValue(reactionProcessVessel?.cleanup, preparationOptions.cleanup_types)}
+            onChange={handleSelectCleanup}
           />
         </SingleLineFormGroup>
       </MultiInputFormGroup>

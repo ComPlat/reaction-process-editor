@@ -12,8 +12,11 @@ const VesselableQuickSelector = ({
 }) => {
 
   useEffect(() => {
-    if (currentVesselable && !filteredVesselableOptions.find(v => v.id === currentVesselable.id)) {
+    if (currentVesselable && !filteredVesselableOptions.find(v => v.id === currentVesselable?.id)) {
+      console.log('reset query')
       setVesselQuery('')
+    } else {
+      console.log('not reset query')
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentVesselable])
@@ -23,23 +26,25 @@ const VesselableQuickSelector = ({
   const [vesselQuery, setVesselQuery] = useState('');
 
   const vesselMatchesQuery = (vessel) => {
-    return vessel.short_label?.toLowerCase().match(vesselQuery?.toLowerCase()) ||
-      vessel.material_type?.toLowerCase().match(vesselQuery?.toLowerCase())
+    return vessel.short_label?.toLowerCase().match(vesselQuery?.toLowerCase())
+      || vessel.material_type?.toLowerCase().match(vesselQuery?.toLowerCase())
   }
 
-  const filteredVesselableOptions = vesselables
-    .filter(vessel => vesselMatchesQuery(vessel))
-    .map(vessel => { return { ...vessel, value: vessel.id, label: vessel.short_label } })
+  const filteredVesselableOptions = vesselables.filter(vessel => vesselMatchesQuery(vessel))
 
-  const ambigousVessel = filteredVesselableOptions.length !== 1
+  const currentVesselSuggestion =
+    filteredVesselableOptions.find(v => v.id === currentVesselable?.id)
+    || filteredVesselableOptions[0]
 
-  const setSelectedVesselable = () => {
+  const suggestionUnique = filteredVesselableOptions.length === 1
+
+  const selectFirstVessel = () => {
     onSelectVesselable(filteredVesselableOptions[0])
   }
 
   const handleVesselInputKeyUp = (event) => {
     if (event.key === "Enter") {
-      setSelectedVesselable()
+      selectFirstVessel()
     }
   }
 
@@ -49,7 +54,7 @@ const VesselableQuickSelector = ({
 
   const renderVesselSelectSubmitButton = () => {
     return (
-      <Button onClick={setSelectedVesselable} color={typeColor} disabled={ambigousVessel} >
+      <Button onClick={selectFirstVessel} color={typeColor} disabled={!suggestionUnique} >
         {filteredVesselableOptions[0].label}
       </Button >
     )
@@ -58,13 +63,14 @@ const VesselableQuickSelector = ({
   const renderVesselSelect = () => {
     return (
       <Select
-        key={"filtered-vessels-" + filteredVesselableOptions.length + "-" + currentVesselable?.value}
+        key={"filtered-vessels-" + filteredVesselableOptions.length + "-" + currentVesselable?.id}
         className="react-select--overwrite"
         classNamePrefix="react-select"
         name="filteredVesselableOptions"
         options={filteredVesselableOptions}
-        value={filteredVesselableOptions[0]}
+        value={currentVesselSuggestion}
         onChange={handleSelectVesselable}
+        disabled={currentVesselSuggestion?.id === currentVesselable?.id}
       />
     )
   }
@@ -84,7 +90,7 @@ const VesselableQuickSelector = ({
           {'(' + filteredVesselableOptions.length + ')'}
         </Col>
         <Col md={5}>
-          {ambigousVessel ? renderVesselSelect() : renderVesselSelectSubmitButton()}
+          {suggestionUnique ? renderVesselSelectSubmitButton() : renderVesselSelect()}
         </Col>
       </InputGroup>
     </>

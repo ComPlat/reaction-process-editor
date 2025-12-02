@@ -32,35 +32,43 @@ const VesselPreparation = ({ reactionProcessVessel }) => {
     setShowForm(false);
   };
 
+  const title = (
+    <div className="d-md-flex gap-2">
+      {reactionProcessVessel.step_names.length > 0 ? (
+        <span>
+          {reactionProcessVessel.step_names.join(", ")}
+          {" – "}
+        </span>)
+        : (<>Initital - </>)
+      }
+      {VesselableDecorator.vesselTitle(reactionProcessVessel?.vesselable)}
+    </div>
+  )
+
   return (
     <PreparationCard
-      title={VesselableDecorator.vesselTitle(reactionProcessVessel?.vesselable)}
+      title={title}
       onEdit={openForm}
       onCancel={closeForm}
       showForm={showForm}
       allowDelete={false}
+      headerTitleTag="h6"
     >
       <ProcedureCard.Info>
         <span className="procedure-card__info-line">
-          {VesselableDecorator.vesselableType(reactionProcessVessel.vesselable)}
-        </span>
-        <span className="procedure-card__info-line">
           {VesselableDecorator.vesselVolumeAndMaterial(reactionProcessVessel.vesselable)}
+
+          {reactionProcessVessel.preparations.length > 0 && (
+            <>
+              {' – '}
+              {OptionsDecorator.valuesToLabel(reactionProcessVessel.preparations, preparationOptions
+              )}
+            </>
+          )}
+          {/* {VesselableDecorator.vesselableType(reactionProcessVessel.vesselable)} */}
+          {/* {': '}
+           */}
         </span>
-        {reactionProcessVessel.preparations.length > 0 && (
-          <span className="procedure-card__info-line">
-            Preparations:{" "}
-            {OptionsDecorator.valuesToLabel(
-              reactionProcessVessel.preparations,
-              preparationOptions
-            )}
-          </span>
-        )}
-        {reactionProcessVessel.step_names.length > 0 && (
-          <span className="procedure-card__info-line">
-            Steps: {reactionProcessVessel.step_names.join(", ")}
-          </span>
-        )}
       </ProcedureCard.Info>
       <ProcedureCard.Form>
         <VesselPreparationForm

@@ -7,6 +7,7 @@ const PreparationCard = ({
   onEdit,
   onDelete,
   onCancel,
+  customClass,
   allowDelete = true,
   showForm = false,
 }) => {
@@ -22,6 +23,8 @@ const PreparationCard = ({
       showDeleteBtn={allowDelete ? !showForm : false}
       showCancelBtn={showForm}
       displayMode={showForm ? "form" : "info"}
+      customClass={customClass}
+      headerTitleTag="h6"
     >
       {children}
     </ProcedureCard>
