@@ -59,7 +59,6 @@ const CentrifugationForm = (
     });
   };
 
-  console.log(workup)
   return (
     <>
       <FormSection type='action'>

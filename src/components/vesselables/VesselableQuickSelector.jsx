@@ -13,10 +13,7 @@ const VesselableQuickSelector = ({
 
   useEffect(() => {
     if (currentVesselable && !filteredVesselableOptions.find(v => v.id === currentVesselable?.id)) {
-      console.log('reset query')
       setVesselQuery('')
-    } else {
-      console.log('not reset query')
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentVesselable])

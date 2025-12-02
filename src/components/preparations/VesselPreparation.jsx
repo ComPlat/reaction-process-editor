@@ -65,9 +65,6 @@ const VesselPreparation = ({ reactionProcessVessel }) => {
               )}
             </>
           )}
-          {/* {VesselableDecorator.vesselableType(reactionProcessVessel.vesselable)} */}
-          {/* {': '}
-           */}
         </span>
       </ProcedureCard.Info>
       <ProcedureCard.Form>
