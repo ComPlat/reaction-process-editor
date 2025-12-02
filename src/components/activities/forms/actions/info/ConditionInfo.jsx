@@ -17,7 +17,7 @@ const ConditionInfo = ({ activity, preconditions }) => {
 	let infoLines = []
 
 	let device = OptionsDecorator.inclusiveOptionForValue(workup.device, selectOptions.ontologies)
-	infoLines.push(device?.label + ' / ' + workup.method)
+	device?.label && infoLines.push(device?.label + ' / ' + (workup.method || 'no method'))
 
 	for (let [metricName, conditionWorkup] of Object.entries(workup)) {
 		if (conditionFormMetricNames.includes(metricName)) {

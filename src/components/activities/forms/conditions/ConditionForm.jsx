@@ -35,7 +35,7 @@ const ConditionForm = (
       <OptionalFormSet
         subFormLabel={"Device & Method"}
         valueSummary={deviceMethodSummary}
-        onSave={onSave}
+        onSave={onWorkupChange}
         onCancel={onCancel}
         isEqualToPredefinedValue={!workup.device}
         typeColor={"condition"}

@@ -108,8 +108,9 @@ const AddSampleForm = ({ workup, preconditions, onWorkupChange }) => {
   const renderMaterialForms = () => {
     return ['SOLVENT', 'ADDITIVE', 'MEDIUM'].map((materialType) => {
       return (
-        <SingleLineFormGroup label={StringDecorator.toLabelSpelling(materialType)} key={materialType + '_select' + sample?.id}>
+        <SingleLineFormGroup label={StringDecorator.toLabelSpelling(materialType)} key={materialType + '_select_group' + sample?.id}>
           <Select
+            key={materialType + '_select' + sample?.id}
             className="react-select--overwrite"
             classNamePrefix="react-select"
             name={materialType + '_id'}

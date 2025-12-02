@@ -20,9 +20,13 @@ const TransferInfo = ({ activity }) => {
 
 	let infoLines = []
 
-	infoLines.push(MetricsDecorator.infoLineAmountWithPercentage(workup.target_amount));
-	infoLines.push((activity.transfer_source_step_name || 'Initial') +
-		" -> " + (activity.transfer_target_step_name || 'Unnamed Step'));
+	infoLines.push(
+		MetricsDecorator.infoLineAmountWithPercentage(workup.target_amount)
+		+ ' '
+		+ (activity.transfer_source_step_name || 'Initial')
+		+ " -> "
+		+ (activity.transfer_target_step_name || 'Unnamed Step')
+	);
 
 	return (
 		<InfoLinesBox title={infoTitle} lines={infoLines} />
