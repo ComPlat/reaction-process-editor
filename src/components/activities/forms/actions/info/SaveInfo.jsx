@@ -18,7 +18,8 @@ const SaveInfo = ({ activity }) => {
 	if (sample.target_amount) {
 		infoLines.push(MetricsDecorator.infoLineAmount(sample.target_amount));
 	}
-	infoLines.push(VesselableDecorator.vesselableSingleLine(activity.reaction_process_vessel?.vessel));
+
+	infoLines.push(VesselableDecorator.vesselableSingleLine(activity.reaction_process_vessel?.vesselable));
 	infoLines.push(sample.location);
 
 	return (

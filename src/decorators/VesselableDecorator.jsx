@@ -55,8 +55,9 @@ export default class VesselableDecorator {
   };
 
   static vesselableSingleLine = (vessel) => {
-    return vessel
-      ? this.vesselTitle(vessel) + " " + this.vesselVolumeAndMaterial(vessel)
+    return !!vessel
+      ? StringDecorator.toLabelSpelling(vessel.vessel_type)
+      + '' + this.vesselTitle(vessel) + " " + this.vesselVolumeAndMaterial(vessel)
       : undefined;
   };
 
