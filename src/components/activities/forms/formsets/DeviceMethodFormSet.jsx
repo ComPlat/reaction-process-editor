@@ -10,15 +10,30 @@ import OptionsDecorator from '../../../../decorators/OptionsDecorator';
 import { SelectOptions } from '../../../../contexts/SelectOptions';
 
 const DeviceMethodFormSet = ({
-	workup,
+	activity,
 	onWorkupChange,
 }) => {
 	let ontologies = useContext(SelectOptions).ontologies
+	let workup = activity.workup
 
 	const ontologiesByRoleName = (roleName) => OntologiesDecorator.activeOptionsForRoleName({ roleName: roleName, options: ontologies })
 
 	const handleChangeAutomation = (newAutomationMode) => {
 		onWorkupChange({ name: 'automation_mode', value: newAutomationMode })
+	}
+
+	const handleChangeType = (newType) => {
+		if (newType?.value !== workup.type) {
+			onWorkupChange({ name: 'type', value: newType?.value })
+			handleChangeSubType({ value: undefined })
+		}
+	}
+
+	const handleChangeSubType = (newSubType) => {
+		if (newSubType?.value !== workup.subtype) {
+			onWorkupChange({ name: 'subtype', value: newSubType?.value })
+			handleChangeDevice({ value: undefined })
+		}
 	}
 
 	const handleChangeDevice = (device) => {
@@ -31,6 +46,8 @@ const DeviceMethodFormSet = ({
 
 	const currentDeviceOption = OptionsDecorator.inclusiveOptionForValue(workup.device, ontologies)
 
+	const requiresTypeSubtypeForm = ['ADD', 'TRANSFER'].includes(activity.activity_name)
+
 	return (
 		<>
 			<FormGroup className='row gx-2 pt-1'>
@@ -40,6 +57,22 @@ const DeviceMethodFormSet = ({
 					options={ontologiesByRoleName('automation_mode')}
 					onChange={handleChangeAutomation} />
 			</FormGroup>
+
+			{requiresTypeSubtypeForm && <>
+				<OntologySelectFormGroup
+					key={"type" + workup.type}
+					roleName={'type'}
+					workup={workup}
+					onChange={handleChangeType}
+				/>
+				<OntologySelectFormGroup
+					key={"subtype" + workup.subtype + "type" + workup.type}
+					roleName={'subtype'}
+					workup={workup}
+					onChange={handleChangeSubType}
+				/>
+			</>
+			}
 
 			<OntologySelectFormGroup
 				key={"device" + workup.device}

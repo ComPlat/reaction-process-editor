@@ -41,7 +41,7 @@ const ConditionForm = (
         typeColor={"condition"}
       >
         <DeviceMethodFormSet
-          workup={activity.workup}
+          activity={activity}
           onWorkupChange={onWorkupChange} />
       </OptionalFormSet>
       {

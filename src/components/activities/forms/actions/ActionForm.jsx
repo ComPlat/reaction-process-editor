@@ -116,7 +116,7 @@ const ActionForm = (
     return deviceFormIncluded ? <></> :
       <FormSection type="action">
         <DeviceMethodFormSet
-          workup={workup}
+          activity={activity}
           onWorkupChange={onWorkupChange} />
       </FormSection>
   }
