@@ -33,7 +33,7 @@ const SamplePreparationForm = ({
     }));
   };
 
-  const handleSave = (e) => onSave(preparationForm);
+  const handleSave = () => onSave(preparationForm);
 
   return (
     <Form>
