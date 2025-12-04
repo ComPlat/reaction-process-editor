@@ -53,7 +53,7 @@ const FiltrationForm = (
       <FormSection type='action'>
         <VesselableFormSection
           onChange={onChangeVessel}
-          reactionProcessVessel={reactionProcessVessel || {}}
+          reactionProcessVessel={reactionProcessVessel}
         />
         {renderFilterMethodToggle()}
         {renderAutomationToggle()}

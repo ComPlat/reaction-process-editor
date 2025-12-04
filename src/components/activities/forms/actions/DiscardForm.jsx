@@ -7,7 +7,7 @@ const DiscardForm = ({ reactionProcessVessel, onChangeVessel }) => {
   return (
     <VesselableFormSection
       onChange={onChangeVessel}
-      reactionProcessVessel={reactionProcessVessel || {}}
+      reactionProcessVessel={reactionProcessVessel}
     />
   );
 };

@@ -80,7 +80,7 @@ const ChromatographyFractionForm = ({ fraction, onChange, claimVial, onDelete, c
 						/>
 						<VesselableFormSection
 							onChange={handleChange('vessel')}
-							reactionProcessVessel={fraction.vessel || {}} />
+							reactionProcessVessel={fraction.vessel} />
 					</Col>
 					<Col md={7}>
 						{renderVialLine()}

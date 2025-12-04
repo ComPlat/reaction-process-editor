@@ -176,7 +176,7 @@ const SaveSampleForm = ({ workup, onWorkupChange, reactionProcessVessel, onChang
 
       <VesselableFormSection
         onChange={onChangeVessel}
-        reactionProcessVessel={reactionProcessVessel || {}}
+        reactionProcessVessel={reactionProcessVessel}
       />
       <FormSection type="action">
         <AmountInputSet

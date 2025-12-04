@@ -10,7 +10,7 @@ const StepForm = ({ processStep, previousStep, nameSuggestionOptions, onSave, on
 
   const [stepName, setStepName] = useState(processStep?.name || "");
   const [automationStatus, setAutomationStatus] = useState(processStep?.automation_status);
-  const [reactionProcessVessel, setReactionProcessVessel] = useState(processStep?.reaction_process_vessel || {});
+  const [reactionProcessVessel, setReactionProcessVessel] = useState(processStep?.reaction_process_vessel);
 
   const activityValidator = useActivityValidator();
 

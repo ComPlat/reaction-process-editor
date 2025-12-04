@@ -8,36 +8,30 @@ function useActivityValidator() {
 
   return {
     validateActivity,
-    validateVesselPreparation,
+    errorsOnVesselPreparation,
     validateSamplePreparation,
     validateStep
   };
 
-  function validateAdd(action) {
+  function errorsOnAdd(action) {
     let errors = [];
     action.workup["sample_id"] || errors.push("Sample");
     return errors;
   }
 
-  function validateSave(action) {
-    let errors = [];
-    action.reaction_process_vessel || errors.push("Vessel");
-    return errors;
-  }
 
-  function validateTransfer(action) {
+  function errorsOnTransfer(action) {
     let errors = [];
     action.workup["sample_id"] || errors.push("Sample");
     action.workup["transfer_target_step_id"] || errors.push("Transfer Target");
     return errors;
   }
 
-  function validateVessel(vessel) {
+  function errorsOnVessel(vessel) {
     let errors = [];
 
-    !vessel && errors.push("Vessel must be defined")
-    vessel.cleanup || errors.push("Vessel Cleanup must be defined")
-
+    vessel?.id || errors.push("Vessel must be defined")
+    vessel?.cleanup || errors.push("Vessel Cleanup must be defined")
     return errors;
   }
 
@@ -52,21 +46,24 @@ function useActivityValidator() {
 
   function validateActivity(action) {
     let errors = [];
+
+    let requiresVessel =
+      ['DEFINE_FRACTION', 'DISCARD', 'SAVE'].includes(action.activity_name)
+      || (action.workup['purification_type'] === 'FILTRATION')
+
     switch (action.activity_name) {
       case "ADD":
-        errors.push(...validateAdd(action));
+        errors.push(...errorsOnAdd(action));
         break;
       case "TRANSFER":
-        errors.push(...validateTransfer(action));
-        break;
-      case "SAVE":
-        errors.push(...validateSave(action));
+        errors.push(...errorsOnTransfer(action));
         break;
       default:
         break;
     }
-    if (action.reaction_process_vessel) {
-      errors.push(...validateVessel(action.reaction_process_vessel))
+
+    if (requiresVessel) {
+      errors.push(...errorsOnVessel(action.reaction_process_vessel))
     }
 
     if (errors.length > 0) { displayNotifications(errors); }
@@ -74,7 +71,7 @@ function useActivityValidator() {
   }
 
   function validateStep(_name, vessel, _automationStatus) {
-    let errors = validateVessel(vessel)
+    let errors = errorsOnVessel(vessel)
 
     if (errors.length > 0) { displayNotifications(errors); }
     return errors.length === 0;
@@ -88,8 +85,8 @@ function useActivityValidator() {
     return errors.length === 0;
   }
 
-  function validateVesselPreparation(preparation) {
-    let errors = validateVessel(preparation.vesselable)
+  function errorsOnVesselPreparation(preparation) {
+    let errors = errorsOnVessel(preparation.vesselable)
     if (errors.length > 0) { displayNotifications(errors); }
 
     return errors.length === 0;
