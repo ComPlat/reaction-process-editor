@@ -8,10 +8,13 @@ import OptionsDecorator from "../../decorators/OptionsDecorator";
 
 import { useReactionsFetcher } from "../../fetchers/ReactionsFetcher";
 
+import { useActivityValidator } from "../../validators/ActivityValidator";
+
 import { SelectOptions } from "../../contexts/SelectOptions";
 
 const VesselPreparation = ({ reactionProcessVessel }) => {
   const api = useReactionsFetcher();
+  const activityValidator = useActivityValidator();
 
   const selectOptions = useContext(SelectOptions);
 
@@ -20,9 +23,11 @@ const VesselPreparation = ({ reactionProcessVessel }) => {
     selectOptions.vessel_preparations.preparation_types;
 
   const onSave = (preparationForm) => {
-    api.updateReactionProcessVessel(preparationForm);
-    closeForm();
-  };
+    if (activityValidator.validateVesselPreparation(preparationForm)) {
+      api.updateReactionProcessVessel(preparationForm);
+      closeForm();
+    };
+  }
 
   const openForm = () => {
     setShowForm(true);

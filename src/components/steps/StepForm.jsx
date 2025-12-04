@@ -4,6 +4,7 @@ import AutoComplete from "../activities/forms/formgroups/AutoComplete";
 import FormButtons from "../utilities/FormButtons";
 import VesselableFormSection from "../vesselables/VesselableFormSection";
 import StepAutomationStatusFormGroup from "../activities/forms/formgroups/StepAutomationStatusFormGroup";
+import { useActivityValidator } from "../../validators/ActivityValidator";
 
 const StepForm = ({ processStep, previousStep, nameSuggestionOptions, onSave, onCancel }) => {
 
@@ -11,8 +12,12 @@ const StepForm = ({ processStep, previousStep, nameSuggestionOptions, onSave, on
   const [automationStatus, setAutomationStatus] = useState(processStep?.automation_status);
   const [reactionProcessVessel, setReactionProcessVessel] = useState(processStep?.reaction_process_vessel || {});
 
+  const activityValidator = useActivityValidator();
+
   const handleSave = () => {
-    onSave(stepName, reactionProcessVessel, automationStatus);
+    if (activityValidator.validateStep(stepName, reactionProcessVessel, automationStatus)) {
+      onSave(stepName, reactionProcessVessel, automationStatus);
+    }
   };
 
   return (

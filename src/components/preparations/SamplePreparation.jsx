@@ -8,12 +8,15 @@ import ProcedureCard from "../utilities/ProcedureCard";
 
 import OptionsDecorator from "../../decorators/OptionsDecorator";
 
+import { useActivityValidator } from "../../validators/ActivityValidator";
+
 import { useReactionsFetcher } from "../../fetchers/ReactionsFetcher";
 
 import { SelectOptions } from "../../contexts/SelectOptions";
 
 const SamplePreparation = ({ preparation, reactionProcessId }) => {
   const api = useReactionsFetcher();
+  const activityValidator = useActivityValidator();
 
   const selectOptions = useContext(SelectOptions);
 
@@ -36,8 +39,10 @@ const SamplePreparation = ({ preparation, reactionProcessId }) => {
   };
 
   const onSave = (preparationForm) => {
-    api.updateSamplePreparation(reactionProcessId, preparationForm);
-    closeForm();
+    if (activityValidator.validateSamplePreparation(preparationForm)) {
+      api.updateSamplePreparation(reactionProcessId, preparationForm);
+      closeForm();
+    }
   };
 
   const openForm = () => {

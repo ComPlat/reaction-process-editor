@@ -70,7 +70,7 @@ const ActivityCard = ({
   };
 
   const onSaveForm = () => {
-    if (activityValidator.validate(activityForm)) {
+    if (activityValidator.validateActivity(activityForm)) {
       onSave(activityForm);
       subFormController.closeAllSubForms();
       if (isInitialised && !forceShowForm) {

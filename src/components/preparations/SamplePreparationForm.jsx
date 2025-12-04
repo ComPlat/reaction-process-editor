@@ -6,7 +6,7 @@ import FormButtons from "../utilities/FormButtons";
 import SampleSelection from "../utilities/SampleSelection";
 import OptionsDecorator from "../../decorators/OptionsDecorator";
 
-const PreparationForm = ({
+const SamplePreparationForm = ({
   preparation,
   preparationOptions,
   onSave,
@@ -33,11 +33,7 @@ const PreparationForm = ({
     }));
   };
 
-  const handleSave = (e) => {
-    if (!!preparationForm.sample_id) {
-      onSave(preparationForm);
-    }
-  };
+  const handleSave = (e) => onSave(preparationForm);
 
   return (
     <Form>
@@ -104,4 +100,4 @@ const PreparationForm = ({
   );
 };
 
-export default PreparationForm;
+export default SamplePreparationForm;

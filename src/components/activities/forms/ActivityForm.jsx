@@ -8,8 +8,6 @@ import FormButtons from "../../utilities/FormButtons";
 import AutomationStatusFormGroup from './formgroups/AutomationStatusFormGroup';
 import Timer from '../timing/Timer';
 
-import { useActivityValidator } from '../../../validators/ActivityValidator'
-
 import { SubFormController } from '../../../contexts/SubFormController';
 import { StepLock } from '../../../contexts/StepLock';
 
@@ -27,7 +25,6 @@ const ActivityForm = (
 
   const subFormController = useContext(SubFormController)
   const stepLock = useContext(StepLock)
-  const activityValidator = useActivityValidator();
 
   const [disabled, setDisabled] = useState(false)
   const workup = activity.workup
@@ -35,8 +32,6 @@ const ActivityForm = (
   useEffect(() => {
     setDisabled(subFormController.anyBlockingSubformOpen())
   }, [subFormController, activity, activity.workup])
-
-  const handleSave = () => activityValidator.validate(activity) && onSave()
 
   const handleWorkupChange = (key) => (value) => {
     onWorkupChange({ name: key, value: value });
@@ -72,7 +67,7 @@ const ActivityForm = (
         onResolvePooling={handleWorkupChange('fractions')}
       />
       <FormButtons
-        onSave={handleSave}
+        onSave={onSave}
         onCancel={onCancel}
         disabled={disabled}
         disableSave={stepLock}
