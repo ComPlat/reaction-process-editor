@@ -184,6 +184,7 @@ const StepColumCard = ({ processStep, reactionProcess, previousStep, onCancel })
                         processStep={processStep}
                         preconditions={processStep.final_conditions}
                         insertNewBeforeIndex={processStep.activities.length}
+                        onClose={handleCancel}
                       />
                     )}
                   </div>
