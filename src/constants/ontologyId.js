@@ -1,12 +1,15 @@
 
 export const ontologyId = {
-	action: {
-		analysis: 'OBI:0000070',
-		purification: "CHMO:0002231"
-	},
-	class: {
-		chromatography: "CHMO:0001000",
-		spectroscopy: 'CHMO:0000228',
+	class:
+	{
+		ADD: 'OBI:0000274',
+		TRANSFER: 'OBI:0000383',
+		CENTRIFUGATION: 'OBI:0302886',
+		CHROMATOGRAPHY: 'CHMO:0001000',
+		CRYSTALLISATION: 'CHMO:0001477',
+		EXTRACTION: 'CHMO:0001577',
+		FILTRATION: 'CHMO:0001640',
+		SPECTROSCOPY: 'CHMO:0000228',
 	},
 	automation_modes: {
 		manual: "NCIT:C63513",

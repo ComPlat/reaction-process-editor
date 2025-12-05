@@ -38,6 +38,7 @@ const DeviceMethodFormSet = ({
 
 	const handleChangeDevice = (device) => {
 		onWorkupChange({ name: 'device', value: device?.value })
+		if (device?.value !== workup.device) { handleChangeMethod(undefined) }
 	}
 
 	const handleChangeMethod = (method) => {
@@ -78,8 +79,6 @@ const DeviceMethodFormSet = ({
 				key={"device" + workup.device}
 				roleName={'device'}
 				workup={workup}
-				options={ontologiesByRoleName('device')}
-				ignoreWorkupDependencies={true}
 				onChange={handleChangeDevice}
 			/>
 			<OntologySelectFormGroup

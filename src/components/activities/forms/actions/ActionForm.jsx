@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import ActivityForm from "../ActivityForm";
 import AddSampleForm from "./AddSampleForm";
@@ -16,6 +16,8 @@ import FormSection from '../../../utilities/FormSection';
 
 import DeviceMethodFormSet from '../formsets/DeviceMethodFormSet';
 
+import { ontologyId } from '../../../../constants/ontologyId';
+
 const ActionForm = (
   {
     activity,
@@ -29,6 +31,16 @@ const ActionForm = (
 
   const actionTypeName = activity.activity_name
   const workup = activity.workup
+
+  useEffect(() => {
+    let ontologyValue = ontologyId.class[activity.activity_name]
+      || ontologyId.class[activity.workup?.purification_type]
+      || ontologyId.class[activity.workup?.analysis_type]
+
+    onWorkupChange({ name: 'class', value: ontologyValue })
+    // eslint-disable-next-line
+  }, [activity.activity_name])
+
 
   const customActivityForm = () => {
     switch (actionTypeName) {
@@ -121,18 +133,25 @@ const ActionForm = (
       </FormSection>
   }
 
+  let ontologyValue = ontologyId.class[activity.activity_name]
+    || ontologyId.class[activity.workup?.purification_type]
+    || ontologyId.class[activity.workup?.analysis_type]
+
+
   return (
-    <ActivityForm
-      type='action'
-      activity={activity}
-      onCancel={onCancel}
-      onSave={onSave}
-      onWorkupChange={onWorkupChange}
-      onChangeDuration={onChangeDuration}>
-      <FractionFormGroup fraction={activity.consumed_fraction} />
-      {renderDeviceOntologiesForm()}
-      {customActivityForm()}
-    </ActivityForm>
+    <>
+      <ActivityForm
+        type='action'
+        activity={activity}
+        onCancel={onCancel}
+        onSave={onSave}
+        onWorkupChange={onWorkupChange}
+        onChangeDuration={onChangeDuration}>
+        <FractionFormGroup fraction={activity.consumed_fraction} />
+        {renderDeviceOntologiesForm()}
+        {customActivityForm()}
+      </ActivityForm>
+    </>
   );
 };
 

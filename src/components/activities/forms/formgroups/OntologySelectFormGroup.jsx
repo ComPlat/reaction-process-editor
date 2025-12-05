@@ -48,6 +48,7 @@ const OntologySelectFormGroup = (
       label={label}
       tooltip={tooltip}
     >
+
       <Select
         className="react-select--overwrite"
         classNamePrefix="react-select"
@@ -57,7 +58,7 @@ const OntologySelectFormGroup = (
         onChange={onChange}
         isClearable={true}
         placeholder={placeholder}
-        isDisabled={disabled}
+        isDisabled={disabled || selectableOptionsMatchingWorkupDependencies.length === 0}
       />
     </SingleLineFormGroup>
   </>
