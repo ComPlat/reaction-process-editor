@@ -133,25 +133,18 @@ const ActionForm = (
       </FormSection>
   }
 
-  let ontologyValue = ontologyId.class[activity.activity_name]
-    || ontologyId.class[activity.workup?.purification_type]
-    || ontologyId.class[activity.workup?.analysis_type]
-
-
   return (
-    <>
-      <ActivityForm
-        type='action'
-        activity={activity}
-        onCancel={onCancel}
-        onSave={onSave}
-        onWorkupChange={onWorkupChange}
-        onChangeDuration={onChangeDuration}>
-        <FractionFormGroup fraction={activity.consumed_fraction} />
-        {renderDeviceOntologiesForm()}
-        {customActivityForm()}
-      </ActivityForm>
-    </>
+    <ActivityForm
+      type='action'
+      activity={activity}
+      onCancel={onCancel}
+      onSave={onSave}
+      onWorkupChange={onWorkupChange}
+      onChangeDuration={onChangeDuration}>
+      <FractionFormGroup fraction={activity.consumed_fraction} />
+      {renderDeviceOntologiesForm()}
+      {customActivityForm()}
+    </ActivityForm>
   );
 };
 
