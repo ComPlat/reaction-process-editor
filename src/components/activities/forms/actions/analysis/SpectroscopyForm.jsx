@@ -2,10 +2,11 @@ import React, { useContext } from 'react'
 import { Label, FormGroup } from 'reactstrap'
 
 import FormSection from '../../../../utilities/FormSection'
-import ButtonGroupToggle from '../../formgroups/ButtonGroupToggle'
+import SamplesIconSelect from '../../../../utilities/SamplesIconSelect'
 
+import ButtonGroupToggle from '../../formgroups/ButtonGroupToggle'
 import OntologySelectFormGroup from '../../formgroups/OntologySelectFormGroup'
-import OntologyMultiSelectFormGroup from '../../formgroups/OntologyMultiSelectFormGroup'
+import SolventListFormGroup from '../../formgroups/SolventListFormGroup'
 
 import OptionsDecorator from '../../../../../decorators/OptionsDecorator'
 import OntologiesDecorator from '../../../../../decorators/OntologiesDecorator'
@@ -13,7 +14,6 @@ import OntologiesDecorator from '../../../../../decorators/OntologiesDecorator'
 import { SelectOptions } from '../../../../../contexts/SelectOptions';
 
 import { ontologyId } from '../../../../../constants/ontologyId'
-import SamplesIconSelect from '../../../../utilities/SamplesIconSelect'
 
 const SpectroscopyForm = ({ workup, onWorkupChange }) => {
 	const ontologies = useContext(SelectOptions).ontologies
@@ -39,9 +39,7 @@ const SpectroscopyForm = ({ workup, onWorkupChange }) => {
 		onWorkupChange({ name: 'subtype', value: newSubType?.value })
 	}
 
-	const handleChangeDetectors = (detectors) => {
-		onWorkupChange({ name: 'detector', value: detectors?.map(detector => detector.value) })
-	}
+	const solventOptions = OptionsDecorator.optionForValue(workup.device, ontologies)?.mobile_phase || []
 
 	return (
 		<FormSection>
@@ -87,12 +85,10 @@ const SpectroscopyForm = ({ workup, onWorkupChange }) => {
 				workup={workup}
 				onChange={selected => onWorkupChange({ name: 'device', value: selected?.value })}
 			/>
-			<OntologyMultiSelectFormGroup
-				key={"detector" + workup.detector}
-				label={'Detectors'}
-				roleName={'detector'}
-				workup={workup}
-				onChange={handleChangeDetectors}
+			<SolventListFormGroup
+				solvents={workup.solvents}
+				solventOptions={solventOptions}
+				setSolvents={selected => onWorkupChange({ name: 'solvents', value: selected })}
 			/>
 		</FormSection>
 	)
