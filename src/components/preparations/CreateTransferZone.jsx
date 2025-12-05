@@ -7,7 +7,7 @@ import { SubFormController, SubFormToggle } from '../../contexts/SubFormControll
 
 import { useReactionsFetcher } from "../../fetchers/ReactionsFetcher";
 
-import { ontologyId } from '../../constants/ontologyId';
+import { ONTOLOGIES } from '../../constants/ontologies';
 
 const CreateTransferZone = () => {
   const api = useReactionsFetcher();
@@ -24,7 +24,7 @@ const CreateTransferZone = () => {
 
   const initialTransferActivity = {
     activity_name: 'TRANSFER',
-    workup: { automation_mode: ontologyId.automation_modes.automated, }
+    workup: { automation_mode: ONTOLOGIES.automation_modes.automated, }
   }
 
   const handleSave = (activity) => {

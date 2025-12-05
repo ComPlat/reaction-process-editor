@@ -1,7 +1,7 @@
-import { ontologyId } from "./ontologyId"
+import { ONTOLOGIES } from "./ontologies"
 
 
-let ontologyAutomated = ontologyId.automation_modes.automated
+let ontologyAutomated = ONTOLOGIES.automation_modes.automated
 
 export const actionTypeClusters = [[
   {

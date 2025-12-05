@@ -11,19 +11,21 @@ import MetricsDecorator from "../../../../decorators/MetricsDecorator";
 import { SelectOptions } from "../../../../contexts/SelectOptions";
 import OntologySelectFormGroup from "../formgroups/OntologySelectFormGroup";
 
-const MetricFormGroup = ({
+const OntologiesMetricFormGroup = ({
   metricName,
   precondition,
   label,
   workup,
   onWorkupChange,
   typeColor = "condition",
-  showEquipmentForm = true
+  ontologyId
 }) => {
   const selectOptions = useContext(SelectOptions);
 
   const hasPrecondition = !!precondition?.value;
   const hasWorkupCondition = !!workup[metricName];
+
+  const [metricForm, setMetricForm] = useState(workup || {})
 
   const findInitialValue = (key, fallBackValue) => {
     if (workup[metricName] && workup[metricName][key] !== undefined) {
@@ -55,36 +57,49 @@ const MetricFormGroup = ({
     }
   };
 
-  const [equipment, setEquipment] = useState([]);
-  const [type, setType] = useState();
+  const resetForm = () => {
+    setMetricForm({ class: ontologyId, EQUIPMENT: [] })
+  }
 
-  const resetType = () =>
-    setType(workup["type"]);
+  // const [equipment, setEquipment] = useState([]);
+  // const [type, setType] = useState();
 
-  const resetEquipment = () =>
-    setEquipment(workup["EQUIPMENT"]?.["value"] || []);
+  // const resetType = () => setType(workup["type"]);
+
+  // const setONTOLOGIES = () => setType(workup["type"]);
+
+  // const resetEquipment = () =>
+  //   setEquipment(workup["EQUIPMENT"]?.["value"] || []);
 
   useEffect(() => {
-    resetEquipment();
-    resetType();
+    onWorkupChange({ name: 'class', value: ontologyId })
+    // resetEquipment();
+    resetForm();
+    // resetType();
     // eslint-disable-next-line
   }, [workup]);
 
   const handleSave = (condition) => {
-    onWorkupChange({ name: "EQUIPMENT", value: { value: equipment } });
+    onWorkupChange({ name: "EQUIPMENT", value: { value: metricForm.EQUIPMENT } });
     if (metricName !== "EQUIPMENT") {
       onWorkupChange({ name: metricName, value: condition });
-      onWorkupChange({ name: "type", value: type });
+      onWorkupChange({ name: "type", value: metricForm.type });
     }
   };
 
-  const handleCancel = () => resetEquipment();
+  const handleCancel = () => resetForm();
 
-  const handleChangeEquipment = (newEquipment) => setEquipment(newEquipment);
+  // const handleChangeEquipment = (newEquipment) => setEquipment(newEquipment);
 
   const handleResetToPredifined = () => {
     onWorkupChange({ name: metricName, value: undefined });
   };
+
+  const handleChangeForm = (name) => (selected) => {
+    setMetricForm(
+      { ...metricForm, [name]: selected }
+    )
+  }
 
   const renderMotionForm = () => {
     return (
@@ -97,9 +112,9 @@ const MetricFormGroup = ({
       >
         <EquipmentSubsetFormSection
           valueSummary={summary()}
-          equipment={equipment}
+          equipment={metricForm.EQUIPMENT}
           metricName={metricName}
-          onChangeEquipment={handleChangeEquipment}
+          onChangeEquipment={handleChangeForm('EQUIPMENT')}
         />
       </MotionForm>
     )
@@ -110,9 +125,9 @@ const MetricFormGroup = ({
       <div>
         <EquipmentForm
           metricName={metricName}
-          equipment={equipment}
+          equipment={metricForm.EQUIPMENT}
           isEqualToPredefinedValue={!hasWorkupCondition}
-          onChangeEquipment={handleChangeEquipment}
+          onChangeEquipment={handleChangeForm('EQUIPMENT')}
           valueSummary={summary()}
           onSave={handleSave}
           onCancel={handleCancel}
@@ -134,22 +149,20 @@ const MetricFormGroup = ({
         onCancel={handleCancel}
         onResetToPredefined={handleResetToPredifined}
       >
-        {showEquipmentForm && <EquipmentSubsetFormSection
+        <EquipmentSubsetFormSection
           metricName={metricName}
-          equipment={equipment}
-          onChangeEquipment={setEquipment}
-        />}
-
+          equipment={metricForm.EQUIPMENT}
+          onChangeEquipment={handleChangeForm('EQUIPMENT')}
+        />
         <OntologySelectFormGroup
           key={"type" + workup.type}
           roleName={'type'}
-          workup={workup}
-          onChange={setType}
+          workup={metricForm}
+          onChange={e => handleChangeForm('type')(e.value)}
         />
       </ConditionMetricSubForm>
     )
   }
-
 
   switch (metricName) {
     case 'MOTION':
@@ -161,4 +174,4 @@ const MetricFormGroup = ({
   }
 };
 
-export default MetricFormGroup;
+export default OntologiesMetricFormGroup;

@@ -59,6 +59,11 @@ export const metrics = {
     defaultUnit: 'RPM',
     units: ['RPM']
   },
+  'MIXING': {
+    label: 'Mixing',
+    defaultUnit: 'RPM',
+    units: ['RPM']
+  },
   'DURATION': {
     label: 'Duration',
     defaultUnit: 'MINUTES',

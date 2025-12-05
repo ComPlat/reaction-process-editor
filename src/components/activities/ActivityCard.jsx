@@ -3,7 +3,6 @@ import React, { useContext, useState } from "react";
 import ActionForm from "./forms/actions/ActionForm";
 import ActivityInfoDecorator from "../../decorators/ActivityInfoDecorator";
 import ActivityInfo from "./ActivityInfo";
-import ConditionForm from "./forms/conditions/ConditionForm";
 import ProcedureCard from "../utilities/ProcedureCard";
 import TypeSelectionPanel from "../utilities/TypeSelectionPanel";
 import Timer from "./timing/Timer";
@@ -15,6 +14,8 @@ import { useActivityValidator } from "../../validators/ActivityValidator";
 import IconButton from "../utilities/IconButton";
 import AutomationStatusDecorator from "../../decorators/AutomationStatusDecorator";
 import { UncontrolledTooltip } from "reactstrap";
+
+import OntologiesConditionForm from "./forms/conditions/OntologiesConditionForm";
 
 const ActivityCard = ({
   type,
@@ -170,9 +171,8 @@ const ActivityCard = ({
             onChangeVessel={setVessel}
           />
         )}
-
         {isCondition && (
-          <ConditionForm
+          <OntologiesConditionForm
             activity={activityForm}
             preconditions={preconditions}
             onCancel={handleCancel}

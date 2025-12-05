@@ -18,7 +18,7 @@ const AnalysisInfo = ({ activity }) => {
 
 	const addOntologyAutomationToTitle = () => {
 		infoTitle += " "
-		infoTitle += OntologiesDecorator.labelForOntologyId({ ontologyId: workup.automation_mode, ontologies: ontologies })
+		infoTitle += OntologiesDecorator.labelForONTOLOGIES({ ONTOLOGIES: workup.automation_mode, ontologies: ontologies })
 	}
 
 	const addStepsToTitle = () => {

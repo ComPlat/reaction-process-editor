@@ -28,7 +28,7 @@ const OntologyMultiSelectFormGroup = (
 
   let selectableOptionsMatchingWorkupDependencies = OntologiesDecorator.selectableMultiOptionsForWorkupDependencies({ options: options, ontologies: ontologies, roleName: roleName, workup: workup })
 
-  let selectedOptions = OntologiesDecorator.findAllByOntologyIds({ ontologyIds: value, ontologies: selectableOptionsMatchingWorkupDependencies })
+  let selectedOptions = OntologiesDecorator.findAllByONTOLOGIESs({ ONTOLOGIESs: value, ontologies: selectableOptionsMatchingWorkupDependencies })
 
   const inactiveSelection = (selected) => selected.find(item => !item.active)
   const unavailableSelection = (selected) => selected.find(item => item.unavailable)

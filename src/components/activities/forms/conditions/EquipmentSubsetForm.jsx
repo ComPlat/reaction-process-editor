@@ -16,6 +16,9 @@ const EquipmentSubsetForm = (
   const localEquipmentOptionNames = localEquipmentOptions.map(item => item.value)
 
   const handleChangeEquipment = (localEquipment) => {
+    console.log("localEquipment")
+    console.log(metricName)
+    console.log(equipment)
     onChangeEquipment(
       equipment
         .filter(item => !localEquipmentOptionNames.includes(item))

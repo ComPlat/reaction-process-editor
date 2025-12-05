@@ -44,6 +44,8 @@ const ConditionForm = (
           activity={activity}
           onWorkupChange={onWorkupChange} />
       </OptionalFormSet>
+
+
       {
         conditionFormMetricNames.map((metricName) => (
           <MetricFormGroup

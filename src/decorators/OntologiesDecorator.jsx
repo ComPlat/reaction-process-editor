@@ -1,15 +1,15 @@
 export default class OntologiesDecorator {
 
-  static labelForOntologyId = ({ ontologyId, ontologies }) =>
-    this.findByOntologyId({ ontologyId: ontologyId, ontologies: ontologies })?.label
+  static labelForONTOLOGIES = ({ ONTOLOGIES, ontologies }) =>
+    this.findByONTOLOGIES({ ONTOLOGIES: ONTOLOGIES, ontologies: ontologies })?.label
 
-  static findByOntologyId = ({ ontologyId, ontologies }) =>
-    ontologyId && ontologies?.find(option => ontologyId === option.ontology_id)
+  static findByONTOLOGIES = ({ ONTOLOGIES, ontologies }) =>
+    ONTOLOGIES && ontologies?.find(option => ONTOLOGIES === option.ontology_id)
 
-  static findAllByOntologyIds = ({ ontologyIds, ontologies }) =>
-    ontologies.filter(option => ontologyIds?.includes(option.ontology_id))
+  static findAllByONTOLOGIESs = ({ ONTOLOGIESs, ontologies }) =>
+    ontologies.filter(option => ONTOLOGIESs?.includes(option.ontology_id))
 
-  static createUnavailableOption = ({ ontologyId }) => ontologyId && { ontology_id: ontologyId, value: ontologyId, label: ontologyId, unavailable: true, roles: [] }
+  static createUnavailableOption = ({ ONTOLOGIES }) => ONTOLOGIES && { ontology_id: ONTOLOGIES, value: ONTOLOGIES, label: ONTOLOGIES, unavailable: true, roles: [] }
 
   static activeOptionsForRoleName = ({ roleName, options }) => {
     return options.filter((option) => {
@@ -34,10 +34,10 @@ export default class OntologiesDecorator {
     let currentValue = workup[roleName]
     let activeDependencyOptions = this.activeOptionsForWorkupDependencies({ roleName: roleName, options: options, workup: workup })
 
-    if (currentValue && !this.findByOntologyId({ ontologyId: currentValue, ontologies: activeDependencyOptions })) {
+    if (currentValue && !this.findByONTOLOGIES({ ONTOLOGIES: currentValue, ontologies: activeDependencyOptions })) {
       let missingCurrentOption =
-        this.findByOntologyId({ ontologyId: currentValue, ontologies: ontologies })
-        || this.createUnavailableOption({ ontologyId: currentValue })
+        this.findByONTOLOGIES({ ONTOLOGIES: currentValue, ontologies: ontologies })
+        || this.createUnavailableOption({ ONTOLOGIES: currentValue })
 
       activeDependencyOptions.push({ ...missingCurrentOption, unmetDependency: true })
     }
@@ -50,9 +50,9 @@ export default class OntologiesDecorator {
     let activeDependencyOptions = this.activeOptionsForWorkupDependencies({ roleName: roleName, options: options, workup: workup })
 
     currentValues?.forEach(currentValue => {
-      if (currentValue && !this.findByOntologyId({ ontologyId: currentValue, ontologies: activeDependencyOptions })) {
-        let missingCurrentOption = this.findByOntologyId({ ontologyId: currentValue, ontologies: ontologies })
-          || this.createUnavailableOption({ ontologyId: currentValue })
+      if (currentValue && !this.findByONTOLOGIES({ ONTOLOGIES: currentValue, ontologies: activeDependencyOptions })) {
+        let missingCurrentOption = this.findByONTOLOGIES({ ONTOLOGIES: currentValue, ontologies: ontologies })
+          || this.createUnavailableOption({ ONTOLOGIES: currentValue })
 
         activeDependencyOptions.push({ ...missingCurrentOption, unmetDependency: true })
       }

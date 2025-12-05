@@ -32,7 +32,7 @@ const OntologySelectFormGroup = (
       { options: options, ontologies: ontologies, roleName: roleName, workup: workup, key: Math.random(10000) }
     )
 
-  let selectedOption = OntologiesDecorator.findByOntologyId({ ontologyId: value, ontologies: selectableOptionsMatchingWorkupDependencies })
+  let selectedOption = OntologiesDecorator.findByONTOLOGIES({ ONTOLOGIES: value, ontologies: selectableOptionsMatchingWorkupDependencies })
 
   tooltip ||= selectedOption?.unavailable && tooltips['selection_unavailable']
   tooltip ||= selectedOption && !selectedOption.active && tooltips['selection_inactive']
@@ -47,7 +47,6 @@ const OntologySelectFormGroup = (
       label={label}
       tooltip={tooltip}
     >
-
       <Select
         className="react-select--overwrite"
         classNamePrefix="react-select"

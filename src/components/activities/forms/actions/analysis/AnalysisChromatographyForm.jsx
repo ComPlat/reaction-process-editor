@@ -19,7 +19,7 @@ import OptionsDecorator from '../../../../../decorators/OptionsDecorator';
 
 import withActivitySteps from '../../../../utilities/WithActivitySteps';
 
-import { ontologyId } from '../../../../../constants/ontologyId'
+import { ONTOLOGIES } from '../../../../../constants/ontologies'
 
 import { SelectOptions } from '../../../../../contexts/SelectOptions';
 
@@ -36,7 +36,7 @@ const AnalysisChromatographyForm = (
   }) => {
 
 
-  const isAutomated = workup.automation_mode === ontologyId.automation_modes.automated
+  const isAutomated = workup.automation_mode === ONTOLOGIES.automation_modes.automated
 
   const selectOptions = useContext(SelectOptions);
 
@@ -82,18 +82,18 @@ const AnalysisChromatographyForm = (
 
   const handleChangeAutomation = (newAutomationMode) => {
     switch (newAutomationMode) {
-      case ontologyId.automation_modes.automated:
+      case ONTOLOGIES.automation_modes.automated:
         handleChangeDevice(currentDeviceOption)
         setMethodAnalysisDefaults(currentMethodOption)
         setStationaryPhaseDefaults(currentStationaryPhaseOption)
         onWorkupChange({ name: 'mobile_phase', value: undefined })
         break;
-      case ontologyId.automation_modes.semiAutomated:
+      case ONTOLOGIES.automation_modes.semiAutomated:
         handleChangeDevice(currentDeviceOption)
         onWorkupChange({ name: 'method', value: undefined })
         onWorkupChange({ name: 'stationary_phase', value: undefined })
         break;
-      case ontologyId.automation_modes.manual:
+      case ONTOLOGIES.automation_modes.manual:
         handleChangeDevice(undefined)
         onWorkupChange({ name: 'stationary_phase', value: undefined })
         break;
@@ -151,8 +151,8 @@ const AnalysisChromatographyForm = (
 
   const renderAutomationSpecificFields = () => {
     switch (workup.automation_mode) {
-      case ontologyId.automation_modes.automated:
-      case ontologyId.automation_modes.semiAutomated:
+      case ONTOLOGIES.automation_modes.automated:
+      case ONTOLOGIES.automation_modes.semiAutomated:
         return (
           <>
             <OntologySelectFormGroup
@@ -219,7 +219,7 @@ const AnalysisChromatographyForm = (
               onChange={handleWorkupChange('inject_volume')}
             />
           </>)
-      case ontologyId.automation_modes.manual:
+      case ONTOLOGIES.automation_modes.manual:
         return (
           <>
             <OntologySelectFormGroup

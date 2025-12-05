@@ -16,7 +16,7 @@ import FormSection from '../../../utilities/FormSection';
 
 import DeviceMethodFormSet from '../formsets/DeviceMethodFormSet';
 
-import { ontologyId } from '../../../../constants/ontologyId';
+import { ONTOLOGIES } from '../../../../constants/ontologies';
 
 const ActionForm = (
   {
@@ -33,10 +33,13 @@ const ActionForm = (
   const workup = activity.workup
 
   useEffect(() => {
-    let ontologyValue = ontologyId.class[activity.activity_name]
-      || ontologyId.class[activity.workup?.purification_type]
-      || ontologyId.class[activity.workup?.analysis_type]
+    let ontologyValue = ONTOLOGIES.class[activity.activity_name]
+      || ONTOLOGIES.class[activity.workup?.purification_type]
+      || ONTOLOGIES.class[activity.workup?.analysis_type]
 
+    console.log("Setting Action ontology_class")
+    console.log(activity.activity_name)
+    console.log(ontologyValue)
     onWorkupChange({ name: 'class', value: ontologyValue })
     // eslint-disable-next-line
   }, [activity.activity_name])

@@ -31,13 +31,13 @@ const ConditionMetricSubForm = ({
   const formLabel = label || MetricsDecorator.label(metricName);
 
   const initialAmount = () => {
-    return {
-      value: findInitialValue(
-        "value",
-        MetricsDecorator.defaultValueInDefaultUnit(metricName)
-      ),
-      unit: findInitialValue("unit", MetricsDecorator.defaultUnit(metricName)),
-    };
+    // return {
+    //   value: findInitialValue(
+    //     "value",
+    //     MetricsDecorator.defaultValueInDefaultUnit(metricName)
+    //   ),
+    //   unit: findInitialValue("unit", MetricsDecorator.defaultUnit(metricName)),
+    // };
   };
 
   const initialPowerAmount = () =>
@@ -161,7 +161,7 @@ const ConditionMetricSubForm = ({
         </Col>
       </Row>
       {metricName === "IRRADIATION" && renderPowerForm()}
-      {additionalInformationOptions.length > 0 &&
+      {additionalInformationOptions?.length > 0 &&
         renderAdditionalInformationSelect()}
       {children}
     </OptionalFormSet>

@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { FormGroup, Label } from 'reactstrap';
 
 import ButtonGroupToggle from '../formgroups/ButtonGroupToggle';
@@ -9,12 +9,19 @@ import OptionsDecorator from '../../../../decorators/OptionsDecorator';
 
 import { SelectOptions } from '../../../../contexts/SelectOptions';
 
+import { ONTOLOGIES } from '../../../../constants/ontologies';
+
 const DeviceMethodFormSet = ({
 	activity,
 	onWorkupChange,
 }) => {
 	let ontologies = useContext(SelectOptions).ontologies
 	let workup = activity.workup
+
+	useEffect(() => {
+		activity.workup?.automation_mode || onWorkupChange({ name: 'condition', value: ONTOLOGIES.class.CONDITION })
+		// eslint-disable-next-line
+	}, [])
 
 	const ontologiesByRoleName = (roleName) => OntologiesDecorator.activeOptionsForRoleName({ roleName: roleName, options: ontologies })
 
@@ -60,12 +67,14 @@ const DeviceMethodFormSet = ({
 			</FormGroup>
 
 			{requiresTypeSubtypeForm && <>
+				{workup.type}
 				<OntologySelectFormGroup
 					key={"type" + workup.type}
 					roleName={'type'}
 					workup={workup}
 					onChange={handleChangeType}
 				/>
+				{workup.subtype}
 				<OntologySelectFormGroup
 					key={"subtype" + workup.subtype + "type" + workup.type}
 					roleName={'subtype'}
@@ -75,12 +84,14 @@ const DeviceMethodFormSet = ({
 			</>
 			}
 
+			{workup.device}
 			<OntologySelectFormGroup
 				key={"device" + workup.device}
 				roleName={'device'}
 				workup={workup}
 				onChange={handleChangeDevice}
 			/>
+			{workup.method}
 			<OntologySelectFormGroup
 				key={"method" + workup.method}
 				roleName={'method'}

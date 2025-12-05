@@ -3,7 +3,7 @@ import { metrics, unitTypes, allowedAmountOverscale } from '../constants/metrics
 export default class MetricsDecorator {
   static metric = (metricName) => metrics[metricName]
 
-  static label = (metricName) => this.metric(metricName).label
+  static label = (metricName) => this.metric(metricName)?.label || "No label"
 
   static units = (metricName) => this.metric(metricName)?.units
 

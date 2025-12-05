@@ -12,8 +12,8 @@ import OntologiesDecorator from '../../../../../decorators/OntologiesDecorator'
 
 import { SelectOptions } from '../../../../../contexts/SelectOptions';
 
-import { ontologyId } from '../../../../../constants/ontologyId'
 import SamplesIconSelect from '../../../../utilities/SamplesIconSelect'
+import { ONTOLOGIES } from '../../../../../constants/ontologies'
 
 const SpectroscopyForm = ({ workup, onWorkupChange }) => {
 	const ontologies = useContext(SelectOptions).ontologies
@@ -24,7 +24,7 @@ const SpectroscopyForm = ({ workup, onWorkupChange }) => {
 	const handleWorkupChange = (workupKey) => (value) => onWorkupChange({ name: workupKey, value: value })
 
 	const handleChangeAutomation = (automation) => {
-		if (automation !== ontologyId.automation_modes.automated) {
+		if (automation !== ONTOLOGIES.automation_modes.automated) {
 			onWorkupChange({ name: 'method', value: undefined })
 		}
 		onWorkupChange({ name: 'automation_mode', value: automation })
@@ -43,6 +43,9 @@ const SpectroscopyForm = ({ workup, onWorkupChange }) => {
 		onWorkupChange({ name: 'detector', value: detectors?.map(detector => detector.value) })
 	}
 
+	console.log("workup.device")
+	console.log(workup.device)
+	console.log(solventOptions)
 	return (
 		<FormSection>
 			<FormGroup>
