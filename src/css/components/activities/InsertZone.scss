@@ -2,6 +2,7 @@
   min-height: 0.75rem;
   background-color: $gray-400;
   margin-right: 0.75rem;
+
   &.insert-zone--target {
     height: 3rem;
     border-color: color("step");
@@ -11,10 +12,12 @@
     display: flex;
     align-items: center;
   }
+
   &.insert-zone--creator {
     background-color: transparent;
     margin-right: 0;
   }
+
   &__drop-target-label {
     display: block;
     margin: 0 auto;
@@ -22,9 +25,11 @@
     font-weight: bold;
     animation: blinker 0.5s linear 1;
   }
+
   &.insert-zone--inactive {
     display: none;
   }
+
   &__reveal-creator-button {
     --bs-btn-hover-bg: var(--bs-btn-bg);
     --bs-btn-hover-color: var(--bs-btn-color);
@@ -32,9 +37,19 @@
     display: none;
     width: 100%;
   }
+
+  &__visible-creator-button {
+    --bs-btn-hover-bg: var(--bs-btn-bg);
+    --bs-btn-hover-color: var(--bs-btn-color);
+    --bs-btn-hover-border-color: var(--bs-btn-border-color);
+    --bs-btn-color: var(--bs-body-color);
+    width: 100%;
+  }
+
   &__reveal-creator-button {
     --bs-btn-color: var(--bs-body-color);
   }
+
   &--default:hover .insert-zone__reveal-creator-button {
     display: block;
   }
