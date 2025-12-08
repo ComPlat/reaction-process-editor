@@ -1,3 +1,4 @@
+
 export const amountsDefaultUnits = ['ml', 'mg', 'mmol']
 
 // We want to allow 120% of sample amounts when Adding/Transfering
@@ -127,32 +128,32 @@ export const unitTypes = {
   // MOL / molar
   'mol': {
     label: 'mol',
-    inputRange: { min: 0, precision: 1, step: 0.1, initialstep: 1, },
+    inputRange: { min: 0, precision: 2, step: 0.1, initialstep: 1, },
     fromBase: (value) => value / 1000,
     toBase: (value) => value * 1000,
   },
   'mmol': {
     label: 'mmol',
-    inputRange: { min: 0, precision: 0, step: 10, initialstep: 10, },
+    inputRange: { min: 0, precision: 2, step: 10, initialstep: 10, },
     fromBase: (value) => value,
     toBase: (value) => value,
   },
   'mcmol': {
     label: 'µmol',
-    inputRange: { min: 0, precision: 0, step: 10, initialstep: 10, },
+    inputRange: { min: 0, precision: 2, step: 10, initialstep: 10, },
     fromBase: (value) => value * 1000,
     toBase: (value) => value / 1000,
   },
   'nmol': {
     label: 'nmol',
-    inputRange: { min: 0, precision: 0, step: 10, initialstep: 10, },
+    inputRange: { min: 0, precision: 2, step: 10, initialstep: 10, },
     fromBase: (value) => value * (1000 * 1000),
     toBase: (value) => value / (1000 * 1000),
   },
   // WEIGHT / gravimetric
   'g': {
     label: 'g',
-    inputRange: { min: 0, precision: 0, step: 1, initialstep: 1, },
+    inputRange: { min: 0, precision: 2, step: 1, initialstep: 1, },
     fromBase: (value) => value / 1000,
     toBase: (value) => value * 1000,
   },
@@ -164,44 +165,44 @@ export const unitTypes = {
   },
   'mcg': {
     label: 'µg',
-    inputRange: { min: 0, precision: 0, step: 10, initialstep: 10, },
+    inputRange: { min: 0, precision: 2, step: 10, initialstep: 10, },
     fromBase: (value) => value * 1000,
     toBase: (value) => value / 1000,
   },
   // VOLUME / volumetric
   'mcl': {
     label: 'µl',
-    inputRange: { min: 0, precision: 0, step: 10, initialstep: 10, },
+    inputRange: { min: 0, precision: 2, step: 10, initialstep: 10, },
     fromBase: (value) => value * 1000,
     toBase: (value) => value / 1000,
   },
   'ml': {
     label: 'ml',
-    inputRange: { min: 0, precision: 0, step: 10, initialstep: 10, },
+    inputRange: { min: 0, precision: 2, step: 10, initialstep: 10, },
     fromBase: (value) => value,
     toBase: (value) => value,
   },
   'l': {
     label: 'l',
-    inputRange: { min: 0, precision: 1, step: 1, initialstep: 1, },
+    inputRange: { min: 0, precision: 2, step: 1, initialstep: 1, },
     fromBase: (value) => value / 1000,
     toBase: (value) => value * 1000,
   },
   'CELSIUS': {
     label: '°C',
-    inputRange: { min: -100, max: 400, precision: 1, step: 1, initialstep: 21, },
+    inputRange: { min: -100, max: 400, precision: 2, step: 1, initialstep: 21, },
     fromBase: (value) => value,
     toBase: (value) => value,
   },
   'KELVIN': {
     label: 'K',
-    inputRange: { min: 173.15, max: 673.15, precision: 1, step: 1, initialstep: 294.15, },
+    inputRange: { min: 173.15, max: 673.15, precision: 2, step: 1, initialstep: 294.15, },
     fromBase: (value) => value + 273.15,
     toBase: (value) => value - 273.15,
   },
   'FAHRENHEIT': {
     label: '°F',
-    inputRange: { min: -148, max: 752, precision: 1, step: 1, initialstep: 69.8, },
+    inputRange: { min: -148, max: 752, precision: 2, step: 1, initialstep: 69.8, },
     fromBase: (value) => 32 + (value * 9 / 5),
     toBase: (value) => (value - 32) * 5 / 9,
   },
@@ -213,25 +214,25 @@ export const unitTypes = {
   },
   'MBAR': {
     label: 'mbar',
-    inputRange: { min: 0, max: 10000, precision: 0, step: 1, initialstep: 1013, },
+    inputRange: { min: 0, max: 10000, precision: 2, step: 1, initialstep: 1013, },
     fromBase: (value) => value,
     toBase: (value) => value,
   },
   'WATT': {
     label: 'Watt',
-    inputRange: { min: 0, max: 10000, precision: 0, step: 10, initialstep: 1000, },
+    inputRange: { min: 0, max: 10000, precision: 2, step: 10, initialstep: 1000, },
     fromBase: (value) => value,
     toBase: (value) => value,
   },
   'MLMIN': {
     label: 'ml/min',
-    inputRange: { min: 0, max: 10000, precision: 0, step: 10, initialstep: 10 },
+    inputRange: { min: 0, max: 10000, precision: 2, step: 10, initialstep: 10 },
     fromBase: (value) => value,
     toBase: (value) => value,
   },
   'PERCENT': {
     label: '%',
-    inputRange: { min: 0, max: 100, precision: 0, step: 1, initialstep: 1, },
+    inputRange: { min: 0, max: 100, precision: 2, step: 1, initialstep: 1, },
     fromBase: (value) => value,
     toBase: (value) => value,
   },
@@ -249,13 +250,13 @@ export const unitTypes = {
   },
   'NM': {
     label: 'nm',
-    inputRange: { min: 10, max: 800, precision: 0, step: 1, initialstep: 254, },
+    inputRange: { min: 10, max: 800, precision: 2, step: 1, initialstep: 254, },
     fromBase: (value) => value,
     toBase: (value) => value,
   },
   'RPM': {
     label: 'rpm',
-    inputRange: { min: 0, max: 9999, precision: 0, step: 100, initialstep: 500, },
+    inputRange: { min: 0, max: 9999, precision: 2, step: 100, initialstep: 500, },
     fromBase: (value) => value,
     toBase: (value) => value,
   },
@@ -279,7 +280,7 @@ export const unitTypes = {
   },
   'CM': {
     label: 'cm',
-    inputRange: { min: 0, max: 1000, precision: 0, step: 1, initialstep: 1, },
+    inputRange: { min: 0, max: 1000, precision: 2, step: 1, initialstep: 1, },
     fromBase: (value) => value,
     toBase: (value) => value,
   },
@@ -291,13 +292,13 @@ export const unitTypes = {
   },
   'mV': {
     label: 'mVolt',
-    inputRange: { min: 0, max: 10000000, precision: 0, step: 1, initialstep: 1, },
+    inputRange: { min: 0, max: 10000000, precision: 2, step: 1, initialstep: 1, },
     fromBase: (value) => value * 1000,
     toBase: (value) => value / 1000,
   },
   'V': {
     label: 'Volt',
-    inputRange: { min: 0, max: 10000, precision: 0, step: 1, initialstep: 1, },
+    inputRange: { min: 0, max: 10000, precision: 2, step: 1, initialstep: 1, },
     fromBase: (value) => value,
     toBase: (value) => value,
   },
