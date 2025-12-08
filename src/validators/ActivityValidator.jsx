@@ -8,7 +8,7 @@ function useActivityValidator() {
 
   return {
     validateActivity,
-    errorsOnVesselPreparation,
+    validateVesselPreparation,
     validateSamplePreparation,
     validateStep
   };
@@ -85,7 +85,7 @@ function useActivityValidator() {
     return errors.length === 0;
   }
 
-  function errorsOnVesselPreparation(preparation) {
+  function validateVesselPreparation(preparation) {
     let errors = errorsOnVessel(preparation.vesselable)
     if (errors.length > 0) { displayNotifications(errors); }
 
