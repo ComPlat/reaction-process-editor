@@ -215,7 +215,7 @@ const AnalysisChromatographyForm = (
             <MetricsInputFormGroup
               label={'Inj. Volume'}
               metricName={"INJECT_VOLUME"}
-              amount={workup.inject_volume}
+              amount={workup.inject_volume || { unit: 'mcl' }}
               onChange={handleWorkupChange('inject_volume')}
             />
           </>)
