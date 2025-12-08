@@ -107,25 +107,32 @@ const AddSampleForm = ({ workup, preconditions, onWorkupChange }) => {
 
   const renderMaterialForms = () => {
     return ['SOLVENT', 'ADDITIVE', 'MEDIUM'].map((materialType) => {
+      let currentMaterialOptions = materialOptions[materialType]
+
+      if (!!workup.device && materialType === 'SOLVENT') {
+        let deviceOption = OptionsDecorator.optionForValue(workup.device, selectOptions.ontologies)
+        currentMaterialOptions = deviceOption?.mobile_phase || []
+      }
+
       return (
         <SingleLineFormGroup label={StringDecorator.toLabelSpelling(materialType)} key={materialType + '_select_group' + sample?.id}>
           <Select
-            key={materialType + '_select' + sample?.id}
+            key={materialType + '_select' + sample?.id + workup.device}
             className="react-select--overwrite"
             classNamePrefix="react-select"
             name={materialType + '_id'}
-            options={materialOptions[materialType]}
-            value={OptionsDecorator.optionForValue(sample?.id, materialOptions[materialType])}
+            options={currentMaterialOptions}
+            value={OptionsDecorator.optionForValue(sample?.id, currentMaterialOptions)}
             onChange={(selected) =>
               handleMaterialChange(materialType)({
                 sampleId: selected.value,
                 label: selected.label,
               })
             }
+            isDisabled={!currentMaterialOptions.length}
           />
         </SingleLineFormGroup>
       )
-
     })
   }
 
