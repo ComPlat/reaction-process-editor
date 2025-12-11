@@ -9,6 +9,7 @@ function useReactionsFetcher() {
 
   return {
     index,
+    indexOf,
     svgImage,
     collectionSelectOptions,
     reactionSelectOptions,
@@ -36,6 +37,15 @@ function useReactionsFetcher() {
 
   function index() {
     var path = `/reactions`
+
+    if (localStorage.getItem('filter_collection_id')) {
+      path = path + '?' + new URLSearchParams({ collection_id: localStorage.getItem('filter_collection_id') })
+    }
+    return api.get(path);
+  }
+
+  function indexOf(name) {
+    var path = `/` + name
 
     if (localStorage.getItem('filter_collection_id')) {
       path = path + '?' + new URLSearchParams({ collection_id: localStorage.getItem('filter_collection_id') })
