@@ -48,8 +48,7 @@ function useActivityValidator() {
     let errors = [];
 
     let requiresVessel =
-      ['DEFINE_FRACTION', 'DISCARD', 'SAVE'].includes(action.activity_name)
-      || (action.workup['purification_type'] === 'FILTRATION')
+      ['DEFINE_FRACTION', 'DISCARD', 'SAVE', 'FILTRATION'].includes(action.activity_name)
 
     switch (action.activity_name) {
       case "ADD":

@@ -1,14 +1,26 @@
 import React, { useEffect } from 'react';
 
+import FiltrationForm from './purification/FiltrationForm';
+import ExtractionForm from './purification/ExtractionForm';
+import CrystallizationForm from './purification/CrystallizationForm';
+import ChromatographyForm from './purification/ChromatographyForm';
+import CentrifugationForm from './purification/CentrifugationForm';
+
+import AnalysisChromatographyForm from './analysis/AnalysisChromatographyForm';
+import AnalysisSpectroscopyForm from './analysis/AnalysisSpectroscopyForm';
+
 import ActivityForm from "../ActivityForm";
 import AddSampleForm from "./AddSampleForm";
-import AnalysisForm from "./AnalysisForm";
-import PurificationForm from "./PurificationForm";
-import RemoveForm from "./RemoveForm";
+
 import SaveSampleForm from "./SaveSampleForm";
 import TransferForm from "./TransferForm";
 import DefineFractionForm from './DefineFractionForm';
 import DiscardForm from './DiscardForm';
+import EvaporationForm from './EvaporationForm';
+import MixingForm from './MixingForm';
+import GasExchangeForm from './GasExchangeForm';
+import WaitForm from './WaitForm';
+
 
 import FractionFormGroup from '../formgroups/FractionFormGroup';
 
@@ -34,96 +46,160 @@ const ActionForm = (
 
   useEffect(() => {
     let ontologyValue = ontologyId.class[activity.activity_name]
-      || ontologyId.class[activity.workup?.purification_type]
-      || ontologyId.class[activity.workup?.analysis_type]
 
     onWorkupChange({ name: 'class', value: ontologyValue })
     // eslint-disable-next-line
   }, [activity.activity_name])
 
-
-  const customActivityForm = () => {
-    switch (actionTypeName) {
-      case "ADD":
-        return (
-          <AddSampleForm
-            workup={workup}
-            preconditions={preconditions}
-            onWorkupChange={onWorkupChange}
-          />
-        )
-      case "SAVE":
-        return (
-          <SaveSampleForm
-            workup={workup}
-            onWorkupChange={onWorkupChange}
-            reactionProcessVessel={activity.reaction_process_vessel}
-            onChangeVessel={onChangeVessel}
-          />
-        )
-      case "TRANSFER":
-        return (
-          <TransferForm
-            workup={workup}
-            onWorkupChange={onWorkupChange}
-            isPersisted={!!activity.id}
-          />
-        )
-      case "REMOVE":
-        return (
-          <RemoveForm
-            workup={workup}
-            preconditions={preconditions}
-            onWorkupChange={onWorkupChange}
-          />
-        )
-      case "PURIFICATION":
-        return (
-          <>
-            <PurificationForm
-              workup={workup}
-              onWorkupChange={onWorkupChange}
-              preconditions={preconditions}
-              reactionProcessVessel={activity.reaction_process_vessel}
-              onChangeVessel={onChangeVessel}
-            />
-          </>
-        )
-      case "ANALYSIS":
-        return (
-          <>
-            <AnalysisForm
-              workup={workup}
-              onWorkupChange={onWorkupChange}
-            />
-          </>
-        )
-      case "DISCARD":
-        return (
-          <DiscardForm
-            workup={workup}
-            onChangeVessel={onChangeVessel}
-            reactionProcessVessel={activity.reaction_process_vessel}
-          />
-        )
-      case "DEFINE_FRACTION":
-        return (
-          <DefineFractionForm
-            workup={workup}
-            onChangeVessel={onChangeVessel}
-            reactionProcessVessel={activity.reaction_process_vessel}
-          />
-        )
-      case "WAIT":
-        return (<></>)
-      default:
-        return (<div>Error in ActivityForm: Unknown action type '{actionTypeName}'</div>)
-    }
+  const customActivityFormSection = {
+    'ADD': AddSampleForm,
+    'SAVE': SaveSampleForm,
+    'TRANSFER': TransferForm,
+    'EVAPORATION': EvaporationForm,
+    'MIXING': MixingForm,
+    'GAS_EXCHANGE': GasExchangeForm,
+    'ANALYSIS_CHROMATOGRAPHY': AnalysisChromatographyForm,
+    'ANALYSIS_SPECTROSCOPY': AnalysisSpectroscopyForm,
+    'CHROMATOGRAPHY': ChromatographyForm,
+    'CENTRIFUGATION': CentrifugationForm,
+    'CRYSTALLIZATION': CrystallizationForm,
+    'EXTRACTION': ExtractionForm,
+    'FILTRATION': FiltrationForm,
+    'DEFINE_FRACTION': DefineFractionForm,
+    'WAIT': WaitForm,
+    'DISCARD': DiscardForm
   }
+
+
+  const renderCustomActivityForm = () => {
+
+    let CustomActivityForm = customActivityFormSection[activity.activity_name]
+
+    return CustomActivityForm ?
+      <CustomActivityForm
+        workup={workup}
+        onWorkupChange={onWorkupChange}
+        preconditions={preconditions}
+        reactionProcessVessel={activity.reaction_process_vessel}
+        onChangeVessel={onChangeVessel}
+        isPersisted={!!activity.id}
+      /> :
+      <>Activity of type {activity.activity_name} has no Form</>
+  }
+
+  // workup = { workup }
+  //             onWorkupChange={onWorkupChange}
+  //             preconditions={preconditions}
+  //             reactionProcessVessel={activity.reaction_process_vessel}
+  //             onChangeVessel={onChangeVessel}
+
+  //   switch (actionTypeName) {
+  //     case "ADD":
+  //       return (
+  //         <AddSampleForm
+  //           workup={workup}
+  //           preconditions={preconditions}
+  //           onWorkupChange={onWorkupChange}
+  //         />
+  //       )
+  //     case "SAVE":
+  //       return (
+  //         <SaveSampleForm
+  //           workup={workup}
+  //           onWorkupChange={onWorkupChange}
+  //           reactionProcessVessel={activity.reaction_process_vessel}
+  //           onChangeVessel={onChangeVessel}
+  //         />
+  //       )
+  //     case "TRANSFER":
+  //       return (
+  //         <TransferForm
+  //           workup={workup}
+  //           onWorkupChange={onWorkupChange}
+  //           isPersisted={!!activity.id}
+  //         />
+  //       )
+  //     case "EVAPORATION":
+  //       return (
+  //         <EvaporationForm
+  //           workup={workup}
+  //           preconditions={preconditions}
+  //           onWorkupChange={onWorkupChange}
+  //         />
+  //       )
+  //     case "GAS_EXCHANGE":
+  //       return (
+  //         <GasExchangeForm
+  //           workup={workup}
+  //           preconditions={preconditions}
+  //           onWorkupChange={onWorkupChange}
+  //         />
+  //       )
+  //     case "MIXING":
+  //       return (
+  //         <MixingForm
+  //           workup={workup}
+  //           preconditions={preconditions}
+  //           onWorkupChange={onWorkupChange}
+  //         />
+  //       )
+  //     case "REMOVE":
+  //       return (
+  //         <RemoveForm
+  //           workup={workup}
+  //           preconditions={preconditions}
+  //           onWorkupChange={onWorkupChange}
+  //         />
+  //       )
+  //     case "PURIFICATION":
+  //       return (
+  //         <>
+  //           <PurificationForm
+  //             workup={workup}
+  //             onWorkupChange={onWorkupChange}
+  //             preconditions={preconditions}
+  //             reactionProcessVessel={activity.reaction_process_vessel}
+  //             onChangeVessel={onChangeVessel}
+  //           />
+  //         </>
+  //       )
+  //     case "ANALYSIS":
+  //       return (
+  //         <>
+  //           <AnalysisForm
+  //             workup={workup}
+  //             onWorkupChange={onWorkupChange}
+  //           />
+  //         </>
+  //       )
+  //     case "DISCARD":
+  //       return (
+  //         <DiscardForm
+  //           workup={workup}
+  //           onChangeVessel={onChangeVessel}
+  //           reactionProcessVessel={activity.reaction_process_vessel}
+  //         />
+  //       )
+  //     case "DEFINE_FRACTION":
+  //       return (
+  //         <DefineFractionForm
+  //           workup={workup}
+  //           onChangeVessel={onChangeVessel}
+  //           reactionProcessVessel={activity.reaction_process_vessel}
+  //         />
+  //       )
+  //     case "WAIT":
+  //       return (<></>)
+  //     default:
+  //       return (<div>Error in ActivityForm: Unknown action type '{actionTypeName}'</div>)
+  //   }
+  // }
 
   const renderDeviceOntologiesForm = () => {
     const deviceFormIncluded = actionTypeName === 'ANALYSIS'
-      || (actionTypeName === 'PURIFICATION' && workup['purification_type'] === 'CHROMATOGRAPHY')
+      || actionTypeName === 'ANALYSIS_CHROMATOGRAPHY'
+      || actionTypeName === 'ANALYSIS_SPECTROSCOPY'
+      || actionTypeName === 'CHROMATOGRAPHY'
 
     return deviceFormIncluded ? <></> :
       <FormSection type="action">
@@ -140,12 +216,13 @@ const ActionForm = (
       onCancel={onCancel}
       onSave={onSave}
       onWorkupChange={onWorkupChange}
-      onChangeDuration={onChangeDuration}>
+      onChangeDuration={onChangeDuration} >
       <FractionFormGroup fraction={activity.consumed_fraction} />
       {renderDeviceOntologiesForm()}
-      {customActivityForm()}
-    </ActivityForm>
+      {renderCustomActivityForm()}
+    </ActivityForm >
   );
 };
+
 
 export default ActionForm;

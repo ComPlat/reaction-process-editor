@@ -71,10 +71,11 @@ export default class PurificationDecorator {
 
   };
 
-  static infoLinePurificationSolvents = (workup, purificationSolventOptions) => {
+  static infoLinePurificationSolvents = (activity, purificationSolventOptions) => {
     let infoLines = []
+    let workup = activity.workup
 
-    if (workup.purification_type === 'CRYSTALLIZATION') {
+    if (activity.activity_name === 'CRYSTALLIZATION') {
       infoLines.push(PurificationDecorator.infoLineSolvents(workup.solvents, purificationSolventOptions))
     } else { }
     let steps = workup["purification_steps"];

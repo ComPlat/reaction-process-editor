@@ -29,16 +29,35 @@ export const actionTypeClusters = [[
 
   {
     id: 'remove_exchange',
-    label: 'Remove / Exchange',
+    label: 'Exchange / Remove',
     actions: [
       {
         id: 'remove_exchange_sample',
-        createLabel: 'Remove',
+        createLabel: 'Evaporate',
         activity: {
-          activity_name: 'REMOVE',
+          activity_name: 'EVAPORATION',
           workup: { origin_type: 'FROM_REACTION', automation_mode: ontologyAutomated, }
         }
       },
+      {
+        id: 'remove_exchange_sample',
+        createLabel: 'Gas Exchange',
+        activity: {
+          activity_name: 'GAS_EXCHANGE',
+          workup: { automation_mode: ontologyAutomated, }
+        }
+      },
+    ]
+  },
+  {
+    id: 'combine',
+    label: 'Combine',
+    actions: [
+      {
+        id: 'mixing',
+        createLabel: 'Mixing',
+        activity: { activity_name: 'MIXING', workup: { automation_mode: ontologyAutomated, } }
+      }
     ]
   },
   {
@@ -82,9 +101,8 @@ export const actionTypeClusters = [[
         id: 'analysis_chromatography',
         createLabel: 'Chromatography',
         activity: {
-          activity_name: 'ANALYSIS',
+          activity_name: 'ANALYSIS_CHROMATOGRAPHY',
           workup: {
-            analysis_type: 'CHROMATOGRAPHY',
             automation_mode: ontologyAutomated,
             AUTOMATION_STATUS: 'HALT',
           }
@@ -94,10 +112,9 @@ export const actionTypeClusters = [[
         id: 'analysis_spectroscopy',
         createLabel: 'Spectroscopy',
         activity: {
-          activity_name: 'ANALYSIS',
+          activity_name: 'ANALYSIS_SPECTROSCOPY',
           workup: {
             automation_mode: ontologyAutomated,
-            analysis_type: 'SPECTROSCOPY'
           }
         }
       },
@@ -112,9 +129,8 @@ export const actionTypeClusters = [[
         id: 'filtration',
         createLabel: 'Filtration',
         activity: {
-          activity_name: 'PURIFICATION',
+          activity_name: 'FILTRATION',
           workup: {
-            purification_type: 'FILTRATION',
             automation_mode: ontologyAutomated,
             filtration_mode: 'KEEP_PRECIPITATE'
           }
@@ -124,9 +140,8 @@ export const actionTypeClusters = [[
         id: 'extraction',
         createLabel: 'Extraction',
         activity: {
-          activity_name: 'PURIFICATION',
+          activity_name: 'EXTRACTION',
           workup: {
-            purification_type: 'EXTRACTION',
             automation_mode: ontologyAutomated,
             phase: 'ORGANIC'
           }
@@ -136,9 +151,8 @@ export const actionTypeClusters = [[
         id: 'chromatography',
         createLabel: 'Chromatography',
         activity: {
-          activity_name: 'PURIFICATION',
+          activity_name: 'CHROMATOGRAPHY',
           workup: {
-            purification_type: 'CHROMATOGRAPHY', // supportive? soon unused?
             automation_mode: ontologyAutomated,
             AUTOMATION_STATUS: 'HALT',
           }
@@ -148,9 +162,8 @@ export const actionTypeClusters = [[
         id: 'crystallization',
         createLabel: 'Crystallization',
         activity: {
-          activity_name: 'PURIFICATION',
+          activity_name: 'CRYSTALLIZATION',
           workup: {
-            purification_type: 'CRYSTALLIZATION',
             automation_mode: ontologyAutomated,
           }
         }
@@ -159,9 +172,8 @@ export const actionTypeClusters = [[
         id: 'centrifugation',
         createLabel: 'Centrifugation',
         activity: {
-          activity_name: 'PURIFICATION',
+          activity_name: 'CENTRIFUGATION',
           workup: {
-            purification_type: 'CENTRIFUGATION',
             automation_mode: ontologyAutomated,
           }
         }

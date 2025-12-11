@@ -23,7 +23,7 @@ const FiltrationStepForm = ({
 }) => {
   const subFormController = useContext(SubFormController);
   const selectOptions = useContext(SelectOptions);
-  const solventOptions = selectOptions.FORMS.PURIFICATION.FILTRATION.solvents;
+  const solventOptions = selectOptions.FORMS.FILTRATION.solvents;
 
   const initialFormData = {
     duration: workup.duration || 0,

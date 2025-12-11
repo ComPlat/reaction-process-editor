@@ -24,7 +24,7 @@ const FiltrationForm = (
     onDeleteStep
   }) => {
 
-  const filtrationOptions = useContext(SelectOptions).FORMS.PURIFICATION.FILTRATION
+  const filtrationOptions = useContext(SelectOptions).FORMS.FILTRATION
 
   const renderFilterMethodToggle = () => {
     return (

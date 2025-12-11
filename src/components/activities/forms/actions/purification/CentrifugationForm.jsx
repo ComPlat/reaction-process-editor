@@ -18,7 +18,7 @@ const CentrifugationForm = (
     onWorkupChange,
   }) => {
 
-  const centrifugationOptions = useContext(SelectOptions).FORMS.PURIFICATION.CENTRIFUGATION
+  const centrifugationOptions = useContext(SelectOptions).FORMS.CENTRIFUGATION
 
   useEffect(() => {
     centrifugationFormMetricNames.forEach(metricName => {

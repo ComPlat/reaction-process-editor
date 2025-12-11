@@ -42,7 +42,7 @@ const SaveSampleForm = ({ workup, onWorkupChange, reactionProcessVessel, onChang
 
   const currentOriginAction = OptionsDecorator.optionForValue(workup.sample_origin_action_id, saveSampleOptions.origins)
 
-  const purificationStepFormIsDisabled = currentOriginAction?.purification_type === 'CRYSTALLIZATION'
+  const purificationStepFormIsDisabled = currentOriginAction?.activity_name === 'CRYSTALLIZATION'
 
   const renderStepSelect = () => {
     return (<>

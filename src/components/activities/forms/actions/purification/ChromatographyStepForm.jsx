@@ -24,7 +24,7 @@ const ChromatographyStepForm = ({
   initialShowForm,
   disabled
 }) => {
-  const chromatographyOptions = useContext(SelectOptions).FORMS.PURIFICATION.CHROMATOGRAPHY;
+  const chromatographyOptions = useContext(SelectOptions).FORMS.CHROMATOGRAPHY;
   const subFormController = useContext(SubFormController);
 
   const initialFormData = {

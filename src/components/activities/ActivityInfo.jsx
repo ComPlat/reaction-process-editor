@@ -1,7 +1,10 @@
 import React, { useContext } from "react";
 
 import AddInfo from "./forms/actions/info/AddInfo";
-import AnalysisInfo from "./forms/actions/info/AnalysisInfo";
+
+import AnalysisChromatographyInfo from "./forms/actions/info/AnalysisChromatographyInfo";
+import AnalysisSpectroscopyInfo from "./forms/actions/info/AnalysisSpectroscopyInfo";
+
 import ConditionInfo from "./forms/actions/info/ConditionInfo";
 import DiscardInfo from "./forms/actions/info/DiscardInfo";
 import PurificationInfo from "./forms/actions/info/PurificationInfo";
@@ -25,9 +28,14 @@ const ActivityInfo = (props) => {
 
     let ActivityInfoComponent = {
       'ADD': AddInfo,
-      'ANALYSIS': AnalysisInfo,
+      'ANALYSIS_CHROMATOGRAPHY': AnalysisChromatographyInfo,
+      'ANALYSIS_SPECTROSCOPY': AnalysisSpectroscopyInfo,
       'CONDITION': ConditionInfo,
-      'PURIFICATION': PurificationInfo,
+      'CENTRIFUGATION': PurificationInfo,
+      'CRYSTALLIZATION': PurificationInfo,
+      'CHROMATOGRAPHY': PurificationInfo,
+      'FILTRATION': PurificationInfo,
+      'EXTRACTION': PurificationInfo,
       'REMOVE': RemoveInfo,
       'SAVE': SaveInfo,
       'TRANSFER': TransferInfo,

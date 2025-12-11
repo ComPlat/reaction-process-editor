@@ -20,7 +20,7 @@ const ExtractionForm = ({
   onCancelStep,
   onDeleteStep
 }) => {
-  const extractionOptions = useContext(SelectOptions).FORMS.PURIFICATION.EXTRACTION;
+  const extractionOptions = useContext(SelectOptions).FORMS.EXTRACTION;
 
   const renderAutomationToggle = () => {
     return (

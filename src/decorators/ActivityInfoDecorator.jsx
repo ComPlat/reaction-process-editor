@@ -11,7 +11,7 @@ export default class ActivityInfoDecorator {
     if (workup && !!Object.keys(workup).length) {
       switch (activity.activity_name) {
         case "PURIFICATION":
-          title = 'Purification ' + this.toLabel(workup.purification_type);
+          title = 'Purification ' + this.toLabel(activity.activity_name);
           break;
         case "CONDITION":
           title = "Change Condition";

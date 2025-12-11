@@ -15,7 +15,7 @@ import { SelectOptions } from '../../../../../contexts/SelectOptions';
 
 import { ontologyId } from '../../../../../constants/ontologyId'
 
-const SpectroscopyForm = ({ workup, onWorkupChange }) => {
+const AnalysisSpectroscopyForm = ({ workup, onWorkupChange }) => {
 	const ontologies = useContext(SelectOptions).ontologies
 	const molecularEntitiesOptions = useContext(SelectOptions).materials['MOLECULAR_ENTITY']
 
@@ -94,4 +94,4 @@ const SpectroscopyForm = ({ workup, onWorkupChange }) => {
 	)
 }
 
-export default SpectroscopyForm
+export default AnalysisSpectroscopyForm

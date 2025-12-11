@@ -21,7 +21,7 @@ const ExtractionStepForm = ({
   canDelete,
   initialShowForm
 }) => {
-  const extractionOptions = useContext(SelectOptions).FORMS.PURIFICATION.EXTRACTION;
+  const extractionOptions = useContext(SelectOptions).FORMS.EXTRACTION;
   const subFormController = useContext(SubFormController);
 
   const initialFormData = {
