@@ -51,10 +51,10 @@ const SampleNavbar = ({ reactionProcess }) => {
       <div className="reaction-header">
         <Navbar className="reaction-navbar bg-preparation" >
           <NavbarBrand>
-            <span className="h3 reaction-name">
+            <span className="h3 reaction-id">
               Sample id {sample.id}: {sample.short_label}
             </span>
-            <span className="reaction-id"> {sample.preferred_label}</span>
+            <span className="reaction-name"> {sample.name}</span>
           </NavbarBrand>
           <Nav className="reaction-navbar bg-preparation" >
             <ReactionConditionsFormButton

@@ -46,7 +46,7 @@ const OptionsQuickNavigator = ({ options, label }) => {
     return (
       <UncontrolledDropdown nav>
         <DropdownToggle nav caret>
-          {filteredOptions[0]?.label}
+          {label}
           {' '}
           ({filteredOptions.length})
         </DropdownToggle>

@@ -51,6 +51,7 @@ const StepColumCard = ({ processStep, reactionProcess, previousStep, onCancel })
   const hasChanges = (stepName, reactionProcessVessel, automationStatus) => {
     return stepName !== processStep?.name
       || reactionProcessVessel?.vesselable_id !== processStep?.reaction_process_vessel?.vesselable_id
+      || reactionProcessVessel?.cleanup !== processStep?.reaction_process_vessel?.cleanup
       || automationStatus !== processStep?.automation_status
   }
 

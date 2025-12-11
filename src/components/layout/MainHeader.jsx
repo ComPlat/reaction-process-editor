@@ -29,6 +29,9 @@ const MainHeader = () => {
   const reactionApi = useReactionsFetcher();
 
   const [reactionOptions, setReactionOptions] = useState([]);
+  const [sampleOptions, setSampleOptions] = useState([]);
+
+
   const [collectionOptions, setCollectionOptions] = useState([]);
   const [selectOptions, setSelectOptions] = useState([]);
   const [userDefaultConditions, setUserDefaultConditions] = useState([]);
@@ -43,61 +46,67 @@ const MainHeader = () => {
     }
     if (localStorage.getItem("bearer_auth_token")) {
       fetchCollectionOptions();
-      fetchReactionOptions();
+      fetchReactionAndSamplesOptions();
       fetchUserDefaultConditions();
     }
-    window.addEventListener("indexRequiresReload", fetchReactionOptions);
+    window.addEventListener("indexRequiresReload", fetchReactionAndSamplesOptions);
     window.addEventListener(
       "userDefaultConditionsRequiresReload",
       fetchUserDefaultConditions
     );
     return () => {
-      window.removeEventListener("indexRequiresReload", fetchReactionOptions);
+      window.removeEventListener("indexRequiresReload", fetchReactionAndSamplesOptions);
       window.removeEventListener(
         "userDefaultConditionsRequiresReload",
         fetchUserDefaultConditions
       );
     };
-
-    // React's state model requires `fetchReactionOptions` in the dependencies array to assert state consistency.
-    // When done however it will be called every time when dependencies are checked (i.e. after refetch),
-    // triggering another refetch (endless loop).
-    // Wrapping fetchReactionOptions in a useCallback as recommended by the React guidelines
-    // does not work either as it depends on the api = useReactionsFetcher(),
-    // which then again can not be used in hooks as useReactionsFetcher() is a hook itself.
-    //
-    // We ignore the warnings which is recommended only when you know exactly what you are doing which I do not. cbuggle.
     // eslint-disable-next-line
   }, [location, auth_token]);
 
-  // Hardcoded routes are ok for now.
-  const reactionLinkTarget = (id) => {
-    return "/reactions/" + id;
+  const fetchReactionAndSamplesOptions = () => {
+    fetchReactionsOptions();
+    fetchSamplesOptions();
   };
 
-  const sampleLinkTarget = (id) => {
-    return "/samples/" + id;
-  };
+  const linkTarget = (model, id) => {
+    if (['reactions', 'samples'].includes(model)) {
+      return "/" + model + "/" + id
+    }
+  }
 
-  const reactionIndexLinkTarget = "/reactions";
+  const reactionsIndexPath = (model) => "/reactions"
 
-  const fetchReactionOptions = () => {
-    reactionApi.index().then((data) => {
-      if (data && data["reactions"]) {
-        // setReactions(data["reactions"]);
-        const options = data["reactions"].map(({ id, short_label }) => ({
+  const fetchReactionsOptions = () => {
+    let model = "reactions"
+    reactionApi.indexOf(model).then((data) => {
+      if (data && data[model]) {
+
+        const options = data[model].map(({ id, short_label }) => ({
           key: id,
-          path: reactionLinkTarget(id),
+          path: linkTarget(model, id),
           label: id + ": " + short_label,
         }));
-        options.unshift({
-          key: "index",
-          path: reactionIndexLinkTarget,
-          label: "Reaction Index",
-        });
-        setReactionOptions(options);
+        setReactionOptions(options)
       }
-    });
+    })
+
+  };
+  const fetchSamplesOptions = () => {
+    let model = "samples"
+    reactionApi.indexOf(model).then((data) => {
+      if (data && data[model]) {
+        console.log(data)
+
+        const options = data[model].map(({ id, external_label }) => ({
+          key: id,
+          path: linkTarget(model, id),
+          label: id + ": " + external_label,
+        }));
+        setSampleOptions(options);
+      }
+    })
+
   };
 
   const fetchCollectionOptions = () => {
@@ -127,12 +136,6 @@ const MainHeader = () => {
   const brandHref = () => {
     return localStorage.getItem("username") ? "/reactions" : "/";
   };
-
-  const sampleOptions = selectOptions.samples?.map(({ id, label }) => ({
-    key: id,
-    path: sampleLinkTarget(id),
-    label: id + ": " + label,
-  })) || [];
 
   return (
     <SelectOptions.Provider value={selectOptions}>
@@ -168,6 +171,13 @@ const MainHeader = () => {
                     Reactions ({reactionOptions.length})
                   </DropdownToggle>
                   <DropdownMenu>
+                    <DropdownItem
+                      key={"reactions-index-link"}
+                      tag={Link}
+                      to={reactionsIndexPath()}
+                    >
+                      Reactions
+                    </DropdownItem>
                     {reactionOptions.map((reaction) => (
                       <DropdownItem
                         key={reaction.key}

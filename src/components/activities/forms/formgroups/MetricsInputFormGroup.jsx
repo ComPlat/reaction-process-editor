@@ -91,10 +91,10 @@ const MetricsInputFormGroup = (
   const renderInputs = () => {
     return (
       <Row className='gx-2'>
-        <Col md={5}>
+        <Col md={6}>
           {renderValueInput()}
         </Col >
-        <Col md={7}>
+        <Col md={6}>
           {renderUnitInput()}
         </Col>
       </Row >

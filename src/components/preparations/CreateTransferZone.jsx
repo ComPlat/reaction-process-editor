@@ -53,7 +53,7 @@ const CreateTransferZone = () => {
           <>
             <Button
               color='transparent'
-              className='insert-zone__reveal-creator-button'
+              className='insert-zone__visible-creator-button'
               onClick={toggleShowCreator}
             >
               + Transfer
