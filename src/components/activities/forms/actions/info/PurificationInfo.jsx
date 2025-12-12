@@ -8,7 +8,7 @@ import PurificationDecorator from '../../../../../decorators/PurificationDecorat
 import { SelectOptions } from "../../../../../contexts/SelectOptions";
 
 import ActivityInfoDecorator from '../../../../../decorators/ActivityInfoDecorator';
-import OntologiesDecorator from '../../../../../decorators/OntologiesDecorator';
+// import OntologiesDecorator from '../../../../../decorators/OntologiesDecorator';
 
 const PurificationInfo = ({ activity, preconditions }) => {
 
@@ -17,18 +17,18 @@ const PurificationInfo = ({ activity, preconditions }) => {
 	let workup = activity.workup
 	let steps = workup["purification_steps"];
 
-	const purificationOptions = useContext(SelectOptions).FORMS.PURIFICATION[workup.purification_type];
-	const selectOptions = useContext(SelectOptions);
+	const purificationOptions = useContext(SelectOptions).FORMS[activity.activity_name];
+	// const selectOptions = useContext(SelectOptions);
 
-	const addOntologyAutomationToTitle = () => {
-		infoTitle += " "
-		infoTitle += OntologiesDecorator.labelForOntologyId({ ontologyId: workup.automation_mode, ontologies: selectOptions.ontologies })
-	}
+	// const addOntologyAutomationToTitle = () => {
+	// 	infoTitle += " "
+	// 	infoTitle += OntologiesDecorator.labelForOntologyId({ ontologyId: workup.automation_mode, ontologies: selectOptions.ontologies })
+	// }
 
-	const addAutomationToTitle = () => {
-		infoTitle += " "
-		infoTitle += OptionsDecorator.valueToLabel(workup.automation_mode, purificationOptions.automation_modes)
-	}
+	// const addAutomationToTitle = () => {
+	// 	infoTitle += " "
+	// 	infoTitle += OptionsDecorator.valueToLabel(workup.automation_mode, purificationOptions.automation_modes)
+	// }
 
 	const addStepsToTitle = () => {
 		if (steps) {
@@ -38,39 +38,39 @@ const PurificationInfo = ({ activity, preconditions }) => {
 	}
 
 	const addPurificationSolventsToLines = () => {
-		infoLines = infoLines.concat(PurificationDecorator.infoLinePurificationSolvents(workup, purificationOptions.solvents))
+		infoLines = infoLines.concat(PurificationDecorator.infoLinePurificationSolvents(activity, purificationOptions.solvents))
 	}
 
 	const addConditionsToLines = () => infoLines.push(ActivityInfoDecorator.infoLineSampleCondition(workup))
 
-	switch (workup.purification_type) {
+	switch (activity.activity_name) {
 		case "CENTRIFUGATION":
-			addOntologyAutomationToTitle()
+			// addOntologyAutomationToTitle()
 			addConditionsToLines()
 			break;
 		case "CRYSTALLIZATION":
-			addAutomationToTitle()
+			// addAutomationToTitle()
 			addPurificationSolventsToLines()
 			break;
 		case "CHROMATOGRAPHY":
 			addStepsToTitle()
-			addOntologyAutomationToTitle()
+			// addOntologyAutomationToTitle()
 			addPurificationSolventsToLines()
 			break;
 		case "EXTRACTION":
 			addStepsToTitle()
-			infoTitle += " " + workup.automation_mode?.toLowerCase() + ", Phase: " + workup.phase?.toLowerCase();
+			// infoTitle += " " + workup.automation_mode?.toLowerCase() + ", Phase: " + workup.phase?.toLowerCase();
 			addPurificationSolventsToLines()
 			break;
 		case "FILTRATION":
 			addStepsToTitle()
-			addAutomationToTitle()
+			// addAutomationToTitle()
 			infoTitle += " Keep " + OptionsDecorator.valueToLabel(workup.filtration_mode, purificationOptions.modes
 			);
 			addPurificationSolventsToLines()
 			break;
 		default:
-			infoTitle = "Error in PurificationInfo: Unknown type: " + workup.purification_type
+			infoTitle = "Error in PurificationInfo: Unknown type: " + activity.activity_name
 			break;
 	}
 
