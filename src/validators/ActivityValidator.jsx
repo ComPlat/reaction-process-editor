@@ -13,12 +13,6 @@ function useActivityValidator() {
     validateStep
   };
 
-  function errorsOnAdd(action) {
-    let errors = [];
-    action.workup["sample_id"] || errors.push("Sample");
-    return errors;
-  }
-
 
   function errorsOnTransfer(action) {
     let errors = [];
@@ -51,9 +45,6 @@ function useActivityValidator() {
       ['DEFINE_FRACTION', 'DISCARD', 'SAVE', 'FILTRATION'].includes(action.activity_name)
 
     switch (action.activity_name) {
-      case "ADD":
-        errors.push(...errorsOnAdd(action));
-        break;
       case "TRANSFER":
         errors.push(...errorsOnTransfer(action));
         break;

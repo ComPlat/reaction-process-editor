@@ -87,14 +87,12 @@ const ActionForm = (
       <>Activity of type {activity.activity_name} has no Form</>
   }
   const renderDeviceOntologiesForm = () => {
-    const deviceFormIncluded = ['ANALYSIS', 'ANALYSIS_CHROMATOGRAPHY', 'ANALYSIS_SPECTROSCOPY', 'CHROMATOGRAPHY'].includes(actionTypeName)
+    const deviceFormIncluded = ['ANALYSIS_CHROMATOGRAPHY', 'ANALYSIS_SPECTROSCOPY', 'CHROMATOGRAPHY'].includes(actionTypeName)
 
     return deviceFormIncluded ? <></> :
-      <FormSection type="action">
-        <DeviceMethodFormSet
-          activity={activity}
-          onWorkupChange={onWorkupChange} />
-      </FormSection>
+      <DeviceMethodFormSet
+        activity={activity}
+        onWorkupChange={onWorkupChange} />
   }
 
   return (
