@@ -45,9 +45,15 @@ const DeviceMethodFormSet = ({
 		onWorkupChange({ name: 'method', value: method?.value })
 	}
 
+	// console.log("typesMatchingDetectors")
+	// console.log(ontologiesByRoleName('type'))
+	// console.log(workup.detectors)
+	const typesMatchingDetectors =
+		ontologiesByRoleName('type').filter(st => st.detectors.includes(workup.detectors))
+
 	const currentDeviceOption = OptionsDecorator.inclusiveOptionForValue(workup.device, ontologies)
 
-	const requiresTypeSubtypeForm = ['ADD', 'TRANSFER'].includes(activity.activity_name)
+	const requiresTypeSubtypeForm = ['ADD', 'TRANSFER', 'MIXING'].includes(activity.activity_name)
 
 	return (
 		<>
@@ -65,6 +71,7 @@ const DeviceMethodFormSet = ({
 					roleName={'type'}
 					workup={workup}
 					onChange={handleChangeType}
+				// options={typesMatchingDetectors}
 				/>
 				<OntologySelectFormGroup
 					key={"subtype" + workup.subtype + "type" + workup.type}

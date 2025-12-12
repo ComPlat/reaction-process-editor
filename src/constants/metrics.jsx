@@ -60,6 +60,11 @@ export const metrics = {
     defaultUnit: 'RPM',
     units: ['RPM']
   },
+  'SPEED': {
+    label: 'Speed',
+    defaultUnit: 'RPM',
+    units: ['RPM']
+  },
   'DURATION': {
     label: 'Duration',
     defaultUnit: 'MINUTES',
@@ -256,7 +261,7 @@ export const unitTypes = {
   },
   'RPM': {
     label: 'rpm',
-    inputRange: { min: 0, max: 9999, precision: 2, step: 100, initialstep: 500, },
+    inputRange: { min: 0, max: 9999, precision: 0, step: 100, initialstep: 500, },
     fromBase: (value) => value,
     toBase: (value) => value,
   },
