@@ -1,4 +1,5 @@
 import React from 'react'
+import MetricsInputFormGroup from '../formgroups/MetricsInputFormGroup'
 
 const MixingForm = ({ workup, onWorkupChange }) => {
 
@@ -8,7 +9,7 @@ const MixingForm = ({ workup, onWorkupChange }) => {
 
 	return (
 		<>
-			<handleWorkupChange
+			<MetricsInputFormGroup
 				key={'SPEED'}
 				metricName={'SPEED'}
 				amount={workup.speed}
