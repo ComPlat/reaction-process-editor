@@ -13,6 +13,7 @@ const GasExchangeForm = ({ workup, onWorkupChange }) => {
 
 	return (
 		<SolventListFormGroup
+			label={"Gas"}
 			solvents={workup.gas_type}
 			solventOptions={solventOptions}
 			setSolvents={selected => onWorkupChange({ name: 'gas_type', value: selected })}

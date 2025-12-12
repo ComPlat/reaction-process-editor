@@ -24,8 +24,6 @@ function useActivityValidator() {
   function errorsOnVessel(vessel) {
     let errors = [];
 
-    // vessel?.vesselable_id || errors.push("Vessel must be defined")
-    // vessel?.cleanup || errors.push("Vessel Cleanup must be defined")
     return errors;
   }
 
