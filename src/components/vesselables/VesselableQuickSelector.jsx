@@ -25,18 +25,22 @@ const VesselableQuickSelector = ({
   const vesselMatchesQuery = (vessel) => {
     return vessel.short_label?.toLowerCase().match(vesselQuery?.toLowerCase())
       || vessel.material_type?.toLowerCase().match(vesselQuery?.toLowerCase())
+      || vessel.name?.toLowerCase().match(vesselQuery?.toLowerCase())
   }
 
   const filteredVesselableOptions = vesselables.filter(vessel => vesselMatchesQuery(vessel))
 
   const currentVesselSuggestion =
-    filteredVesselableOptions.find(v => v.id === currentVesselable?.id)
-    || filteredVesselableOptions[0]
+    vesselQuery.length > 0 ?
+      filteredVesselableOptions.find(v => v.id === currentVesselable?.id)
+      || filteredVesselableOptions[0]
+      :
+      undefined
 
   const suggestionUnique = filteredVesselableOptions.length === 1
 
   const selectFirstVessel = () => {
-    onSelectVesselable(filteredVesselableOptions[0])
+    onSelectVesselable(currentVesselSuggestion)
   }
 
   const handleVesselInputKeyUp = (event) => {
@@ -52,7 +56,7 @@ const VesselableQuickSelector = ({
   const renderVesselSelectSubmitButton = () => {
     return (
       <Button onClick={selectFirstVessel} color={typeColor} disabled={!suggestionUnique} >
-        {filteredVesselableOptions[0].label}
+        {currentVesselSuggestion.label}
       </Button >
     )
   }
@@ -68,6 +72,7 @@ const VesselableQuickSelector = ({
         value={currentVesselSuggestion}
         onChange={handleSelectVesselable}
         disabled={currentVesselSuggestion?.id === currentVesselable?.id}
+        placeholder={"Select Vessel"}
       />
     )
   }

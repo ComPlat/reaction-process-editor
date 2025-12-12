@@ -173,6 +173,7 @@ const StepColumCard = ({ processStep, reactionProcess, previousStep, onCancel })
                   nameSuggestionOptions={
                     reactionProcess.select_options.step_name_suggestions
                   }
+                  initialSampleVessel={reactionProcess.reaction_process_vessel}
                   onSave={handleSave}
                   onCancel={handleCancel}
                 />

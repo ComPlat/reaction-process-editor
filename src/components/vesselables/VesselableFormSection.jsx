@@ -9,12 +9,13 @@ import VesselableQuickSelector from "./VesselableQuickSelector";
 import { SelectOptions } from "../../contexts/SelectOptions";
 import { VesselOptions } from "../../contexts/VesselOptions";
 import OptionsDecorator from "../../decorators/OptionsDecorator";
-import { Button, Label } from "reactstrap";
+import { Button } from "reactstrap";
 
 const VesselableFormSection = ({
   onChange,
   reactionProcessVessel,
   reactionProcessVesselSuggestion,
+  initialSampleVessel,
   typeColor,
 }) => {
   const selectOptions = useContext(SelectOptions);
@@ -52,13 +53,13 @@ const VesselableFormSection = ({
   const renderVesselSuggestion = () => {
     return (reactionProcessVesselSuggestion ?
       <div className="d-flex justify-content-between align-self-center">
-        <Label className={"col-form-label"}        >
-          Previous: {VesselableDecorator.vesselableSingleLine(reactionProcessVesselSuggestion.vesselable)}
-        </Label>
+        <div className="col-form-label">
+          {VesselableDecorator.vesselableSingleLine(reactionProcessVesselSuggestion.vesselable)}
+        </div>
         <div className="optional-form-group__open-controls">
           <div className="d-grid gap-2">
             <Button size={'sm'} color={'step'} onClick={() => assignVesselable(reactionProcessVesselSuggestion.vesselable)} >
-              Use
+              Use Previous
             </Button>
           </div>
         </div>
@@ -66,10 +67,30 @@ const VesselableFormSection = ({
       : <></>
     )
   }
+  const renderInitialSampleVesselSuggestion = () => {
+    return (initialSampleVessel ?
+      <div className="d-flex justify-content-between align-self-center">
+        <div className="col-form-label">
+          {VesselableDecorator.vesselableSingleLine(initialSampleVessel.vesselable)}
+        </div>
+        <div className="optional-form-group__open-controls">
+          <div className="d-grid gap-2">
+            <Button size={'sm'} color={'step'} onClick={() => assignVesselable(initialSampleVessel.vesselable)} >
+              Use Initial
+            </Button>
+          </div>
+        </div>
+      </div >
+      : <></>
+    )
+  }
 
   return (
     <>
       <MultiInputFormGroup label={VesselableDecorator.vesselableType(currentVesselable)} typeColor={typeColor}>
+        <div className="pt-1 mb-3">
+          {renderInitialSampleVesselSuggestion()}
+        </div>
         <div className="pt-1 mb-3">
           {renderVesselSuggestion()}
         </div>

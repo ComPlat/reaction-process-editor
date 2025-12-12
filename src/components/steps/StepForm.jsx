@@ -6,7 +6,7 @@ import VesselableFormSection from "../vesselables/VesselableFormSection";
 import StepAutomationStatusFormGroup from "../activities/forms/formgroups/StepAutomationStatusFormGroup";
 import { useActivityValidator } from "../../validators/ActivityValidator";
 
-const StepForm = ({ processStep, previousStep, nameSuggestionOptions, onSave, onCancel }) => {
+const StepForm = ({ processStep, previousStep, nameSuggestionOptions, onSave, onCancel, initialSampleVessel }) => {
 
   const [stepName, setStepName] = useState(processStep?.name || "");
   const [automationStatus, setAutomationStatus] = useState(processStep?.automation_status);
@@ -32,6 +32,7 @@ const StepForm = ({ processStep, previousStep, nameSuggestionOptions, onSave, on
       <VesselableFormSection
         onChange={setReactionProcessVessel}
         reactionProcessVessel={reactionProcessVessel}
+        initialSampleVessel={initialSampleVessel}
         reactionProcessVesselSuggestion={previousStep?.reaction_process_vessel}
         typeColor="step"
         label={"Step" + (stepName ? ' "' + stepName + '"' : "")}
