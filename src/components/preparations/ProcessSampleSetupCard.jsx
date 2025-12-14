@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 
 import ProcedureCard from "../utilities/ProcedureCard";
 
@@ -19,14 +19,18 @@ import { useReactionsFetcher } from "../../fetchers/ReactionsFetcher";
 const ProcessSampleSetupCard = ({ reactionProcess }) => {
   const api = useReactionsFetcher()
   const selectOptions = useContext(SelectOptions);
-
-  const currentSample = reactionProcess.sample || {};
+  const vesselPreparationOptions = selectOptions.vessel_preparations.preparation_types
+  const [showForm, setShowForm] = useState(false);
 
   const [reactionProcessVessel, setReactionProcessVessel] = useState(reactionProcess.reaction_process_vessel);
 
-  const vesselPreparationOptions = selectOptions.vessel_preparations.preparation_types || {};
+  const currentSample = reactionProcess.sample || {};
 
-  const [showForm, setShowForm] = useState(false);
+  useEffect(() => {
+    setReactionProcessVessel(reactionProcess.reaction_process_vessel)
+  }, [reactionProcess.reaction_process_vessel])
+
+
 
   const handleSave = () => {
     api.updateReactionProcess(reactionProcess.id,

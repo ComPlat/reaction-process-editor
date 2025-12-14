@@ -33,7 +33,7 @@ const StepForm = ({ processStep, previousStep, nameSuggestionOptions, onSave, on
         onChange={setReactionProcessVessel}
         reactionProcessVessel={reactionProcessVessel}
         initialSampleVessel={initialSampleVessel}
-        reactionProcessVesselSuggestion={previousStep?.reaction_process_vessel}
+        previousStepVessel={previousStep?.reaction_process_vessel}
         typeColor="step"
         label={"Step" + (stepName ? ' "' + stepName + '"' : "")}
       />
