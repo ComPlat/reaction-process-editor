@@ -63,7 +63,7 @@ const AddSampleForm = ({ workup, preconditions, onWorkupChange }) => {
       let deviceOption = OptionsDecorator.optionForValue(workup.device, selectOptions.ontologies)
       return deviceOption?.mobile_phase || []
     } else {
-      return materialOptions[acts_as]
+      return materialOptions[acts_as] || []
     }
   }
 
