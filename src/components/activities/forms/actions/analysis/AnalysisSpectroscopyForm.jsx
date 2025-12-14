@@ -16,10 +16,11 @@ import { SelectOptions } from '../../../../../contexts/SelectOptions';
 import { ontologyId } from '../../../../../constants/ontologyId'
 
 const AnalysisSpectroscopyForm = ({ workup, onWorkupChange }) => {
-	const ontologies = useContext(SelectOptions).ontologies
+	const selectOptions = useContext(SelectOptions)
 	const molecularEntitiesOptions = useContext(SelectOptions).materials['MOLECULAR_ENTITY']
 
-	const filteredOntologiesByRoleName = (roleName) => OntologiesDecorator.activeOptionsForWorkupDependencies({ roleName: roleName, options: ontologies, workup: workup })
+	const filteredOntologiesByRoleName = (roleName) =>
+		OntologiesDecorator.activeOptionsForWorkupDependencies({ roleName: roleName, options: selectOptions.ontologies, workup: workup })
 
 	const handleWorkupChange = (workupKey) => (value) => onWorkupChange({ name: workupKey, value: value })
 
@@ -39,7 +40,7 @@ const AnalysisSpectroscopyForm = ({ workup, onWorkupChange }) => {
 		onWorkupChange({ name: 'subtype', value: newSubType?.value })
 	}
 
-	const solventOptions = OptionsDecorator.optionForValue(workup.device, ontologies)?.mobile_phase || []
+	const solventOptions = OptionsDecorator.optionForValue(workup.device, selectOptions.ontologies)?.mobile_phase || []
 
 	return (
 		<FormSection>
@@ -49,6 +50,7 @@ const AnalysisSpectroscopyForm = ({ workup, onWorkupChange }) => {
 					isMulti
 					isClearable={false}
 					samples={workup.samples}
+					options={selectOptions.materials['SAMPLE']}
 					onChange={handleWorkupChange('samples')}
 				/>
 			</FormGroup>
