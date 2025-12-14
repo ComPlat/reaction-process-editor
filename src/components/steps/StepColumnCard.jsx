@@ -41,16 +41,12 @@ const StepColumCard = ({ processStep, reactionProcess, previousStep, onCancel })
   const deleteStep = () => api.deleteProcessStep(processStep.id);
 
   const handleCancel = () => {
-    console.log("handleCancel")
     if (isInitialised) {
       setShowForm(false);
     } else {
       onCancel();
     }
   };
-
-  console.log("StepCOlumnCard showForm " + isInitialised)
-  console.log(showForm)
 
   const hasChanges = (stepName, reactionProcessVessel, automationStatus) => {
     return stepName !== processStep?.name

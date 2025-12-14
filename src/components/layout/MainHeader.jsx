@@ -96,8 +96,6 @@ const MainHeader = () => {
     let model = "samples"
     reactionApi.indexOf(model).then((data) => {
       if (data && data[model]) {
-        console.log(data)
-
         const options = data[model].map(({ id, external_label }) => ({
           key: id,
           path: linkTarget(model, id),
