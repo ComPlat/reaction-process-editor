@@ -14,7 +14,7 @@ import { Button } from "reactstrap";
 const VesselableFormSection = ({
   onChange,
   reactionProcessVessel,
-  reactionProcessVesselSuggestion,
+  previousStepVessel,
   initialSampleVessel,
   typeColor,
 }) => {
@@ -51,14 +51,14 @@ const VesselableFormSection = ({
   };
 
   const renderVesselSuggestion = () => {
-    return (reactionProcessVesselSuggestion ?
+    return (previousStepVessel ?
       <div className="d-flex justify-content-between align-self-center">
         <div className="col-form-label">
-          {VesselableDecorator.vesselableSingleLine(reactionProcessVesselSuggestion.vesselable)}
+          {VesselableDecorator.vesselableSingleLine(previousStepVessel.vesselable)}
         </div>
         <div className="optional-form-group__open-controls">
           <div className="d-grid gap-2">
-            <Button size={'sm'} color={'step'} onClick={() => assignVesselable(reactionProcessVesselSuggestion.vesselable)} >
+            <Button size={'sm'} color={'step'} onClick={() => onChange(previousStepVessel)} >
               Use Previous
             </Button>
           </div>
@@ -75,7 +75,7 @@ const VesselableFormSection = ({
         </div>
         <div className="optional-form-group__open-controls">
           <div className="d-grid gap-2">
-            <Button size={'sm'} color={'step'} onClick={() => assignVesselable(initialSampleVessel.vesselable)} >
+            <Button size={'sm'} color={'step'} onClick={() => onChange(initialSampleVessel)} >
               Use Initial
             </Button>
           </div>
