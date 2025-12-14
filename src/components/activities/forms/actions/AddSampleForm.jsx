@@ -23,6 +23,7 @@ const AddSampleForm = ({ workup, preconditions, onWorkupChange }) => {
   const selectOptions = useContext(SelectOptions)
   const additionOptions = selectOptions.FORMS.ADD
 
+
   useEffect(() => {
     addFormMetricNames.forEach((metricName) => {
       const unit =
@@ -52,27 +53,34 @@ const AddSampleForm = ({ workup, preconditions, onWorkupChange }) => {
   // 'DIVERSE_SOLVENT' shall be categorized as 'SOLVENT' in AddSample, requested by NJung.
   const currentSampleActsAs =
     workup["acts_as"] === "DIVERSE_SOLVENT" ? "SOLVENT" : workup["acts_as"];
-  const currentSampleOptions = selectOptions.materials[currentSampleActsAs] || [];
   const materialOptions = selectOptions.materials
 
   const displayMolecularEntity = !["ADDITIVE", "MEDIUM", "SOLVENT"].includes(currentSampleActsAs)
   const displayAbsButton = ["SOLVENT"].includes(currentSampleActsAs)
 
-  const [sample, setSample] = useState(
-    currentSampleOptions.find(
-      (sample) =>
-        sample.value === workup["sample_id"] &&
-        sample.label === workup["sample_name"]
+  const currentMaterialOptions = (acts_as) => {
+    if (!!workup.device && acts_as === 'SOLVENT') {
+      let deviceOption = OptionsDecorator.optionForValue(workup.device, selectOptions.ontologies)
+      return deviceOption?.mobile_phase || []
+    } else {
+      return materialOptions[acts_as]
+    }
+  }
+
+  const [currentSample, setCurrentSample] = useState(
+    currentMaterialOptions(currentSampleActsAs).find(
+      (sample) => sample.value === workup["sample_id"] && sample.label === workup["sample_name"]
     )
   );
 
   const handleMaterialChange = (actsAs) => ({ sampleId, label }) => {
-    const newSample = materialOptions[actsAs].find(
+    const newSample = currentMaterialOptions(actsAs).find(
       (sample) => sample.value === sampleId && sample.label === label
     );
+
     if (newSample) {
-      onWorkupChange({ name: "acts_as", value: newSample.acts_as });
-      onWorkupChange({ name: "sample_id", value: newSample.id });
+      onWorkupChange({ name: "acts_as", value: actsAs });
+      onWorkupChange({ name: "sample_id", value: newSample.value });
       onWorkupChange({ name: "sample_name", value: newSample.label });
 
       // We want to retain current amounts in workup when selected Sample has unspecified amount (Additives, Solvents …)
@@ -84,7 +92,7 @@ const AddSampleForm = ({ workup, preconditions, onWorkupChange }) => {
           value: newSample.amount,
         });
     }
-    setSample(newSample);
+    setCurrentSample(newSample);
   }
 
   const handleChange = (name) => (value) =>
@@ -106,23 +114,20 @@ const AddSampleForm = ({ workup, preconditions, onWorkupChange }) => {
   };
 
   const renderMaterialForms = () => {
-    return ['SOLVENT', 'ADDITIVE', 'MEDIUM'].map((materialType) => {
-      let currentMaterialOptions = materialOptions[materialType]
 
-      if (!!workup.device && materialType === 'SOLVENT') {
-        let deviceOption = OptionsDecorator.optionForValue(workup.device, selectOptions.ontologies)
-        currentMaterialOptions = deviceOption?.mobile_phase || []
-      }
+    return ['SOLVENT', 'ADDITIVE', 'MEDIUM'].map((materialType) => {
+      let options = currentMaterialOptions(materialType)
+      let currentSelected = OptionsDecorator.optionForValue(currentSample?.value, options)
 
       return (
-        <SingleLineFormGroup label={StringDecorator.toLabelSpelling(materialType)} key={materialType + '_select_group' + sample?.id}>
+        <SingleLineFormGroup label={StringDecorator.toLabelSpelling(materialType)} key={materialType + '_select_group' + currentSample?.value}>
           <Select
-            key={materialType + '_select' + sample?.id + workup.device}
+            key={materialType + '_select' + currentSample?.value + workup.device}
             className="react-select--overwrite"
             classNamePrefix="react-select"
             name={materialType + '_id'}
-            options={currentMaterialOptions}
-            value={OptionsDecorator.optionForValue(sample?.id, currentMaterialOptions)}
+            options={options}
+            value={currentSelected}
             onChange={(selected) =>
               handleMaterialChange(materialType)({
                 sampleId: selected.value,
@@ -140,9 +145,9 @@ const AddSampleForm = ({ workup, preconditions, onWorkupChange }) => {
     <>
       <FormSection type="action">
         <SampleSelection
-          key={'SAMPLE_select' + sample?.id}
+          key={'SAMPLE_select' + currentSample?.value}
           sampleOptions={materialOptions['SAMPLE']}
-          sample={OptionsDecorator.optionForValue(sample?.id, materialOptions['SAMPLE'])}
+          sample={OptionsDecorator.optionForValue(currentSample?.value, materialOptions['SAMPLE'])}
           onChange={handleMaterialChange('SAMPLE')}
         />
 
@@ -174,7 +179,7 @@ const AddSampleForm = ({ workup, preconditions, onWorkupChange }) => {
         }
         <AmountInputSet
           amount={workup["target_amount"]}
-          maxAmounts={sample?.unit_amounts}
+          maxAmounts={currentSample?.unit_amounts}
           onChangeAmount={handleChange("target_amount")}
         />
       </FormSection>
