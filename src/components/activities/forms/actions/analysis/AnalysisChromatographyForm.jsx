@@ -149,6 +149,18 @@ const AnalysisChromatographyForm = (
 
   const mobilePhasePlaceHolder = isAutomated ? "Depends on Method" : workup.device ? "Please Select" : "Depends on Device"
 
+  const filterDevicesByDetectors = () => {
+    let devices = OntologiesDecorator.activeOptionsForRoleName({ roleName: 'device', options: selectOptions.ontologies })
+
+    if (workup.detector?.length) {
+      devices = devices.filter(device =>
+        workup.detector.every(detectorInWorkup =>
+          !!device.detectors.find(detector =>
+            detector.value === detectorInWorkup)))
+    }
+    return devices
+  }
+
   const renderAutomationSpecificFields = () => {
     switch (workup.automation_mode) {
       case ontologyId.automation_modes.automated:
@@ -160,6 +172,7 @@ const AnalysisChromatographyForm = (
               roleName={'device'}
               workup={workup}
               onChange={handleChangeDevice}
+              options={filterDevicesByDetectors()}
             />
 
             <OntologyMultiSelectFormGroup
