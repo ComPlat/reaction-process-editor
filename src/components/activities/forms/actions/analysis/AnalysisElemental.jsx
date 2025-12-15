@@ -6,9 +6,6 @@ import SamplesIconSelect from '../../../../utilities/SamplesIconSelect'
 
 import OntologyMultiSelectFormGroup from '../../formgroups/OntologyMultiSelectFormGroup'
 import OntologySelectFormGroup from '../../formgroups/OntologySelectFormGroup'
-import SolventListFormGroup from '../../formgroups/SolventListFormGroup'
-
-import OptionsDecorator from '../../../../../decorators/OptionsDecorator'
 
 import { SelectOptions } from '../../../../../contexts/SelectOptions';
 
@@ -21,8 +18,6 @@ const AnalysisElementalForm = ({ workup, onWorkupChange }) => {
 	const handleChangeDetectors = (detectors) => {
 		onWorkupChange({ name: 'detector', value: detectors?.map(detector => detector.value) })
 	}
-
-	const solventOptions = OptionsDecorator.optionForValue(workup.device, selectOptions.ontologies)?.mobile_phase || []
 
 	return (
 		<FormSection>
