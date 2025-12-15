@@ -27,7 +27,7 @@ import {
 
 const ReactionNavbar = ({ reactionProcess }) => {
   const api = useReactionsFetcher();
-  const [open, setOpen] = useState("scheme");
+  const [schemeOpen, setSchemeOpen] = useState(localStorage.getItem("schemeClosed") === null);
   const [schemeIsEnlarged, setSchemeIsEnlarged] = useState(false);
   const zoomIcon = schemeIsEnlarged ? "search-minus" : "search-plus";
   const schemeImageClass = schemeIsEnlarged
@@ -35,15 +35,16 @@ const ReactionNavbar = ({ reactionProcess }) => {
     : "reaction-header__scheme-image";
 
   const toggleScheme = () => {
-    if (open) {
-      setOpen("");
-    } else {
-      setOpen("scheme");
-    }
-  };
+    schemeOpen ?
+      localStorage.setItem("schemeClosed", "closed")
+      : localStorage.removeItem("schemeClosed")
+    setSchemeOpen(!schemeOpen)
+  }
+
   const toggleSchemeEnlarge = () => {
     setSchemeIsEnlarged(!schemeIsEnlarged);
   };
+
   return (
     <SubFormController.Provider value={SubFormToggle()}>
       <div className="reaction-header">
@@ -63,8 +64,10 @@ const ReactionNavbar = ({ reactionProcess }) => {
             <OrdDownloadButton reactionProcessId={reactionProcess.id} />
           </Nav>
         </Navbar>
+
+
         <Accordion
-          open={open}
+          open={schemeOpen ? "scheme" : ""}
           toggle={toggleScheme}
           flush
           className="bg-primary container-fluid pb-2 reaction-header__scheme-accordion"
@@ -97,16 +100,16 @@ const ReactionNavbar = ({ reactionProcess }) => {
             onClick={toggleScheme}
           >
             <FontAwesomeIcon
-              icon={open ? faAngleDoubleUp : faAngleDoubleDown}
+              icon={schemeOpen ? faAngleDoubleUp : faAngleDoubleDown}
             />
             <span>Scheme</span>
             <FontAwesomeIcon
-              icon={open ? faAngleDoubleUp : faAngleDoubleDown}
+              icon={schemeOpen ? faAngleDoubleUp : faAngleDoubleDown}
             />
           </Button>
         </div>
       </div>
-    </SubFormController.Provider>
+    </SubFormController.Provider >
   );
 };
 
