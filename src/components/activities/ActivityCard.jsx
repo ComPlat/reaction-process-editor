@@ -5,7 +5,7 @@ import ActivityInfoDecorator from "../../decorators/ActivityInfoDecorator";
 import ActivityInfo from "./ActivityInfo";
 import ConditionForm from "./forms/conditions/ConditionForm";
 import ProcedureCard from "../utilities/ProcedureCard";
-import TypeSelectionPanel from "../utilities/TypeSelectionPanel";
+import ActionTypeSelectionPanel from "../utilities/ActionTypeSelectionPanel";
 import Timer from "./timing/Timer";
 
 import { useReactionsFetcher } from "../../fetchers/ReactionsFetcher";
@@ -156,7 +156,7 @@ const ActivityCard = ({
         </>
       </ProcedureCard.Info>
       <ProcedureCard.TypePanel>
-        <TypeSelectionPanel onSelect={onSelectType} />
+        <ActionTypeSelectionPanel onSelect={onSelectType} />
       </ProcedureCard.TypePanel>
       <ProcedureCard.Form>
         {activityForm && !isCondition && (

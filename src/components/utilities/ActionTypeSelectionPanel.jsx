@@ -5,7 +5,6 @@ import { actionTypeClusters } from "../../constants/actionTypeClusters";
 const ActionTypeSelectionPanel = ({ onSelect }) => {
   const columns = actionTypeClusters
 
-
   const renderActionCluster = (cluster, cIndex) => {
     return (
       <div className="type-selection-panel__action">
