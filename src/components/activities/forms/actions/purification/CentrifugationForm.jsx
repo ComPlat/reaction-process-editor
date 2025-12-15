@@ -62,12 +62,6 @@ const CentrifugationForm = (
   return (
     <>
       <FormSection type='action'>
-        <ButtonGroupToggle
-          value={workup.automation_mode}
-          options={centrifugationOptions.automation_modes}
-          onChange={handleWorkupChange('automation_mode')}
-          label='Automation'
-        />
         {renderConditionInputs()}
       </FormSection>
     </>

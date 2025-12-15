@@ -26,7 +26,7 @@ import FractionFormGroup from '../formgroups/FractionFormGroup';
 
 import DeviceMethodFormSet from '../formsets/DeviceMethodFormSet';
 
-import { ontologyId } from '../../../../constants/ontologyId';
+import { OntologyConstants } from '../../../../constants/OntologyConstants';
 
 const ActionForm = (
   {
@@ -36,18 +36,21 @@ const ActionForm = (
     onSave,
     onWorkupChange,
     onChangeDuration,
-    onChangeVessel
+    onChangeVessel,
+    processStep
   }) => {
 
   const actionTypeName = activity.activity_name
   const workup = activity.workup
 
   useEffect(() => {
-    let ontologyValue = ontologyId.class[activity.activity_name]
-
+    let ontologyValue = OntologyConstants.class[activity.activity_name]
     onWorkupChange({ name: 'class', value: ontologyValue })
+
+    // Ontology dependencies are calculated by the workout. To avoid complicated multi-level filters we inject the automation_mode into the workup.
+    onWorkupChange({ name: 'automation_mode', value: processStep.automation_mode })
     // eslint-disable-next-line
-  }, [activity.activity_name])
+  }, [activity.activity_name, processStep.automation_mode])
 
   const customActivityFormSection = {
     'ADD': AddSampleForm,

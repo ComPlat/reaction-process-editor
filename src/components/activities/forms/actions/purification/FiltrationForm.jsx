@@ -37,16 +37,6 @@ const FiltrationForm = (
     )
   }
 
-  const renderAutomationToggle = () => {
-    return (
-      <ButtonGroupToggle
-        value={workup.automation_mode}
-        options={filtrationOptions.automation_modes}
-        onChange={selectedValue => onWorkupChange({ name: 'automation_mode', value: selectedValue })}
-        label='Automation'
-      />
-    )
-  }
 
   return (
     <>
@@ -56,7 +46,6 @@ const FiltrationForm = (
           reactionProcessVessel={reactionProcessVessel}
         />
         {renderFilterMethodToggle()}
-        {renderAutomationToggle()}
       </FormSection>
       {activitySteps.map((step, idx) =>
         <FiltrationStepForm

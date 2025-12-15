@@ -25,7 +25,8 @@ const ActivityCard = ({
   customClass,
   dragRef,
   forceShowForm,
-  hideMoveButton
+  hideMoveButton,
+  processStep
 }) => {
   const api = useReactionsFetcher();
   const subFormController = useContext(SubFormController);
@@ -64,6 +65,7 @@ const ActivityCard = ({
   const onDelete = () => api.deleteActivity(activity.id);
 
   const onSelectType = (newActivity) => () => {
+    newActivity.workup ||= {}
     newActivity.workup['AUTOMATION_STATUS'] ||= 'RUN'
     fillActivityForm(newActivity);
     setDisplayMode("form");
@@ -168,6 +170,7 @@ const ActivityCard = ({
             onWorkupChange={handleWorkupChange}
             onChangeDuration={setDuration}
             onChangeVessel={setVessel}
+            processStep={processStep}
           />
         )}
 

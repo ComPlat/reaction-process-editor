@@ -65,14 +65,6 @@ const RemoveForm = ({ workup, preconditions, onWorkupChange }) => {
 
   return (
     <>
-      <FormSection type='action'>
-        <FormGroup>
-          <Label> Automation </Label>
-          {workup.automation_mode?.label}
-          <ButtonGroupToggle value={workup.automation_mode} options={selectOptions.automation_modes}
-            onChange={handleWorkupChange('automation_mode')} />
-        </FormGroup>
-      </FormSection>
       <FormSection>
         <SingleLineFormGroup label="Origin">
           <Select

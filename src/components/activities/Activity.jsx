@@ -69,11 +69,12 @@ const Activity = ({ activity, processStep }) => {
     const type = activity.activity_name === 'CONDITION' ? 'condition' : 'action'
     return (
       <ActivityCard
-        activity={activity}
         type={type}
-        onSave={onSave}
+        activity={activity}
         preconditions={activity.preconditions}
+        processStep={processStep}
         dragRef={dragRef}
+        onSave={onSave}
       />
     )
   }

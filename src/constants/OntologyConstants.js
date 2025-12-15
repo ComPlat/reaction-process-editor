@@ -1,5 +1,5 @@
 
-export const ontologyId = {
+export const OntologyConstants = {
 	class:
 	{
 		ADD: 'OBI:0000274',
@@ -16,9 +16,13 @@ export const ontologyId = {
 		EVAPORATION: 'CHMO:0001574',
 		GAS_EXCHANGE: 'NCIT:C171981'
 	},
-	automation_modes: {
+	automation_mode: {
 		manual: "NCIT:C63513",
 		semiAutomated: "NCIT:C172484",
 		automated: "NCIT:C70669"
 	},
+
+	isAutomated: (status => status === OntologyConstants.automation_mode.automated),
+	isSemiAutomated: (status => status === OntologyConstants.automation_mode.semiAutomated),
+	isManual: (status => status === OntologyConstants.automation_mode.manual)
 }

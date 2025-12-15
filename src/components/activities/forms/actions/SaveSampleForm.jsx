@@ -178,6 +178,7 @@ const SaveSampleForm = ({ workup, onWorkupChange, reactionProcessVessel, onChang
       <VesselableFormSection
         onChange={onChangeVessel}
         reactionProcessVessel={reactionProcessVessel}
+        automationMode={workup.automation_mode}
       />
       <FormSection type="action">
         <AmountInputSet

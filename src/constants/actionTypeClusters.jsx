@@ -1,8 +1,3 @@
-import { ontologyId } from "./ontologyId"
-
-
-let ontologyAutomated = ontologyId.automation_modes.automated
-
 export const actionTypeClusters = [[
   {
     id: 'add',
@@ -12,8 +7,7 @@ export const actionTypeClusters = [[
         id: 'add_material',
         createLabel: 'Add',
         activity: {
-          activity_name: "ADD",
-          workup: { automation_mode: ontologyAutomated, }
+          activity_name: "ADD"
         }
       },
       {
@@ -21,7 +15,6 @@ export const actionTypeClusters = [[
         createLabel: 'Transfer',
         activity: {
           activity_name: 'TRANSFER',
-          workup: { automation_mode: ontologyAutomated, }
         }
       },
     ]
@@ -36,7 +29,6 @@ export const actionTypeClusters = [[
         createLabel: 'Evaporate',
         activity: {
           activity_name: 'EVAPORATION',
-          workup: { origin_type: 'FROM_REACTION', automation_mode: ontologyAutomated, }
         }
       },
       {
@@ -44,7 +36,6 @@ export const actionTypeClusters = [[
         createLabel: 'Gas Exchange',
         activity: {
           activity_name: 'GAS_EXCHANGE',
-          workup: { automation_mode: ontologyAutomated, }
         }
       },
     ]
@@ -56,7 +47,7 @@ export const actionTypeClusters = [[
       {
         id: 'mixing',
         createLabel: 'Mixing',
-        activity: { activity_name: 'MIXING', workup: { automation_mode: ontologyAutomated, } }
+        activity: { activity_name: 'MIXING' }
       }
     ]
   },
@@ -67,7 +58,7 @@ export const actionTypeClusters = [[
       {
         id: 'time_wait',
         createLabel: 'Wait',
-        activity: { activity_name: 'WAIT', workup: { automation_mode: ontologyAutomated, } }
+        activity: { activity_name: 'WAIT' }
       }
     ]
   },
@@ -81,7 +72,6 @@ export const actionTypeClusters = [[
         activity: {
           activity_name: 'SAVE',
           workup: {
-            automation_mode: ontologyAutomated,
             intermediate_type: 'CRUDE',
             target_amount: { unit: 'ml' },
             purity: { value: 1, unit: 'PURITY' }
@@ -103,7 +93,6 @@ export const actionTypeClusters = [[
         activity: {
           activity_name: 'ANALYSIS_CHROMATOGRAPHY',
           workup: {
-            automation_mode: ontologyAutomated,
             AUTOMATION_STATUS: 'HALT',
           }
         }
@@ -113,9 +102,6 @@ export const actionTypeClusters = [[
         createLabel: 'Spectroscopy',
         activity: {
           activity_name: 'ANALYSIS_SPECTROSCOPY',
-          workup: {
-            automation_mode: ontologyAutomated,
-          }
         }
       },
       {
@@ -123,9 +109,6 @@ export const actionTypeClusters = [[
         createLabel: 'Elemental Analysis',
         activity: {
           activity_name: 'ANALYSIS_ELEMENTAL',
-          workup: {
-            automation_mode: ontologyAutomated,
-          }
         }
       },
     ]
@@ -141,7 +124,6 @@ export const actionTypeClusters = [[
         activity: {
           activity_name: 'FILTRATION',
           workup: {
-            automation_mode: ontologyAutomated,
             filtration_mode: 'KEEP_PRECIPITATE'
           }
         }
@@ -152,7 +134,6 @@ export const actionTypeClusters = [[
         activity: {
           activity_name: 'EXTRACTION',
           workup: {
-            automation_mode: ontologyAutomated,
             phase: 'ORGANIC'
           }
         }
@@ -163,7 +144,6 @@ export const actionTypeClusters = [[
         activity: {
           activity_name: 'CHROMATOGRAPHY',
           workup: {
-            automation_mode: ontologyAutomated,
             AUTOMATION_STATUS: 'HALT',
           }
         }
@@ -173,9 +153,6 @@ export const actionTypeClusters = [[
         createLabel: 'Crystallization',
         activity: {
           activity_name: 'CRYSTALLIZATION',
-          workup: {
-            automation_mode: ontologyAutomated,
-          }
         }
       },
       {
@@ -183,9 +160,6 @@ export const actionTypeClusters = [[
         createLabel: 'Centrifugation',
         activity: {
           activity_name: 'CENTRIFUGATION',
-          workup: {
-            automation_mode: ontologyAutomated,
-          }
         }
       },
     ]

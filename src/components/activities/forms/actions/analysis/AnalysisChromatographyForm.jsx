@@ -19,7 +19,7 @@ import OptionsDecorator from '../../../../../decorators/OptionsDecorator';
 
 import withActivitySteps from '../../../../utilities/WithActivitySteps';
 
-import { ontologyId } from '../../../../../constants/ontologyId'
+import { OntologyConstants } from '../../../../../constants/OntologyConstants'
 
 import { SelectOptions } from '../../../../../contexts/SelectOptions';
 
@@ -35,8 +35,7 @@ const AnalysisChromatographyForm = (
     onDeleteStep
   }) => {
 
-
-  const isAutomated = workup.automation_mode === ontologyId.automation_modes.automated
+  const isAutomated = OntologyConstants.isAutomated(workup.automation_mode)
 
   const selectOptions = useContext(SelectOptions);
 
@@ -78,28 +77,6 @@ const AnalysisChromatographyForm = (
       onWorkupChange({ name: 'subtype', value: newSubType?.value })
       handleChangeDevice({ value: undefined })
     }
-  }
-
-  const handleChangeAutomation = (newAutomationMode) => {
-    switch (newAutomationMode) {
-      case ontologyId.automation_modes.automated:
-        handleChangeDevice(currentDeviceOption)
-        setMethodAnalysisDefaults(currentMethodOption)
-        setStationaryPhaseDefaults(currentStationaryPhaseOption)
-        onWorkupChange({ name: 'mobile_phase', value: undefined })
-        break;
-      case ontologyId.automation_modes.semiAutomated:
-        handleChangeDevice(currentDeviceOption)
-        onWorkupChange({ name: 'method', value: undefined })
-        onWorkupChange({ name: 'stationary_phase', value: undefined })
-        break;
-      case ontologyId.automation_modes.manual:
-        handleChangeDevice(undefined)
-        onWorkupChange({ name: 'stationary_phase', value: undefined })
-        break;
-      default:
-    }
-    onWorkupChange({ name: 'automation_mode', value: newAutomationMode })
   }
 
   const handleChangeDevice = (device) => {
@@ -162,126 +139,121 @@ const AnalysisChromatographyForm = (
   }
 
   const renderAutomationSpecificFields = () => {
-    switch (workup.automation_mode) {
-      case ontologyId.automation_modes.automated:
-      case ontologyId.automation_modes.semiAutomated:
-        return (
-          <>
-            <OntologySelectFormGroup
-              key={"device" + workup.device}
-              roleName={'device'}
-              workup={workup}
-              onChange={handleChangeDevice}
-              options={filterDevicesByDetectors()}
-            />
+    if (OntologyConstants.isAutomated(workup.automation_mode) || OntologyConstants.isSemiAutomated(workup.automation_mode)) {
 
-            <OntologyMultiSelectFormGroup
-              key={"detector" + workup.detector}
-              label={'Detectors'}
-              roleName={'detector'}
-              workup={workup}
-              onChange={handleChangeDetectors}
-            />
-            <OntologyMultiSelectFormGroup
-              key={"mobile_phase" + workup.mobile_phase}
-              roleName={'mobile_phase'}
-              workup={workup}
-              onChange={handleMultiSelectChange('mobile_phase')}
-              options={currentMethodOption?.mobile_phase || currentDeviceOption?.mobile_phase}
-              placeholder={mobilePhasePlaceHolder}
-              disabled={isAutomated || !workup.device}
-            />
-
-            {isAutomated &&
-              <>
-                <OntologySelectFormGroup
-                  key={"method" + workup.method}
-                  roleName={'method'}
-                  workup={workup}
-                  options={filteredMethodOptions}
-                  onChange={handleChangeMethod}
-                />
-                <FormGroup>
-                  {currentMethodOption?.description}
-                </FormGroup>
-              </>}
-            {isAutomated ||
+      return (
+        <>
+          <OntologySelectFormGroup
+            key={"device" + workup.device}
+            roleName={'device'}
+            workup={workup}
+            onChange={handleChangeDevice}
+            options={filterDevicesByDetectors()}
+          />
+          <OntologyMultiSelectFormGroup
+            key={"detector" + workup.detector}
+            label={'Detectors'}
+            roleName={'detector'}
+            workup={workup}
+            onChange={handleChangeDetectors}
+          />
+          <OntologyMultiSelectFormGroup
+            key={"mobile_phase" + workup.mobile_phase}
+            roleName={'mobile_phase'}
+            workup={workup}
+            onChange={handleMultiSelectChange('mobile_phase')}
+            options={currentMethodOption?.mobile_phase || currentDeviceOption?.mobile_phase}
+            placeholder={mobilePhasePlaceHolder}
+            disabled={isAutomated || !workup.device}
+          />
+          {isAutomated ?
+            <>
               <OntologySelectFormGroup
-                key={"stationary_phase" + workup.stationary_phase}
-                roleName={'stationary_phase'}
-                options={currentDeviceOption?.stationary_phase}
+                key={"method" + workup.method}
+                roleName={'method'}
                 workup={workup}
-                onChange={handleChangeStationaryPhase}
+                options={filteredMethodOptions}
+                onChange={handleChangeMethod}
               />
-            }
-            <>{(isAutomated ? "Stationary Phase " : '') + (workup.stationary_phase || "-")}</>
-
-            {hasStationaryPhaseAnalysisType("TEMPERATURE") &&
-              <MetricsInputFormGroup
-                label={'Stat. Phases Temp'}
-                metricName={"TEMPERATURE"}
-                amount={workup.STATIONARY_PHASE_TEMPERATURE}
-                onChange={handleWorkupChange('STATIONARY_PHASE_TEMPERATURE')}
-                disabled={isAutomated}
-              />
-            }
-            <MetricsInputFormGroup
-              label={'Inj. Volume'}
-              metricName={"INJECT_VOLUME"}
-              amount={workup.inject_volume || { unit: 'mcl' }}
-              onChange={handleWorkupChange('inject_volume')}
-            />
-          </>)
-      case ontologyId.automation_modes.manual:
-        return (
-          <>
+              <FormGroup>
+                {currentMethodOption?.description}
+              </FormGroup>
+            </>
+            :
             <OntologySelectFormGroup
-              key={"material" + workup.material}
-              roleName={'material'}
+              key={"stationary_phase" + workup.stationary_phase}
+              roleName={'stationary_phase'}
+              options={currentDeviceOption?.stationary_phase}
               workup={workup}
-              onChange={handleSelectChange('material')}
+              onChange={handleChangeStationaryPhase}
             />
+          }
+          <>{(isAutomated ? "Stationary Phase " : '') + (workup.stationary_phase || "-")}</>
 
-            {filteredOntologiesByRoleName('stationary_phase')?.length > 0 ?
-              <OntologySelectFormGroup
-                key={"stationary_phase" + workup.stationary_phase}
-                roleName={'stationary_phase'}
-                workup={workup}
-                onChange={handleChangeStationaryPhase}
-              /> :
-              <SingleLineFormGroup
-                label={'Stationary Phase'}
-              >
-                <Input
-                  type="textarea"
-                  name="stationary_phase"
-                  value={workup.stationary_phase}
-                  onChange={(event) => onWorkupChange({ name: 'stationary_phase', value: event.target.value })}
-                />
-              </SingleLineFormGroup>
-            }
+          {hasStationaryPhaseAnalysisType("TEMPERATURE") &&
             <MetricsInputFormGroup
-              metricName={'LENGTH'}
-              label={'Diameter'}
-              amount={workup.jar_diameter}
-              onChange={handleWorkupChange('jar_diameter')}
+              label={'Stat. Phases Temp'}
+              metricName={"TEMPERATURE"}
+              amount={workup.STATIONARY_PHASE_TEMPERATURE}
+              onChange={handleWorkupChange('STATIONARY_PHASE_TEMPERATURE')}
+              disabled={isAutomated}
             />
-            <MetricsInputFormGroup
-              metricName={'LENGTH'}
-              label={'Height'}
-              amount={workup.jar_height}
-              onChange={handleWorkupChange('jar_height')}
-            />
-            <MetricsInputFormGroup
-              metricName={'LENGTH'}
-              label={'Filling Height'}
-              amount={workup.jar_filling_height}
-              max={workup.jar_height?.value}
-              onChange={handleWorkupChange('jar_filling_height')}
-            />
-          </ >)
-      default:
-        break;
+          }
+          <MetricsInputFormGroup
+            label={'Inj. Volume'}
+            metricName={"INJECT_VOLUME"}
+            amount={workup.inject_volume || { unit: 'mcl' }}
+            onChange={handleWorkupChange('inject_volume')}
+          />
+        </>)
+    } else if (OntologyConstants.isManual(workup.automation_mode)) {
+      return (
+        <>
+          <OntologySelectFormGroup
+            key={"material" + workup.material}
+            roleName={'material'}
+            workup={workup}
+            onChange={handleSelectChange('material')}
+          />
+
+          {filteredOntologiesByRoleName('stationary_phase')?.length > 0 ?
+            <OntologySelectFormGroup
+              key={"stationary_phase" + workup.stationary_phase}
+              roleName={'stationary_phase'}
+              workup={workup}
+              onChange={handleChangeStationaryPhase}
+            /> :
+            <SingleLineFormGroup
+              label={'Stationary Phase'}
+            >
+              <Input
+                type="textarea"
+                name="stationary_phase"
+                value={workup.stationary_phase}
+                onChange={(event) => onWorkupChange({ name: 'stationary_phase', value: event.target.value })}
+              />
+            </SingleLineFormGroup>
+          }
+          <MetricsInputFormGroup
+            metricName={'LENGTH'}
+            label={'Diameter'}
+            amount={workup.jar_diameter}
+            onChange={handleWorkupChange('jar_diameter')}
+          />
+          <MetricsInputFormGroup
+            metricName={'LENGTH'}
+            label={'Height'}
+            amount={workup.jar_height}
+            onChange={handleWorkupChange('jar_height')}
+          />
+          <MetricsInputFormGroup
+            metricName={'LENGTH'}
+            label={'Filling Height'}
+            amount={workup.jar_filling_height}
+            max={workup.jar_height?.value}
+            onChange={handleWorkupChange('jar_filling_height')}
+          />
+        </ >)
     }
   }
 
@@ -321,12 +293,6 @@ const AnalysisChromatographyForm = (
             onChange={handleWorkupChange('molecular_entities')}
           />
         </FormGroup>
-
-        <Label>Mode</Label>
-        <ButtonGroupToggle
-          value={workup.automation_mode}
-          options={filteredOntologiesByRoleName('automation_mode')}
-          onChange={handleChangeAutomation} />
 
         <OntologySelectFormGroup
           key={"type" + workup.type}

@@ -1,10 +1,7 @@
 import React, { useContext } from 'react'
-import { FormGroup, Label } from 'reactstrap';
 
-import ButtonGroupToggle from '../formgroups/ButtonGroupToggle';
 import OntologySelectFormGroup from '../formgroups/OntologySelectFormGroup';
 
-import OntologiesDecorator from '../../../../decorators/OntologiesDecorator';
 import OptionsDecorator from '../../../../decorators/OptionsDecorator';
 
 import { SelectOptions } from '../../../../contexts/SelectOptions';
@@ -15,12 +12,6 @@ const DeviceMethodFormSet = ({
 }) => {
 	let ontologies = useContext(SelectOptions).ontologies
 	let workup = activity.workup
-
-	const ontologiesByRoleName = (roleName) => OntologiesDecorator.activeOptionsForRoleName({ roleName: roleName, options: ontologies })
-
-	const handleChangeAutomation = (newAutomationMode) => {
-		onWorkupChange({ name: 'automation_mode', value: newAutomationMode })
-	}
 
 	const handleChangeType = (newType) => {
 		if (newType?.value !== workup.type) {
@@ -50,21 +41,12 @@ const DeviceMethodFormSet = ({
 
 	return (
 		<>
-			<FormGroup className='row gx-2 pt-1'>
-				<Label>Mode</Label>
-				<ButtonGroupToggle
-					value={workup.automation_mode}
-					options={ontologiesByRoleName('automation_mode')}
-					onChange={handleChangeAutomation} />
-			</FormGroup>
-
 			{requiresTypeSubtypeForm && <>
 				<OntologySelectFormGroup
 					key={"type" + workup.type}
 					roleName={'type'}
 					workup={workup}
 					onChange={handleChangeType}
-				// options={typesMatchingDetectors}
 				/>
 				<OntologySelectFormGroup
 					key={"subtype" + workup.subtype + "type" + workup.type}

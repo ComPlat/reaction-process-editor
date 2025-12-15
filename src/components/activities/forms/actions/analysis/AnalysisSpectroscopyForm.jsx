@@ -4,7 +4,6 @@ import { Label, FormGroup } from 'reactstrap'
 import FormSection from '../../../../utilities/FormSection'
 import SamplesIconSelect from '../../../../utilities/SamplesIconSelect'
 
-import ButtonGroupToggle from '../../formgroups/ButtonGroupToggle'
 import OntologySelectFormGroup from '../../formgroups/OntologySelectFormGroup'
 import SolventListFormGroup from '../../formgroups/SolventListFormGroup'
 
@@ -12,8 +11,6 @@ import OptionsDecorator from '../../../../../decorators/OptionsDecorator'
 import OntologiesDecorator from '../../../../../decorators/OntologiesDecorator'
 
 import { SelectOptions } from '../../../../../contexts/SelectOptions';
-
-import { ontologyId } from '../../../../../constants/ontologyId'
 
 const AnalysisSpectroscopyForm = ({ workup, onWorkupChange }) => {
 	const selectOptions = useContext(SelectOptions)
@@ -23,13 +20,6 @@ const AnalysisSpectroscopyForm = ({ workup, onWorkupChange }) => {
 		OntologiesDecorator.activeOptionsForWorkupDependencies({ roleName: roleName, options: selectOptions.ontologies, workup: workup })
 
 	const handleWorkupChange = (workupKey) => (value) => onWorkupChange({ name: workupKey, value: value })
-
-	const handleChangeAutomation = (automation) => {
-		if (automation !== ontologyId.automation_modes.automated) {
-			onWorkupChange({ name: 'method', value: undefined })
-		}
-		onWorkupChange({ name: 'automation_mode', value: automation })
-	}
 
 	const handleChangeType = (newType) => {
 		onWorkupChange({ name: 'type', value: newType?.value })
@@ -64,11 +54,6 @@ const AnalysisSpectroscopyForm = ({ workup, onWorkupChange }) => {
 					onChange={handleWorkupChange('molecular_entities')}
 				/>
 			</FormGroup>
-			<ButtonGroupToggle
-				value={workup.automation_mode}
-				options={filteredOntologiesByRoleName('automation_mode')}
-				onChange={handleChangeAutomation} />
-
 			<OntologySelectFormGroup
 				key={"type" + workup.type}
 				roleName={'type'}

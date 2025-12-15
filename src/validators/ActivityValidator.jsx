@@ -13,7 +13,6 @@ function useActivityValidator() {
     validateStep
   };
 
-
   function errorsOnTransfer(action) {
     let errors = [];
     action.workup["sample_id"] || errors.push("Sample");
