@@ -17,6 +17,7 @@ import VesselableDecorator from "../../decorators/VesselableDecorator";
 const VesselableSelector = ({
   currentVesselable,
   onSelectVesselable,
+  vesselOptions,
   typeColor,
   buttonLabel
 }) => {
@@ -57,6 +58,7 @@ const VesselableSelector = ({
           <VesselableIndex
             onSelectVesselable={handleSelectVesselable}
             typeColor={typeColor}
+            vesselOptions={vesselOptions}
           />
         </ModalBody>
         <ModalFooter>

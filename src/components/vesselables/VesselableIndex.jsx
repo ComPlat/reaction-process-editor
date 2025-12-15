@@ -1,12 +1,10 @@
-import React, { useContext } from "react";
+import React from "react";
 
 import VesselableDecorator from "../../decorators/VesselableDecorator";
 import { Button } from "reactstrap";
-import { VesselOptions } from "../../contexts/VesselOptions";
 import { AgGridReact } from "ag-grid-react";
 
-const VesselableIndex = ({ onSelectVesselable, typeColor }) => {
-  const vesselables = useContext(VesselOptions);
+const VesselableIndex = ({ onSelectVesselable, vesselOptions, typeColor }) => {
   const colDefs = [
     {
       field: "vesselableValue",
@@ -86,7 +84,7 @@ const VesselableIndex = ({ onSelectVesselable, typeColor }) => {
         <AgGridReact
           suppressMenuHide={true}
           domLayout="autoHeight"
-          rowData={VesselableDecorator.vesselableTabularData(vesselables)}
+          rowData={VesselableDecorator.vesselableTabularData(vesselOptions)}
           columnDefs={colDefs}
           autoSizeStrategy={{ type: "fitGridWidth", defaultMinWidth: 70 }}
         />

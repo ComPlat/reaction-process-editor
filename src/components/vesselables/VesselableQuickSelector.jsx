@@ -1,14 +1,14 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { Button, Col, InputGroup, Input } from "reactstrap";
 
-import { VesselOptions } from "../../contexts/VesselOptions";
-import Select from "react-select";
+import Select, { components } from "react-select";
 
 const VesselableQuickSelector = ({
   currentVesselable,
   onSelectVesselable,
   typeColor,
+  vesselOptions
 }) => {
 
   useEffect(() => {
@@ -18,8 +18,6 @@ const VesselableQuickSelector = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentVesselable])
 
-  const vesselables = useContext(VesselOptions);
-
   const [vesselQuery, setVesselQuery] = useState('');
 
   const vesselMatchesQuery = (vessel) => {
@@ -28,14 +26,14 @@ const VesselableQuickSelector = ({
       || vessel.name?.toLowerCase().match(vesselQuery?.toLowerCase())
   }
 
-  const filteredVesselableOptions = vesselables.filter(vessel => vesselMatchesQuery(vessel))
+  const filteredVesselableOptions = vesselOptions.filter(vessel => vesselMatchesQuery(vessel))
 
   const currentVesselSuggestion =
     vesselQuery.length > 0 ?
       filteredVesselableOptions.find(v => v.id === currentVesselable?.id)
       || filteredVesselableOptions[0]
       :
-      undefined
+      filteredVesselableOptions.find(v => v.id === currentVesselable?.id)
 
   const suggestionUnique = filteredVesselableOptions.length === 1
 

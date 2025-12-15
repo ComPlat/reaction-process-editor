@@ -17,11 +17,17 @@ const VesselableFormSection = ({
   previousStepVessel,
   initialSampleVessel,
   typeColor,
+  automationMode
 }) => {
   const selectOptions = useContext(SelectOptions);
   const vesselables = useContext(VesselOptions);
 
   const preparationOptions = selectOptions.vessel_preparations;
+
+  const vesselOptions = !!automationMode ?
+    vesselables.filter(vessel => vessel.automation_modes.includes(automationMode))
+    :
+    vesselables
 
   const currentVesselable = VesselableDecorator.getVesselableByParams(
     { vesselable_id: reactionProcessVessel?.vesselable_id, vesselable_type: reactionProcessVessel?.vesselable_type },
@@ -99,12 +105,14 @@ const VesselableFormSection = ({
             currentVesselable={currentVesselable}
             onSelectVesselable={assignVesselable}
             typeColor={typeColor}
+            vesselOptions={vesselOptions}
           />
         </div>
         <div className="pt-1 mb-3">
           <VesselableSelector
             currentVesselable={currentVesselable}
             onSelectVesselable={assignVesselable}
+            vesselOptions={vesselOptions}
             typeColor={typeColor}
             buttonLabel={!!reactionProcessVessel?.vesselable_id ? "Change" : "Set"}
           />
