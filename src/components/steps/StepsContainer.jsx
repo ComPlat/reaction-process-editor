@@ -32,7 +32,7 @@ const StepsContainer = ({ reactionProcess }) => {
           <StepColumCard
             reactionProcess={reactionProcess}
             previousStep={steps_count > 0 ? reactionProcess.reaction_process_steps[steps_count - 1] : undefined}
-            onCancel={toggleNewStep}
+            onCloseForm={toggleNewStep}
           />
           :
           <CreateButton label='New Step' type='step' onClick={toggleNewStep} />

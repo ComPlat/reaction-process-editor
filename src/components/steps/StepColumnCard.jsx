@@ -20,7 +20,7 @@ import { StepLock } from "../../contexts/StepLock";
 
 import { useReactionsFetcher } from "../../fetchers/ReactionsFetcher";
 
-const StepColumCard = ({ processStep, reactionProcess, previousStep, onCancel }) => {
+const StepColumCard = ({ processStep, reactionProcess, previousStep, onCloseForm }) => {
   const isInitialised = !!processStep;
   const [showForm, setShowForm] = useState(!isInitialised);
   const cardTitle = isInitialised ? processStep.label : "New Step";
@@ -40,40 +40,14 @@ const StepColumCard = ({ processStep, reactionProcess, previousStep, onCancel })
 
   const deleteStep = () => api.deleteProcessStep(processStep.id);
 
-  const handleCancel = () => {
-    if (isInitialised) {
-      setShowForm(false);
-    } else {
-      onCancel();
-    }
-  };
+  const closeForm = () => isInitialised ? setShowForm(false) : onCloseForm()
 
-  const hasChanges = (stepName, reactionProcessVessel, automationStatus) => {
-    return stepName !== processStep?.name
-      || reactionProcessVessel?.vesselable_id !== processStep?.reaction_process_vessel?.vesselable_id
-      || reactionProcessVessel?.preparations !== processStep?.reaction_process_vessel?.preparations
-      || reactionProcessVessel?.cleanup !== processStep?.reaction_process_vessel?.cleanup
-      || automationStatus !== processStep?.automation_status
-  }
-
-  const handleSave = (stepName, reactionProcessVessel, automationStatus) => {
-    setShowForm(false);
-    if (isInitialised) {
-      hasChanges(stepName, reactionProcessVessel, automationStatus) &&
-        api.updateProcessStep({
-          ...processStep,
-          name: stepName,
-          reaction_process_vessel: reactionProcessVessel,
-          automation_status: automationStatus
-        });
-    } else {
-      api.createProcessStep(reactionProcess.id, {
-        ...processStep,
-        name: stepName,
-        reaction_process_vessel: reactionProcessVessel
-      });
-      onCancel();
-    }
+  const handleSave = (reactionProcessStep) => {
+    isInitialised ?
+      api.updateProcessStep(reactionProcessStep)
+      :
+      api.createProcessStep(reactionProcess.id, reactionProcessStep)
+    closeForm();
   };
 
   const toggleForm = () => setShowForm(!showForm);
@@ -122,14 +96,14 @@ const StepColumCard = ({ processStep, reactionProcess, previousStep, onCancel })
   const renderTitleBar = (title) => {
     return (
       <div className="d-md-flex gap-2">
-        <div id={"step_automation_status_" + processStep?.id}>
+        <div id={"actual_automation_status_" + processStep?.id}>
           <IconButton disabled
             positive={false}
-            icon={StepAutomationStatusDecorator.iconForStatus(processStep?.step_automation_status)}
-            color={StepAutomationStatusDecorator.colorForStatus(processStep?.step_automation_status)} />
+            icon={StepAutomationStatusDecorator.iconForStatus(processStep?.actual_automation_status)}
+            color={StepAutomationStatusDecorator.colorForStatus(processStep?.actual_automation_status)} />
         </div>
-        <UncontrolledTooltip target={"step_automation_status_" + processStep?.id} >
-          {StepAutomationStatusDecorator.labelForStatus(processStep?.step_automation_status)}
+        <UncontrolledTooltip target={"actual_automation_status_" + processStep?.id} >
+          {StepAutomationStatusDecorator.labelForStatus(processStep?.actual_automation_status)}
         </UncontrolledTooltip>
         {title}
       </div>
@@ -157,7 +131,7 @@ const StepColumCard = ({ processStep, reactionProcess, previousStep, onCancel })
               showCancelBtn={showForm && !isLocked}
               onDelete={confirmDeleteStep}
               onEdit={toggleForm}
-              onCancel={handleCancel}
+              onCancel={closeForm}
               displayMode={displayMode()}
               dragRef={dragRef}
               customClass="procedure-card--column"
@@ -175,7 +149,7 @@ const StepColumCard = ({ processStep, reactionProcess, previousStep, onCancel })
                   }
                   initialSampleVessel={reactionProcess.reaction_process_vessel}
                   onSave={handleSave}
-                  onCancel={handleCancel}
+                  onCancel={closeForm}
                 />
               </ProcedureCard.Form>
               {isInitialised && (
