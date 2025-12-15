@@ -118,6 +118,16 @@ export const actionTypeClusters = [[
           }
         }
       },
+      {
+        id: 'analysis_elemental',
+        createLabel: 'Elemental Analysis',
+        activity: {
+          activity_name: 'ANALYSIS_ELEMENTAL',
+          workup: {
+            automation_mode: ontologyAutomated,
+          }
+        }
+      },
     ]
   },
 

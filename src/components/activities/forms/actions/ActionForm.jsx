@@ -7,6 +7,7 @@ import ChromatographyForm from './purification/ChromatographyForm';
 import CentrifugationForm from './purification/CentrifugationForm';
 
 import AnalysisChromatographyForm from './analysis/AnalysisChromatographyForm';
+import AnalysisElementalForm from './analysis/AnalysisElemental';
 import AnalysisSpectroscopyForm from './analysis/AnalysisSpectroscopyForm';
 
 import ActivityForm from "../ActivityForm";
@@ -57,6 +58,7 @@ const ActionForm = (
     'GAS_EXCHANGE': GasExchangeForm,
     'ANALYSIS_CHROMATOGRAPHY': AnalysisChromatographyForm,
     'ANALYSIS_SPECTROSCOPY': AnalysisSpectroscopyForm,
+    'ANALYSIS_ELEMENTAL': AnalysisElementalForm,
     'CHROMATOGRAPHY': ChromatographyForm,
     'CENTRIFUGATION': CentrifugationForm,
     'CRYSTALLIZATION': CrystallizationForm,
@@ -67,9 +69,7 @@ const ActionForm = (
     'DISCARD': DiscardForm
   }
 
-
   const renderCustomActivityForm = () => {
-
     let CustomActivityForm = customActivityFormSection[activity.activity_name]
 
     return CustomActivityForm ?
@@ -84,7 +84,7 @@ const ActionForm = (
       <>Activity of type {activity.activity_name} has no Form</>
   }
   const renderDeviceOntologiesForm = () => {
-    const deviceFormIncluded = ['ANALYSIS_CHROMATOGRAPHY', 'ANALYSIS_SPECTROSCOPY', 'CHROMATOGRAPHY'].includes(actionTypeName)
+    const deviceFormIncluded = ['ANALYSIS_CHROMATOGRAPHY', 'ANALYSIS_SPECTROSCOPY', 'ANALYSIS_ELEMENTAL', 'CHROMATOGRAPHY'].includes(actionTypeName)
 
     return deviceFormIncluded ? <></> :
       <DeviceMethodFormSet
