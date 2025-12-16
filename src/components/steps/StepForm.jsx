@@ -12,14 +12,15 @@ import { useActivityValidator } from "../../validators/ActivityValidator";
 
 import OntologiesDecorator from '../../decorators/OntologiesDecorator';
 
+import { OntologyConstants } from "../../constants/OntologyConstants";
+
 import { SelectOptions } from "../../contexts/SelectOptions";
+import StepAutomationStatusDecorator from "../../decorators/StepAutomationStatusDecorator";
 
 const StepForm = ({ processStep, previousStep, nameSuggestionOptions, onSave, onCancel, initialSampleVessel }) => {
 
   let ontologies = useContext(SelectOptions).ontologies
-
   const [stepForm, setStepForm] = useState(processStep || {})
-
   const activityValidator = useActivityValidator();
 
   const handleSave = () => {
@@ -34,7 +35,30 @@ const StepForm = ({ processStep, previousStep, nameSuggestionOptions, onSave, on
     setStepForm({ ...stepForm, [attribute]: value })
   }
 
+  const handleChangeAutomationMode = (newMode) => {
+    let newStatus = OntologyConstants.isAutomated(newMode) ?
+      processStep.actual_automation_status : ""
+
+    setStepForm({
+      ...stepForm,
+      automation_mode: newMode,
+      automation_status: newStatus,
+      actual_automation_status: newStatus
+    })
+  }
+
+  const handleChangeAutomationStatus = (newStatus) => {
+    setStepForm({
+      ...stepForm,
+      automation_status: newStatus,
+      actual_automation_status: newStatus
+    })
+  }
+
   const ontologiesByRoleName = (roleName) => OntologiesDecorator.activeOptionsForRoleName({ roleName: roleName, options: ontologies })
+
+  // const displayAutomationStatus =
+  //   stepForm.actual_automation_status
 
   return (
     <>
@@ -50,8 +74,17 @@ const StepForm = ({ processStep, previousStep, nameSuggestionOptions, onSave, on
         <ButtonGroupToggle
           value={stepForm.automation_mode}
           options={ontologiesByRoleName('automation_mode')}
-          onChange={handleChange('automation_mode')} />
+          onChange={handleChangeAutomationMode} />
       </FormGroup>
+      {stepForm.actual_automation_status || "no status"}
+      {OntologyConstants.isAutomated(stepForm.automation_mode) &&
+        <StepAutomationStatusFormGroup
+          key={stepForm.actual_automation_status}
+          modelId={stepForm.id}
+          status={stepForm.actual_automation_status}
+          onChange={handleChangeAutomationStatus}
+        />
+      }
       <VesselableFormSection
         onChange={handleChange('reaction_process_vessel')}
         reactionProcessVessel={stepForm.reaction_process_vessel}
@@ -61,11 +94,6 @@ const StepForm = ({ processStep, previousStep, nameSuggestionOptions, onSave, on
         label={"Step" + (stepForm.name ? ' "' + stepForm.name + '"' : "")}
         automationMode={stepForm.automation_mode}
       />
-      {stepForm?.id && <StepAutomationStatusFormGroup
-        modelId={stepForm?.id}
-        status={stepForm?.actual_automation_status}
-        onChange={handleChange('automation_status')}
-      />}
       <FormButtons
         onSave={handleSave}
         onCancel={onCancel}

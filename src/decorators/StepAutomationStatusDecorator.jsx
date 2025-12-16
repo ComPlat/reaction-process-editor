@@ -1,4 +1,4 @@
-export default class AutomationStatusDecorator {
+export default class StepAutomationStatusDecorator {
   static nextAutomationStatus = (currentValue) => {
     return ({
       "STEP_CAN_RUN": "STEP_CAN_RUN",
@@ -14,6 +14,15 @@ export default class AutomationStatusDecorator {
       "STEP_COMPLETED": "Step Completed",
       "STEP_HALT_BY_PRECEDING": "Step halted by Preceding",
       "STEP_MANUAL_PROCEED": "Manual Proceed"
+    }[currentStatus] || "step can run")
+  }
+
+  static tooltipForStatus = (currentStatus) => {
+    return ({
+      "STEP_CAN_RUN": "This step can run.",
+      "STEP_COMPLETED": "This step has run successfully.",
+      "STEP_HALT_BY_PRECEDING": "This step can not run because a previous step has an action requiring automation HALT (and subsequent human intervention).",
+      "STEP_MANUAL_PROCEED": "This step is manually set to proceed despite of an earlier step with an automation HALT."
     }[currentStatus] || "step can run")
   }
 
