@@ -188,7 +188,7 @@ const AnalysisChromatographyForm = (
               onChange={handleChangeStationaryPhase}
             />
           }
-          <>{(isAutomated ? "Stationary Phase " : '') + (workup.stationary_phase || "-")}</>
+          <>{(isAutomated ? "Stationary Phase " : '')} {workup.stationary_phase || ""}</>
 
           {hasStationaryPhaseAnalysisType("TEMPERATURE") &&
             <MetricsInputFormGroup

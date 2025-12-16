@@ -8,6 +8,8 @@ import FormButtons from "../../utilities/FormButtons";
 import AutomationStatusFormGroup from './formgroups/AutomationStatusFormGroup';
 import Timer from '../timing/Timer';
 
+import { OntologyConstants } from '../../../constants/OntologyConstants';
+
 import { SubFormController } from '../../../contexts/SubFormController';
 import { StepLock } from '../../../contexts/StepLock';
 
@@ -40,12 +42,15 @@ const ActivityForm = (
   return (
     <Form className={'activity-form ' + type + '-form ' + className}>
       {children}
-      <ApplyExtraEquipmentFormSet
-        activityType={type}
-        actionName={activity.activity_name}
-        workup={workup}
-        onWorkupChange={onWorkupChange}
-      />
+      {OntologyConstants.isAutomated(workup.automation_mode)
+        &&
+        <ApplyExtraEquipmentFormSet
+          activityType={type}
+          actionName={activity.activity_name}
+          workup={workup}
+          onWorkupChange={onWorkupChange}
+        />
+      }
       <TextInputFormSet
         label="Description"
         value={workup?.description}

@@ -15,7 +15,6 @@ import OntologiesDecorator from '../../decorators/OntologiesDecorator';
 import { OntologyConstants } from "../../constants/OntologyConstants";
 
 import { SelectOptions } from "../../contexts/SelectOptions";
-import StepAutomationStatusDecorator from "../../decorators/StepAutomationStatusDecorator";
 
 const StepForm = ({ processStep, previousStep, nameSuggestionOptions, onSave, onCancel, initialSampleVessel }) => {
 
@@ -76,7 +75,6 @@ const StepForm = ({ processStep, previousStep, nameSuggestionOptions, onSave, on
           options={ontologiesByRoleName('automation_mode')}
           onChange={handleChangeAutomationMode} />
       </FormGroup>
-      {stepForm.actual_automation_status || "no status"}
       {OntologyConstants.isAutomated(stepForm.automation_mode) &&
         <StepAutomationStatusFormGroup
           key={stepForm.actual_automation_status}
