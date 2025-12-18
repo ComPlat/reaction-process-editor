@@ -1,5 +1,7 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
+import { Button, Input } from "reactstrap";
 import Select from "react-select";
+
 import MultiInputFormGroup from "../activities/forms/formgroups/MultiInputFormGroup";
 import SingleLineFormGroup from "../activities/forms/formgroups/SingleLineFormGroup";
 import VesselableSelector from "../vesselables/VesselableSelector";
@@ -9,7 +11,6 @@ import VesselableQuickSelector from "./VesselableQuickSelector";
 import { SelectOptions } from "../../contexts/SelectOptions";
 import { VesselOptions } from "../../contexts/VesselOptions";
 import OptionsDecorator from "../../decorators/OptionsDecorator";
-import { Button } from "reactstrap";
 
 const VesselableFormSection = ({
   onChange,
@@ -24,10 +25,19 @@ const VesselableFormSection = ({
 
   const preparationOptions = selectOptions.vessel_preparations;
 
-  const vesselOptions = !!automationMode ?
-    vesselables.filter(vessel => vessel.automation_modes?.includes(automationMode))
-    :
-    vesselables
+  const [showVesselTemplates, setShowVesselTemplates] = useState(true)
+  const [showVessels, setShowVessels] = useState(false)
+
+  const matchesAutomationMode = (vessel) => !automationMode || vessel.automation_modes?.includes(automationMode)
+
+  const matchesTemplateTpe = (vessel) => {
+    return (showVesselTemplates && vessel.vesselable_type === 'VesselTemplate')
+      || (showVessels && vessel.vesselable_type === 'Vessel')
+  }
+
+  const filteredVesselOptions = vesselables.filter(vessel => {
+    return matchesAutomationMode(vessel) && matchesTemplateTpe(vessel)
+  })
 
   const currentVesselable = VesselableDecorator.getVesselableByParams(
     { vesselable_id: reactionProcessVessel?.vesselable_id, vesselable_type: reactionProcessVessel?.vesselable_type },
@@ -58,15 +68,17 @@ const VesselableFormSection = ({
 
   const renderVesselSuggestion = () => {
     return (previousStepVessel ?
-      <div className="d-flex justify-content-between align-self-center">
-        <div className="col-form-label">
-          {VesselableDecorator.vesselableSingleLine(previousStepVessel.vesselable)}
-        </div>
-        <div className="optional-form-group__open-controls">
-          <div className="d-grid gap-2">
-            <Button size={'sm'} color={'step'} onClick={() => onChange(previousStepVessel)} >
-              Use Previous
-            </Button>
+      <div className="pt-1 mb-3">
+        <div className="d-flex justify-content-between align-self-center">
+          <div className="col-form-label">
+            {VesselableDecorator.vesselableSingleLine(previousStepVessel.vesselable)}
+          </div>
+          <div className="optional-form-group__open-controls">
+            <div className="d-grid gap-2">
+              <Button size={'sm'} color={'step'} onClick={() => onChange(previousStepVessel)} >
+                Use Previous
+              </Button>
+            </div>
           </div>
         </div>
       </div>
@@ -75,18 +87,20 @@ const VesselableFormSection = ({
   }
   const renderInitialSampleVesselSuggestion = () => {
     return (initialSampleVessel ?
-      <div className="d-flex justify-content-between align-self-center">
-        <div className="col-form-label">
-          {VesselableDecorator.vesselableSingleLine(initialSampleVessel.vesselable)}
-        </div>
-        <div className="optional-form-group__open-controls">
-          <div className="d-grid gap-2">
-            <Button size={'sm'} color={'step'} onClick={() => onChange(initialSampleVessel)} >
-              Use Initial
-            </Button>
+      <div className="pt-1 mb-3">
+        <div className="d-flex justify-content-between align-self-center">
+          <div className="col-form-label">
+            {VesselableDecorator.vesselableSingleLine(initialSampleVessel.vesselable)}
           </div>
-        </div>
-      </div >
+          <div className="optional-form-group__open-controls">
+            <div className="d-grid gap-2">
+              <Button size={'sm'} color={'step'} onClick={() => onChange(initialSampleVessel)} >
+                Use Initial
+              </Button>
+            </div>
+          </div>
+        </div >
+      </div>
       : <></>
     )
   }
@@ -94,25 +108,41 @@ const VesselableFormSection = ({
   return (
     <>
       <MultiInputFormGroup label={VesselableDecorator.vesselableType(currentVesselable)} typeColor={typeColor}>
+        {renderInitialSampleVesselSuggestion()}
+        {renderVesselSuggestion()}
         <div className="pt-1 mb-3">
-          {renderInitialSampleVesselSuggestion()}
-        </div>
-        <div className="pt-1 mb-3">
-          {renderVesselSuggestion()}
+          <div className="d-flex justify-content-between">
+            <span className="col-5 col-form-label">
+              <Input
+                type="checkbox"
+                checked={showVesselTemplates}
+                onChange={(event) =>
+                  setShowVesselTemplates(event.target.checked)
+                } /> Vessel-Templates
+            </span>
+            <span className="col-5 col-form-label">
+              <Input
+                type="checkbox"
+                checked={showVessels}
+                onChange={(event) =>
+                  setShowVessels(event.target.checked)
+                } /> Vessels
+            </span>
+          </div>
         </div>
         <div className="pt-1 mb-3">
           <VesselableQuickSelector
             currentVesselable={currentVesselable}
             onSelectVesselable={assignVesselable}
             typeColor={typeColor}
-            vesselOptions={vesselOptions}
+            vesselOptions={filteredVesselOptions}
           />
         </div>
         <div className="pt-1 mb-3">
           <VesselableSelector
             currentVesselable={currentVesselable}
             onSelectVesselable={assignVesselable}
-            vesselOptions={vesselOptions}
+            vesselOptions={vesselables}
             typeColor={typeColor}
             buttonLabel={!!reactionProcessVessel?.vesselable_id ? "Change" : "Set"}
           />

@@ -22,6 +22,15 @@ const VesselableSelector = ({
   buttonLabel
 }) => {
   const [modalOpen, setModalOpen] = useState(false);
+  const [showVesselTemplates, setShowVesselTemplates] = useState(true)
+  const [showVessels, setShowVessels] = useState(false)
+
+  const filteredVesselOptions = vesselOptions.filter(vessel => {
+    console.log("filter")
+    console.log(showVesselTemplates)
+    return (showVesselTemplates && vessel.vesselable_type === 'VesselTemplate')
+      || (showVessels && vessel.vesselable_type === 'Vessel')
+  })
 
   const toggleModal = () => {
     setModalOpen(!modalOpen);
@@ -51,14 +60,28 @@ const VesselableSelector = ({
         fullscreen={true}
         className={"modal--" + typeColor}
       >
-        <ModalHeader tag="h4">
-          {buttonLabel} Vessel
+        <ModalHeader tag="h4" className="d-flex justify-content-between">
+          {buttonLabel}
+          <Input className="col-2"
+            type="checkbox"
+            checked={showVesselTemplates}
+            onChange={(event) =>
+              setShowVesselTemplates(event.target.checked)
+            } /> Vessel-Templates
+          <Input
+            type="checkbox"
+            checked={showVessels}
+            onChange={(event) =>
+              setShowVessels(event.target.checked)
+            } /> Vessels
+
+          <span className="col-3"></span>
         </ModalHeader>
         <ModalBody>
           <VesselableIndex
             onSelectVesselable={handleSelectVesselable}
             typeColor={typeColor}
-            vesselOptions={vesselOptions}
+            vesselOptions={filteredVesselOptions}
           />
         </ModalBody>
         <ModalFooter>
@@ -66,7 +89,7 @@ const VesselableSelector = ({
             Cancel
           </Button>
         </ModalFooter>
-      </Modal>
+      </Modal >
     </>
   );
 };
