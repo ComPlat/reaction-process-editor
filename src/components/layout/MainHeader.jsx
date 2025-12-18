@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import {
+  Button,
   DropdownMenu,
   DropdownItem,
   DropdownToggle,
   Navbar,
   NavbarBrand,
   Nav,
+  NavLink,
   UncontrolledDropdown,
 } from "reactstrap";
 import { Link, useLocation } from "react-router-dom";
@@ -75,7 +77,7 @@ const MainHeader = () => {
     }
   }
 
-  const reactionsIndexPath = (model) => "/reactions"
+  const reactionsIndexPath = "/reactions"
 
   const fetchReactionsOptions = () => {
     let model = "reactions"
@@ -144,7 +146,10 @@ const MainHeader = () => {
           </NavbarBrand>
           {localStorage.getItem("username") && (
             <>
-              <Nav navbar className="me-auto main-header__nav">
+              <Nav navbar className="me-autos main-header__nav">
+                {/* <NavLink href={reactionsIndexPath} className="main-header-name col-2">
+                  Reaction Index
+                  </NavLink> */}
                 <UncontrolledDropdown nav>
                   <DropdownToggle nav caret>
                     {OptionsDecorator.valueToLabel(
@@ -152,6 +157,7 @@ const MainHeader = () => {
                       collectionOptions
                     ) || "Collections"}
                   </DropdownToggle>
+
                   <DropdownMenu>
                     {collectionOptions.map((collection) => (
                       <DropdownItem
@@ -164,29 +170,14 @@ const MainHeader = () => {
                     ))}
                   </DropdownMenu>
                 </UncontrolledDropdown>
-                <UncontrolledDropdown nav>
-                  <DropdownToggle nav caret>
-                    Reactions ({reactionOptions.length})
-                  </DropdownToggle>
-                  <DropdownMenu>
-                    <DropdownItem
-                      key={"reactions-index-link"}
-                      tag={Link}
-                      to={reactionsIndexPath()}
-                    >
-                      Reactions
-                    </DropdownItem>
-                    {reactionOptions.map((reaction) => (
-                      <DropdownItem
-                        key={reaction.key}
-                        tag={Link}
-                        to={reaction.path}
-                      >
-                        {reaction.label}
-                      </DropdownItem>
-                    ))}
-                  </DropdownMenu>
-                </UncontrolledDropdown>
+              </Nav>
+              <Nav navbar className="me-auto main-header__nav">
+                <OptionsQuickNavigator
+                  label={'Reactions'}
+                  options={reactionOptions}
+                />
+              </Nav>
+              <Nav navbar className="me-auto main-header__nav">
                 <OptionsQuickNavigator
                   label={'Samples'}
                   options={sampleOptions}
@@ -203,7 +194,7 @@ const MainHeader = () => {
           )}
         </Navbar>
       </SubFormController.Provider>
-    </SelectOptions.Provider>
+    </SelectOptions.Provider >
   );
 };
 

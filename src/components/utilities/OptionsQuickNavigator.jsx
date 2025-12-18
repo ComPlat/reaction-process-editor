@@ -68,17 +68,15 @@ const OptionsQuickNavigator = ({ options, label }) => {
   }
 
   return (
-    <>
-      <InputGroup>
-        <Input
-          placeholder={label}
-          value={query}
-          onChange={(event) => setQuery(event.target.value)}
-          onKeyUp={handleKeyInput}
-        />
-        {ambigousOption ? renderOptionsSelect() : renderSelectSubmitButton()}
-      </InputGroup>
-    </>
+    <InputGroup>
+      <Input
+        placeholder={label}
+        value={query}
+        onChange={(event) => setQuery(event.target.value)}
+        onKeyUp={handleKeyInput}
+      />
+      {ambigousOption ? renderOptionsSelect() : renderSelectSubmitButton()}
+    </InputGroup>
   );
 };
 
