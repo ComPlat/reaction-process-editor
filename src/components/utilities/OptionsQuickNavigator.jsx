@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { Button, InputGroup, Input } from "reactstrap";
+import { Button, InputGroup, Input, Row } from "reactstrap";
 
 import { useNavigate } from 'react-router-dom'
 
@@ -13,7 +13,7 @@ import {
 
 import { Link } from "react-router-dom";
 
-const OptionsQuickNavigator = ({ options, label, className }) => {
+const OptionsQuickNavigator = ({ options, label }) => {
   const navigate = useNavigate();
 
   const [query, setQuery] = useState('');
@@ -26,18 +26,21 @@ const OptionsQuickNavigator = ({ options, label, className }) => {
 
   const ambigousOption = filteredOptions.length !== 1
 
+
   const handleKeyInput = (event) => {
-    if (event.key === "Enter" && !!filteredOptions[0]) { navigate(filteredOptions[0].url) }
+    console.log(event.key)
+    console.log(filteredOptions[0])
+    if (event.key === "Enter" && !!filteredOptions[0]) { navigate(filteredOptions[0].path) }
   }
 
   const renderSelectSubmitButton = () => {
     return (
-      <Button color={'success'} disabled={ambigousOption}
+      <Button color={'success'}
         tag={Link}
-        to={filteredOptions[0].url}
+        to={filteredOptions[0]?.path}
         className="main-header-name"
       >
-        {filteredOptions[0].label}
+        {filteredOptions[0]?.label || "No Match"}
       </Button >
     )
   }
@@ -70,13 +73,19 @@ const OptionsQuickNavigator = ({ options, label, className }) => {
   return (
     <InputGroup
       className="metrics-input">
-      <Input
-        placeholder={label}
-        value={query}
-        onChange={(event) => setQuery(event.target.value)}
-        onKeyUp={handleKeyInput}
-      />
-      {ambigousOption ? renderOptionsSelect() : renderSelectSubmitButton()}
+
+      <div className='col-6'>
+        <Input
+          placeholder={label}
+          value={query}
+          onChange={(event) => setQuery(event.target.value)}
+          onKeyUp={handleKeyInput}
+        />
+      </div>
+      <div className='col-6'>
+        {filteredOptions.length > 1 ? renderOptionsSelect() : renderSelectSubmitButton()}
+      </div>
+
     </InputGroup>
   );
 };

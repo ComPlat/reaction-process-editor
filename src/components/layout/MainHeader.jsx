@@ -140,7 +140,7 @@ const MainHeader = () => {
           </NavbarBrand>
           {localStorage.getItem("username") && (
             <>
-              <Nav navbar className="me-auto main-header__nav">
+              <Nav justified navbar className="me-auto main-header__nav">
                 <UncontrolledDropdown nav>
                   <DropdownToggle nav caret>
                     {OptionsDecorator.valueToLabel(filterCollectionId, collectionOptions) || "Collections"}
@@ -157,11 +157,9 @@ const MainHeader = () => {
                     ))}
                   </DropdownMenu>
                 </UncontrolledDropdown>
-              </Nav>
-              <Nav navbar className="me-auto main-header__nav">
+                {/* </Nav>
+              <Nav justified navbar className="me-auto main-header__nav"> */}
                 <OptionsQuickNavigator label={'Reactions'} options={reactionOptions} />
-              </Nav>
-              <Nav navbar className="me-auto main-header__nav">
                 <OptionsQuickNavigator label={'Samples'} options={sampleOptions} />
               </Nav>
               <Nav navbar className="justify-content-end align-items-center">
