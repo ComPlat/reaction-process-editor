@@ -13,7 +13,7 @@ import {
 
 import { Link } from "react-router-dom";
 
-const OptionsQuickNavigator = ({ options, label }) => {
+const OptionsQuickNavigator = ({ options, label, className }) => {
   const navigate = useNavigate();
 
   const [query, setQuery] = useState('');
@@ -68,7 +68,8 @@ const OptionsQuickNavigator = ({ options, label }) => {
   }
 
   return (
-    <InputGroup>
+    <InputGroup
+      className="metrics-input">
       <Input
         placeholder={label}
         value={query}

@@ -1,30 +1,24 @@
 import React, { useEffect, useState } from "react";
 import {
-  Button,
   DropdownMenu,
   DropdownItem,
   DropdownToggle,
   Navbar,
   NavbarBrand,
   Nav,
-  NavLink,
   UncontrolledDropdown,
 } from "reactstrap";
-import { Link, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 import UserMenu from "./UserMenu";
-
-import { useReactionsFetcher } from "../../fetchers/ReactionsFetcher";
-
 import OptionsQuickNavigator from "../utilities/OptionsQuickNavigator";
 
-import { SelectOptions } from "../../contexts/SelectOptions";
-import {
-  SubFormController,
-  SubFormToggle,
-} from "../../contexts/SubFormController";
-
 import OptionsDecorator from "../../decorators/OptionsDecorator";
+
+import { SubFormController, SubFormToggle } from "../../contexts/SubFormController";
+import { SelectOptions } from "../../contexts/SelectOptions";
+
+import { useReactionsFetcher } from "../../fetchers/ReactionsFetcher";
 
 const MainHeader = () => {
   const location = useLocation();
@@ -146,18 +140,11 @@ const MainHeader = () => {
           </NavbarBrand>
           {localStorage.getItem("username") && (
             <>
-              <Nav navbar className="me-autos main-header__nav">
-                {/* <NavLink href={reactionsIndexPath} className="main-header-name col-2">
-                  Reaction Index
-                  </NavLink> */}
+              <Nav navbar className="me-auto main-header__nav">
                 <UncontrolledDropdown nav>
                   <DropdownToggle nav caret>
-                    {OptionsDecorator.valueToLabel(
-                      filterCollectionId,
-                      collectionOptions
-                    ) || "Collections"}
+                    {OptionsDecorator.valueToLabel(filterCollectionId, collectionOptions) || "Collections"}
                   </DropdownToggle>
-
                   <DropdownMenu>
                     {collectionOptions.map((collection) => (
                       <DropdownItem
@@ -172,17 +159,10 @@ const MainHeader = () => {
                 </UncontrolledDropdown>
               </Nav>
               <Nav navbar className="me-auto main-header__nav">
-                <OptionsQuickNavigator
-                  label={'Reactions'}
-                  options={reactionOptions}
-                />
+                <OptionsQuickNavigator label={'Reactions'} options={reactionOptions} />
               </Nav>
               <Nav navbar className="me-auto main-header__nav">
-                <OptionsQuickNavigator
-                  label={'Samples'}
-                  options={sampleOptions}
-                />
-
+                <OptionsQuickNavigator label={'Samples'} options={sampleOptions} />
               </Nav>
               <Nav navbar className="justify-content-end align-items-center">
                 <UserMenu
