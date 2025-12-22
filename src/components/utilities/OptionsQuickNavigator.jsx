@@ -24,32 +24,17 @@ const OptionsQuickNavigator = ({ options, label }) => {
     .filter(option => optionMatchesQuery(option))
     .map(option => { return { ...option, value: option.key, label: option.label } })
 
-  const ambigousOption = filteredOptions.length !== 1
-
-
   const handleKeyInput = (event) => {
-    console.log(event.key)
-    console.log(filteredOptions[0])
     if (event.key === "Enter" && !!filteredOptions[0]) { navigate(filteredOptions[0].path) }
   }
 
-  const renderSelectSubmitButton = () => {
-    return (
-      <Button color={'success'}
-        tag={Link}
-        to={filteredOptions[0]?.path}
-        className="main-header-name"
-      >
-        {filteredOptions[0]?.label || "No Match"}
-      </Button >
-    )
-  }
-
   const renderOptionsSelect = () => {
+    let displayLabel = query.length && filteredOptions.length ? filteredOptions[0].label : label
+
     return (
       <UncontrolledDropdown nav>
         <DropdownToggle nav caret>
-          {label}
+          {displayLabel}
           {' '}
           ({filteredOptions.length})
         </DropdownToggle>
@@ -72,8 +57,7 @@ const OptionsQuickNavigator = ({ options, label }) => {
 
   return (
     <InputGroup
-      className="metrics-input">
-
+      className="metrics-input navbar-direct-link">
       <div className='col-6'>
         <Input
           placeholder={label}
@@ -83,9 +67,8 @@ const OptionsQuickNavigator = ({ options, label }) => {
         />
       </div>
       <div className='col-6'>
-        {filteredOptions.length > 1 ? renderOptionsSelect() : renderSelectSubmitButton()}
+        {renderOptionsSelect()}
       </div>
-
     </InputGroup>
   );
 };

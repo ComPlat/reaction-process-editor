@@ -2,9 +2,13 @@
   .dropdown-item {
     font-size: $h4-font-size;
   }
-  .nav-link, .navbar-text, .btn {
+
+  .nav-link,
+  .navbar-text,
+  .btn {
     font-size: $h4-font-size;
   }
+
   &__brand {
     display: flex;
     align-items: center;
@@ -13,6 +17,7 @@
       font-size: $h2-font-size;
     }
   }
+
   &__nav {
     &:before {
       margin-top: -.2rem;
@@ -34,4 +39,8 @@
     background-color: border-color('secondary');
     border: none;
   }
+}
+
+.navbar-direct-link {
+  width: 300px;
 }
