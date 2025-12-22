@@ -19,7 +19,7 @@ import { SelectOptions } from "../../contexts/SelectOptions";
 const StepForm = ({ processStep, previousStep, nameSuggestionOptions, onSave, onCancel, initialSampleVessel }) => {
 
   let ontologies = useContext(SelectOptions).ontologies
-  const [stepForm, setStepForm] = useState(processStep || {})
+  const [stepForm, setStepForm] = useState(processStep || { name: "", automation_mode: OntologyConstants.automation_mode.automated })
   const activityValidator = useActivityValidator();
 
   const handleSave = () => {
