@@ -63,7 +63,7 @@ const SolventListFormGroup = ({
 				options={selectableSolventOptions}
 				value={''}
 				onChange={selectedOption => addSolvent(selectedOption)}
-				isDisabled={disabled}
+				isDisabled={disabled || !selectableSolventOptions.length}
 			/>
 		</FormGroup>
 	)

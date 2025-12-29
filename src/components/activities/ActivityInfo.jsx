@@ -36,7 +36,7 @@ const ActivityInfo = (props) => {
       'CHROMATOGRAPHY': PurificationInfo,
       'FILTRATION': PurificationInfo,
       'EXTRACTION': PurificationInfo,
-      'REMOVE': RemoveInfo,
+      'EVAPORATION': RemoveInfo,
       'SAVE': SaveInfo,
       'TRANSFER': TransferInfo,
       'DEFINE_FRACTION': DiscardInfo,

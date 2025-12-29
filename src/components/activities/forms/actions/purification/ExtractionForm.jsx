@@ -22,19 +22,6 @@ const ExtractionForm = ({
 }) => {
   const extractionOptions = useContext(SelectOptions).FORMS.EXTRACTION;
 
-  const renderAutomationToggle = () => {
-    return (
-      <ButtonGroupToggle
-        value={workup.automation_mode}
-        options={extractionOptions.automation_modes}
-        onChange={(selectedValue) =>
-          onWorkupChange({ name: "automation_mode", value: selectedValue })
-        }
-        label="Automation"
-      />
-    )
-  }
-
   const renderPhaseToggle = () => {
     return (
       <ButtonGroupToggle
@@ -51,7 +38,6 @@ const ExtractionForm = ({
   return (
     <>
       <FormSection type="action">
-        {renderAutomationToggle()}
         {renderPhaseToggle()}
       </FormSection>
 

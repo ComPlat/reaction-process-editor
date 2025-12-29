@@ -37,20 +37,12 @@ const CrystallizationForm = (
 
   const handleWorkupChange = (workupKey) => (value) => onWorkupChange({ name: workupKey, value: value })
 
-  // Crystallization is the only 1 of 4 the purification types having no actual purification_steps. For consistentency we mimic
-  // their behaiour by wrapping the crystallizatin in an array `purification_steps` with exactly 1 step. cbuggle, 01.07.2024.
+  // For consistentet usage in  among all purification actions we mimic
+  // their behaviour by wrapping the crystallizatin in an array `purification_steps` with exactly 1 step. cbuggle, 01.07.2024.
   const handleSolventsChange = (solvents) => onWorkupChange({ name: 'purification_steps', value: [{ solvents: solvents }] })
 
   return (
     <>
-      <FormSection type='action'>
-        <ButtonGroupToggle
-          value={workup.automation_mode}
-          options={crystallizationOptions.automation_modes}
-          onChange={selectedValue => onWorkupChange({ name: 'automation_mode', value: selectedValue })}
-          label='Automation'
-        />
-      </FormSection>
       <FormSection type='action'>
         <FormGroup>
           <SolventListFormGroup

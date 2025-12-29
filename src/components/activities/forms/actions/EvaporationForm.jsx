@@ -17,15 +17,18 @@ import { SelectOptions } from "../../../../contexts/SelectOptions";
 import { StepSelectOptions } from "../../../../contexts/StepSelectOptions";
 
 const EvaporationForm = ({ workup, preconditions, onWorkupChange }) => {
-	const selectOptions = useContext(SelectOptions).FORMS.REMOVE;
-	const removableSamplesOptions = useContext(StepSelectOptions).FORMS.REMOVE.removable_samples;
+	const selectOptions = useContext(SelectOptions).FORMS.EVAPORATION;
+	const removableSamplesOptions = useContext(StepSelectOptions).FORMS.EVAPORATION.removable_samples;
+
+	console.log(useContext(StepSelectOptions).FORMS.EVAPORATION)
 
 	useEffect(() => {
+		workup.origin_type || onWorkupChange({ name: 'origin_type', value: 'FROM_REACTION' })
 		hasSampleFields(workup.origin_type) ?
 			onWorkupChange({ name: 'samples', value: removableSamplesOptions[workup.origin_type] })
 			: onWorkupChange({ name: 'samples', value: undefined })
 		// eslint-disable-next-line
-	}, [])
+	}, [workup.origin_type])
 
 	const handleTypeChange = (newType) => {
 		onWorkupChange({ name: "origin_type", value: newType })

@@ -7,7 +7,7 @@ import ChromatographyForm from './purification/ChromatographyForm';
 import CentrifugationForm from './purification/CentrifugationForm';
 
 import AnalysisChromatographyForm from './analysis/AnalysisChromatographyForm';
-import AnalysisElementalForm from './analysis/AnalysisElemental';
+import AnalysisElementalForm from './analysis/AnalysisElementalForm';
 import AnalysisSpectroscopyForm from './analysis/AnalysisSpectroscopyForm';
 
 import ActivityForm from "../ActivityForm";

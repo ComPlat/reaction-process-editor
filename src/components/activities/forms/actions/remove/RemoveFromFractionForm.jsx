@@ -12,7 +12,7 @@ import { StepSelectOptions } from '../../../../../contexts/StepSelectOptions'
 import RemoveSolventListFormSection from './RemoveSolventListFormSection'
 
 const RemoveFromFractionForm = ({ workup, onWorkupChange }) => {
-	const removableFractionsOptions = useContext(StepSelectOptions).FORMS.REMOVE.removable_samples[workup.origin_type]
+	const removableFractionsOptions = useContext(StepSelectOptions).FORMS.EVAPORATION.removable_samples[workup.origin_type]
 
 	const handleRemoveFractionChange = (fraction) => {
 		onWorkupChange({ name: 'samples', value: [fraction] });

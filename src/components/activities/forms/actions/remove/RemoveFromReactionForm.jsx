@@ -11,7 +11,7 @@ import { StepSelectOptions } from '../../../../../contexts/StepSelectOptions'
 
 const RemoveFromReactionForm = ({ workup, onWorkupChange }) => {
 	const stepSelectOptions = useContext(StepSelectOptions);
-	const removableSamplesOptions = stepSelectOptions.FORMS.REMOVE.removable_samples[workup.origin_type]
+	const removableSamplesOptions = stepSelectOptions.FORMS.EVAPORATION.removable_samples[workup.origin_type]
 
 	const handleWorkupChange = (name) => (value) => {
 		onWorkupChange({ name: name, value: value });
