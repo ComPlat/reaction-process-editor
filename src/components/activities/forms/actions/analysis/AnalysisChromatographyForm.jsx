@@ -287,7 +287,7 @@ const AnalysisChromatographyForm = (
           <SamplesIconSelect
             isMulti
             isClearable={false}
-            options={selectOptions.materials['MOLECULAR_ENTITITES']}
+            options={selectOptions.materials['MOLECULAR_ENTITY']}
             samples={workup.molecular_entitites}
             onChange={handleWorkupChange('molecular_entities')}
           />
