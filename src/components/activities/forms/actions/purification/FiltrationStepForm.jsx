@@ -43,7 +43,10 @@ const FiltrationStepForm = ({
     })
   }
 
-  const handleRinseCheckBox = (event) => handleChangeFormData('rinse_vessel')(event.target.value)
+  const handleRinseCheckBox = (event) => {
+    console.log(event)
+    handleChangeFormData('rinse_vessel')(event.target.checked)
+  }
 
   const handleCancel = () => {
     onCancel()
@@ -102,7 +105,7 @@ const FiltrationStepForm = ({
           <Label check>
             <Input
               type="checkbox"
-              checked={formData.rinse}
+              checked={formData.rinse_vessel}
               onChange={handleRinseCheckBox}
             />
             Rinse Vessel
