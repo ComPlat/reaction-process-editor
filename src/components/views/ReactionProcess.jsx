@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useLocation } from 'react-router-dom';
 
 import ReactionNavbar from '../reactions/navbar/ReactionNavbar';
-import PreparationColumnCard from '../preparations/SamplePreparationColumnCard';
+import SamplePreparationColumnCard from '../preparations/SamplePreparationColumnCard';
 import VesselPreparationColumnCard from '../preparations/VesselPreparationColumnCard';
 
 import SpinnerWithMessage from "../utilities/SpinnerWithMessage";
@@ -110,7 +110,7 @@ const ReactionProcess = () => {
             <div className='px-5 py-6 d-inline-block'>
               <div className='d-inline-flex flex-nowrap align-items-start gap-5'>
                 <div className='d-flex gap-5 flex-column'>
-                  <PreparationColumnCard reactionProcess={reactionProcess} />
+                  <SamplePreparationColumnCard reactionProcess={reactionProcess} />
                   <VesselPreparationColumnCard reactionProcess={reactionProcess} />
                 </div>
                 <StepsContainer reactionProcess={reactionProcess} />
