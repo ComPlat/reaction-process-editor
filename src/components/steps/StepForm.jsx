@@ -87,6 +87,7 @@ const StepForm = ({ processStep, previousStep, nameSuggestionOptions, onSave, on
         onChange={handleChange('reaction_process_vessel')}
         reactionProcessVessel={stepForm.reaction_process_vessel}
         initialSampleVessel={initialSampleVessel}
+        suggestInitialVessel
         previousStepVessel={previousStep?.reaction_process_vessel}
         typeColor="step"
         label={"Step" + (stepForm.name ? ' "' + stepForm.name + '"' : "")}

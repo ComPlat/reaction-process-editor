@@ -29,6 +29,7 @@ export default class VesselableDecorator {
         vesselableValue: { vesselable_type: vessel.vesselable_type, vesselable_id: vessel.id },
         vesselable_type: vessel.vesselable_type,
         short_label: vessel.short_label,
+        details: vessel.details,
         name: vessel.name,
         template: vessel.vessel_template_name,
         type: vessel.vessel_type,
@@ -61,7 +62,11 @@ export default class VesselableDecorator {
   };
 
   static vesselVolume = (vessel) => {
-    return vessel.volume_amount + " " + vessel.volume_unit?.toLowerCase();
+    console.log("vessel.volume_amount" + vessel.volume_amount)
+    return vessel.volume_amount ?
+      vessel.volume_amount + " " + vessel.volume_unit?.toLowerCase()
+      :
+      "n/a"
   };
 
   static vesselMaterial = (vessel) => {

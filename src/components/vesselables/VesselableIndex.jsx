@@ -29,17 +29,23 @@ const VesselableIndex = ({ onSelectVesselable, vesselOptions, typeColor }) => {
       filter: true,
       flex: 3,
     },
-    {
-      field: "short_label",
-      headerName: "ShortLabel",
-      filter: true,
-      flex: 4,
-    },
+    // {
+    //   field: "short_label",
+    //   headerName: "ShortLabel",
+    //   filter: true,
+    //   flex: 4,
+    // },
     {
       field: "name",
       headerName: "Name",
       filter: true,
       flex: 4,
+    },
+    {
+      field: "details",
+      headerName: "Details",
+      filter: true,
+      flex: 6,
     },
     {
       field: "type",
@@ -52,7 +58,7 @@ const VesselableIndex = ({ onSelectVesselable, vesselOptions, typeColor }) => {
       field: "material",
       headerName: "Material",
       filter: true,
-      flex: 2,
+      flex: 3,
       maxWidth: 200,
     },
     {
