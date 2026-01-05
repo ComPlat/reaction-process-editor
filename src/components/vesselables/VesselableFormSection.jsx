@@ -17,6 +17,7 @@ const VesselableFormSection = ({
   reactionProcessVessel,
   previousStepVessel,
   initialSampleVessel,
+  suggestInitialVessel,
   typeColor,
   automationMode
 }) => {
@@ -67,7 +68,7 @@ const VesselableFormSection = ({
   };
 
   const renderVesselSuggestion = () => {
-    return (previousStepVessel ?
+    return (
       <div className="pt-1 mb-3">
         <div className="d-flex justify-content-between align-self-center">
           <div className="col-form-label">
@@ -82,34 +83,32 @@ const VesselableFormSection = ({
           </div>
         </div>
       </div>
-      : <></>
     )
   }
   const renderInitialSampleVesselSuggestion = () => {
-    return (initialSampleVessel ?
+    return (
       <div className="pt-1 mb-3">
         <div className="d-flex justify-content-between align-self-center">
-          <div className="col-form-label">
-            {VesselableDecorator.vesselableSingleLine(initialSampleVessel.vesselable)}
-          </div>
+
+          {initialSampleVessel ? VesselableDecorator.vesselableSingleLine(initialSampleVessel.vesselable) : "No initial Vessel assigned"}
+
           <div className="optional-form-group__open-controls">
             <div className="d-grid gap-2">
-              <Button size={'sm'} color={'step'} onClick={() => onChange(initialSampleVessel)} >
+              <Button size={'sm'} color={'step'} onClick={() => onChange(initialSampleVessel)} disabled={!initialSampleVessel} >
                 Use Initial
               </Button>
             </div>
           </div>
         </div >
       </div>
-      : <></>
     )
   }
 
   return (
     <>
       <MultiInputFormGroup label={VesselableDecorator.vesselableType(currentVesselable)} typeColor={typeColor}>
-        {renderInitialSampleVesselSuggestion()}
-        {renderVesselSuggestion()}
+        {!!suggestInitialVessel && renderInitialSampleVesselSuggestion()}
+        {!!previousStepVessel && renderVesselSuggestion()}
         <div className="pt-1 mb-3">
           <div className="d-flex justify-content-between">
             <span className="col-5 col-form-label">
