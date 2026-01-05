@@ -43,10 +43,11 @@ const TransferForm = (
   }
 
   const handleChangeTarget = (target_step_id) => {
-    onWorkupChange({ name: 'transfer_target_step_id', value: target_step_id })
 
     let newTarget = OptionsDecorator.optionForValue(target_step_id, transferOptions.targets)
 
+    onWorkupChange({ name: 'transfer_target_step_id', value: target_step_id })
+    onWorkupChange({ name: 'automation_mode', value: newTarget.automation_mode })
     if (newTarget && newTarget.saved_sample_ids.includes(workup['sample_id'])) {
       onWorkupChange({ name: 'sample_id', value: undefined })
     }

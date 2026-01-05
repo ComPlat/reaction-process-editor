@@ -21,7 +21,7 @@ const CreateTransferZone = () => {
   }
 
   const initialTransferActivity = {
-    activity_name: 'TRANSFER'
+    activity_name: 'TRANSFER', workup: {}
   }
 
   const handleSave = (activity) => {
@@ -46,6 +46,7 @@ const CreateTransferZone = () => {
             type={'preparation'}
             onSave={handleSave}
             onCancel={handleCancel}
+            processStep={{}}
           /> :
           <>
             <Button

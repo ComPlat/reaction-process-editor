@@ -3,7 +3,7 @@ import React from "react";
 import ProcedureCard from "../utilities/ProcedureCard";
 import SamplePreparation from "./SamplePreparation";
 
-const PreparationColumnCard = ({ reactionProcess }) => {
+const SamplePreparationColumnCard = ({ reactionProcess }) => {
   const renderSamplePreparations = () => {
     return (
       <>
@@ -36,4 +36,4 @@ const PreparationColumnCard = ({ reactionProcess }) => {
   );
 };
 
-export default PreparationColumnCard;
+export default SamplePreparationColumnCard;
