@@ -15,8 +15,8 @@ function useActivityValidator() {
 
   function errorsOnTransfer(action) {
     let errors = [];
-    action.workup["sample_id"] || errors.push("Sample");
-    action.workup["transfer_target_step_id"] || errors.push("Transfer Target");
+    action.workup["sample_id"] || action.workup["source_step_id"] || errors.push("Sample or Transfer Source");
+    action.workup["target_step_id"] || errors.push("Transfer Target");
     return errors;
   }
 
