@@ -62,7 +62,6 @@ export default class VesselableDecorator {
   };
 
   static vesselVolume = (vessel) => {
-    console.log("vessel.volume_amount" + vessel.volume_amount)
     return vessel.volume_amount ?
       vessel.volume_amount + " " + vessel.volume_unit?.toLowerCase()
       :

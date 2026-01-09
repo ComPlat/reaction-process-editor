@@ -20,8 +20,6 @@ const EvaporationForm = ({ workup, preconditions, onWorkupChange }) => {
 	const selectOptions = useContext(SelectOptions).FORMS.EVAPORATION;
 	const removableSamplesOptions = useContext(StepSelectOptions).FORMS.EVAPORATION.removable_samples;
 
-	console.log(useContext(StepSelectOptions).FORMS.EVAPORATION)
-
 	useEffect(() => {
 		workup.origin_type || onWorkupChange({ name: 'origin_type', value: 'FROM_REACTION' })
 		hasSampleFields(workup.origin_type) ?

@@ -44,7 +44,6 @@ const FiltrationStepForm = ({
   }
 
   const handleRinseCheckBox = (event) => {
-    console.log(event)
     handleChangeFormData('rinse_vessel')(event.target.checked)
   }
 

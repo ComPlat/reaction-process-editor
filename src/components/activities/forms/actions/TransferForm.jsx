@@ -24,15 +24,10 @@ const TransferForm = (
   const currentSource = OptionsDecorator.optionForValue(workup['source_step_id'], transferOptions.targets)
   const currentTarget = OptionsDecorator.optionForValue(workup['target_step_id'], transferOptions.targets)
 
-  const sampleSelected = workup['sample_id']
-  // const showSourceSelect = !isPersisted || !workup['sample_id']
 
   const transferToOptions = transferOptions.targets
     .filter(transferTarget => transferTarget.value !== workup.source_step_id)
     .filter(transferTarget => !transferTarget.saved_sample_ids.includes(currentSample?.id))
-
-
-  console.log(sampleOptions)
 
   const transferFromOptions = transferOptions.targets
 
@@ -44,12 +39,11 @@ const TransferForm = (
     let newSample = sampleOptions.find(sample => sample?.value === value && sample?.label === label)
     if (newSample) {
       const sampleSource = transferOptions.targets.find(reactionStep => reactionStep.saved_sample_ids.includes(newSample.id))
-      console.log(sampleSource)
       onWorkupChange({ name: 'acts_as', value: newSample.acts_as })
       onWorkupChange({ name: 'sample_id', value: newSample.value })
-      newSample?.amount?.value && onWorkupChange({ name: 'target_amount', value: { ...newSample.amount, ...{ percentage: 100 } } })
-      onWorkupChange({ name: 'sample_original_amount', value: newSample.amount })
       onWorkupChange({ name: 'source_step_id', value: sampleSource.value })
+      onWorkupChange({ name: 'sample_original_amount', value: newSample.amount })
+      newSample?.amount?.value && onWorkupChange({ name: 'target_amount', value: { ...newSample.amount, ...{ percentage: 100 } } })
     } else {
       onWorkupChange({ name: 'sample_id', value: undefined })
     }
