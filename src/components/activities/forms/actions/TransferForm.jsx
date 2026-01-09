@@ -68,7 +68,7 @@ const TransferForm = (
     let newTarget = OptionsDecorator.optionForValue(target_step_id, transferOptions.targets)
 
     onWorkupChange({ name: 'target_step_id', value: target_step_id })
-    onWorkupChange({ name: 'automation_mode', value: newTarget.automation_mode })
+    onWorkupChange({ name: 'automation_mode', value: newTarget?.automation_mode })
 
     if (newTarget && newTarget.saved_sample_ids.includes(workup['sample_id'])) {
       onWorkupChange({ name: 'sample_id', value: undefined })
@@ -84,8 +84,7 @@ const TransferForm = (
     <FormSection type='action'>
       <SingleLineFormGroup label='From Step'>
         <Select
-          label={"transferlabel"}
-          key={"sample" + workup.source_step_id}
+          key={"source_step" + workup.source_step_id}
           className="react-select--overwrite"
           classNamePrefix="react-select"
           name="source_step_id"
@@ -98,7 +97,6 @@ const TransferForm = (
       </SingleLineFormGroup>
       <SingleLineFormGroup label='From Sample'>
         <Select
-          label={"transferlabel"}
           key={"sample" + currentSample?.value}
           className="react-select--overwrite"
           classNamePrefix="react-select"
@@ -113,14 +111,13 @@ const TransferForm = (
       </SingleLineFormGroup>
       <SingleLineFormGroup label='To Step'>
         <Select
-
-          key={"target" + currentTarget?.value}
+          key={"target_step" + currentTarget?.value}
           name="target_step_id"
           className="react-select--overwrite"
           classNamePrefix="react-select"
           options={transferToOptions}
           value={currentTarget}
-          onChange={selectedOption => handleChangeTarget(selectedOption.value)}
+          onChange={selectedOption => handleChangeTarget(selectedOption?.value)}
           isDisabled={isPersisted}
           isClearable
         />
