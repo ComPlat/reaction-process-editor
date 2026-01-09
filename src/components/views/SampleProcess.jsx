@@ -133,7 +133,7 @@ const SampleProcess = () => {
                   <div className='d-flex gap-5 flex-column'>
                     <ProcessSampleSetupCard reactionProcess={reactionProcess} key={"react-is-so-great-it-needs-an-extra-key-with-the-id-of-the-reaction_process_vessel-to-notice-that-the-reaction_process_vessel-has-changed" + reactionProcess.reaction_process_vessel?.id} />
                     {renderTransfers()}
-                    <CreateTransferZone reactionProcess={reactionProcess} />
+                    <CreateTransferZone sample={reactionProcess.sample} />
                     <VesselPreparationColumnCard reactionProcess={reactionProcess} />
                   </div>
                   <StepsContainer reactionProcess={reactionProcess} />

@@ -41,7 +41,7 @@ const TransferForm = (
       const sampleSource = transferOptions.targets.find(reactionStep => reactionStep.saved_sample_ids.includes(newSample.id))
       onWorkupChange({ name: 'acts_as', value: newSample.acts_as })
       onWorkupChange({ name: 'sample_id', value: newSample.value })
-      onWorkupChange({ name: 'source_step_id', value: sampleSource.value })
+      onWorkupChange({ name: 'source_step_id', value: sampleSource?.value })
       onWorkupChange({ name: 'sample_original_amount', value: newSample.amount })
       newSample?.amount?.value && onWorkupChange({ name: 'target_amount', value: { ...newSample.amount, ...{ percentage: 100 } } })
     } else {
@@ -92,6 +92,7 @@ const TransferForm = (
           value={currentSource}
           onChange={handleTransferFromChange}
           isDisabled={isPersisted}
+          placeholder={!currentSample ? "Select ..." : "Initial"}
           isClearable
         />
       </SingleLineFormGroup>

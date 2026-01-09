@@ -7,7 +7,7 @@ import { SubFormController, SubFormToggle } from '../../contexts/SubFormControll
 
 import { useReactionsFetcher } from "../../fetchers/ReactionsFetcher";
 
-const CreateTransferZone = () => {
+const CreateTransferZone = ({ sample }) => {
   const api = useReactionsFetcher();
   const [showCreator, setShowCreator] = useState(false)
 
@@ -20,8 +20,10 @@ const CreateTransferZone = () => {
     return 'insert-zone--' + stateAppendix
   }
 
+  console.log("CreateTransferZone")
+  console.log(sample)
   const initialTransferActivity = {
-    activity_name: 'TRANSFER', workup: {}
+    activity_name: 'TRANSFER', workup: { sample_id: sample?.id }
   }
 
   const handleSave = (activity) => {
