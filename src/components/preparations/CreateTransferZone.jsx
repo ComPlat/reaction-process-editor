@@ -25,7 +25,7 @@ const CreateTransferZone = () => {
   }
 
   const handleSave = (activity) => {
-    let processStepId = activity.workup.transfer_target_step_id
+    let processStepId = activity.workup.target_step_id
     api.createActivity(processStepId, activity);
 
     setShowCreator(false)
