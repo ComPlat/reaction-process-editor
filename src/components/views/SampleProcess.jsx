@@ -44,11 +44,11 @@ const SampleProcess = () => {
       setIsLoading(false)
     }
     const indicateSave = () => {
-      setIsLoading(true)
+      localStorage.getItem("showSpinner") === "true" && setIsLoading(true)
     }
     const requireReload = () => {
       fetchReactionProcess()
-      setIsLoading(true)
+      localStorage.getItem("showSpinner") === "true" && setIsLoading(true)
     }
 
     window.addEventListener('indicateSave', indicateSave);

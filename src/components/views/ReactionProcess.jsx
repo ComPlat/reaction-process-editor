@@ -35,11 +35,14 @@ const ReactionProcess = () => {
       setIsLoading(false)
     }
     const indicateSave = () => {
-      setIsLoading(true)
+      console.log("localStorage")
+      console.log(localStorage)
+      localStorage.getItem("showSpinner") === "true" && setIsLoading(true)
     }
     const requireReload = () => {
+      console.log("ReactionProcess requireReload")
       fetchReactionProcess()
-      setIsLoading(true)
+      localStorage.getItem("showSpinner") === "true" && setIsLoading(true)
     }
 
     window.addEventListener('indicateSave', indicateSave);
@@ -75,6 +78,8 @@ const ReactionProcess = () => {
   }, [location, auth_token, username])
 
   const fetchReactionProcess = () => {
+    console.log("ReactionProcess fetching")
+    // alert("fetch")
     if (reactionId) {
       api.getReactionProcess(reactionId).then((data) => {
         data ? setReactionProcess(data['reaction_process']) : setReactionProcess(null)
