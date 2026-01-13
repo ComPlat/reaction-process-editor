@@ -37,6 +37,7 @@ const ActivityCard = ({
   const isInitialised = !!activity;
 
   const workup = isInitialised ? activity.workup : {}
+  const currentAutomationStatus = AutomationStatusDecorator.automationStatus(workup.AUTOMATION_STATUS)
 
   const uninitialisedForm = isCondition ? { activity_name: "CONDITION", workup: workup } : undefined;
   const uninitialisedDisplayMode = isCondition || forceShowForm ? "form" : "type-panel";
@@ -117,11 +118,11 @@ const ActivityCard = ({
           <IconButton disabled
             size={"sm"}
             positive={false}
-            icon={AutomationStatusDecorator.iconForStatus(activity?.workup['AUTOMATION_STATUS'])}
-            color={AutomationStatusDecorator.colorForStatus(activity?.workup['AUTOMATION_STATUS'])} />
+            icon={currentAutomationStatus.icon}
+            color={currentAutomationStatus.color} />
         </div>
         <UncontrolledTooltip target={"activity_automation_status_" + activity?.id} >
-          {AutomationStatusDecorator.labelForStatus(activity?.workup['AUTOMATION_STATUS'])}
+          {currentAutomationStatus.tooltip}
         </UncontrolledTooltip>
         {title}
       </div>

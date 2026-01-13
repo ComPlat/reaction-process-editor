@@ -36,7 +36,7 @@ const StepForm = ({ processStep, previousStep, nameSuggestionOptions, onSave, on
 
   const handleChangeAutomationMode = (newMode) => {
     let newStatus = OntologyConstants.isAutomated(newMode) ?
-      processStep?.actual_automation_status : ""
+      processStep?.automation_status : ""
 
     setStepForm({
       ...stepForm,
@@ -56,8 +56,6 @@ const StepForm = ({ processStep, previousStep, nameSuggestionOptions, onSave, on
 
   const ontologiesByRoleName = (roleName) => OntologiesDecorator.activeOptionsForRoleName({ roleName: roleName, options: ontologies })
 
-  // const displayAutomationStatus =
-  //   stepForm.actual_automation_status
 
   return (
     <>
@@ -77,9 +75,9 @@ const StepForm = ({ processStep, previousStep, nameSuggestionOptions, onSave, on
       </FormGroup>
       {OntologyConstants.isAutomated(stepForm.automation_mode) &&
         <StepAutomationStatusFormGroup
-          key={stepForm.actual_automation_status}
+          key={"status" + stepForm.automation_status}
           modelId={stepForm.id}
-          status={stepForm.actual_automation_status}
+          status={stepForm.automation_status}
           onChange={handleChangeAutomationStatus}
         />
       }

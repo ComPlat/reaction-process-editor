@@ -2,14 +2,10 @@ import React from "react";
 import { Button, UncontrolledTooltip } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import AutomationStatusDecorator from "../../decorators/AutomationStatusDecorator";
-
-const AutomationStatusButton = ({ onChange, status, modelId }) => {
+const AutomationStatusButton = ({ onChange, automationStatus, modelId }) => {
 
   const handleChangeAutomationStatus = () => {
-    onChange(
-      AutomationStatusDecorator.nextAutomationStatus(status)
-    )
+    onChange(automationStatus.next)
   }
 
   return (
@@ -17,13 +13,13 @@ const AutomationStatusButton = ({ onChange, status, modelId }) => {
       <div id={"automation_status_" + modelId}>
         <Button
           onClick={handleChangeAutomationStatus}
-          color={AutomationStatusDecorator.colorForStatus(status)}
+          color={automationStatus.color}
         >
-          <FontAwesomeIcon icon={AutomationStatusDecorator.iconForStatus(status)} swapOpacity />
+          <FontAwesomeIcon icon={automationStatus.icon} swapOpacity />
         </Button>
       </div>
       <UncontrolledTooltip target={"automation_status_" + modelId} >
-        {AutomationStatusDecorator.labelForStatus(status)}
+        {automationStatus.tooltip}
       </UncontrolledTooltip>
     </>
   );

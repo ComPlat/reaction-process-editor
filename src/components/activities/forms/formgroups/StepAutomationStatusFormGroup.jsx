@@ -1,10 +1,12 @@
 import React from "react";
 import { Label } from "reactstrap";
 
-import StepAutomationStatusButton from "../../../utilities/StepAutomationStatusButton";
-import StepAutomationStatusDecorator from "../../../../decorators/StepAutomationStatusDecorator";
+import AutomationStatusButton from "../../../utilities/AutomationStatusButton";
+import AutomationStatusDecorator from "../../../../decorators/AutomationStatusDecorator";
 
 const StepAutomationStatusFormGroup = ({ onChange, status, modelId }) => {
+
+  const currentAutomationStatus = AutomationStatusDecorator.stepAutomationStatus(status)
 
   return (
     <div className="d-flex justify-content-between align-self-center">
@@ -12,12 +14,12 @@ const StepAutomationStatusFormGroup = ({ onChange, status, modelId }) => {
         {"Automation"}
       </Label>
       <Label className={"col-form-label"}>
-        {StepAutomationStatusDecorator.labelForStatus(status)}
+        {currentAutomationStatus.label}
       </Label>
-      <StepAutomationStatusButton
+      <AutomationStatusButton
         modelId={modelId}
         onChange={onChange}
-        status={status}
+        automationStatus={currentAutomationStatus}
       />
     </div >
   )
