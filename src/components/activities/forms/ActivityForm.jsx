@@ -66,7 +66,6 @@ const ActivityForm = (
       />
       <AutomationStatusFormGroup
         activity={activity}
-        status={workup['AUTOMATION_STATUS']}
         modelId={activity.id}
         onChange={handleWorkupChange('AUTOMATION_STATUS')}
         onResolvePooling={handleWorkupChange('fractions')}

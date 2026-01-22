@@ -2,10 +2,13 @@ import React from "react";
 import { FormGroup, Label } from "reactstrap";
 
 import AutomationStatusButton from "../../../utilities/AutomationStatusButton";
-import AutomationStatusDecorator from "../../../../decorators/AutomationStatusDecorator";
 import ChromatographyPoolingFormModal from "../../../utilities/ChromatographyPoolingFormModal";
 
-const AutomationStatusFormGroup = ({ onChange, onResolvePooling, status, modelId, activity }) => {
+import AutomationStatusDecorator from "../../../../decorators/AutomationStatusDecorator";
+
+const AutomationStatusFormGroup = ({ onChange, onResolvePooling, modelId, activity }) => {
+
+  const currentAutomationStatus = AutomationStatusDecorator.automationStatus(activity.workup?.AUTOMATION_STATUS)
 
   return (
     <FormGroup className={"form-section"}>
@@ -14,15 +17,15 @@ const AutomationStatusFormGroup = ({ onChange, onResolvePooling, status, modelId
           {"Automation"}
         </Label>
         <Label className={"col-form-label"}>
-          {AutomationStatusDecorator.labelForStatus(status)}
+          {currentAutomationStatus.label}
         </Label>
         <AutomationStatusButton
           modelId={modelId}
           onChange={onChange}
-          status={status}
+          automationStatus={currentAutomationStatus}
         />
       </div >
-      {activity && AutomationStatusDecorator.automationNeedsManualResolve(status) &&
+      {activity && currentAutomationStatus.needsManualResolve &&
         <ChromatographyPoolingFormModal
           activity={activity}
           onResolvePooling={onResolvePooling}

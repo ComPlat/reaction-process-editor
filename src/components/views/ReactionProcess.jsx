@@ -35,12 +35,9 @@ const ReactionProcess = () => {
       setIsLoading(false)
     }
     const indicateSave = () => {
-      console.log("localStorage")
-      console.log(localStorage)
       localStorage.getItem("showSpinner") === "true" && setIsLoading(true)
     }
     const requireReload = () => {
-      console.log("ReactionProcess requireReload")
       fetchReactionProcess()
       localStorage.getItem("showSpinner") === "true" && setIsLoading(true)
     }

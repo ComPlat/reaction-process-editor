@@ -15,6 +15,9 @@ export const actionTypeClusters = [[
         createLabel: 'Transfer',
         activity: {
           activity_name: 'TRANSFER',
+          workup: {
+            AUTOMATION_STATUS: 'DEPENDS_ON_ACTIVITY',
+          }
         }
       },
     ]
