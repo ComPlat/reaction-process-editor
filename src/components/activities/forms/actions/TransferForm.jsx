@@ -9,6 +9,7 @@ import SamplesDecorator from '../../../../decorators/SamplesDecorator';
 
 import { SelectOptions } from '../../../../contexts/SelectOptions';
 import FormSection from "../../../utilities/FormSection";
+import AutomationControlDecorator from '../../../../decorators/AutomationControlDecorator';
 
 const TransferForm = (
   {
@@ -19,6 +20,7 @@ const TransferForm = (
 
   const transferOptions = useContext(SelectOptions).FORMS.TRANSFER
   const sampleOptions = transferOptions.transferable_samples
+  const activityOptions = useContext(SelectOptions).automation_control.activities
 
   const currentSample = OptionsDecorator.optionForValue(workup['sample_id'], sampleOptions)
   const currentSource = OptionsDecorator.optionForValue(workup['source_step_id'], transferOptions.targets)
@@ -37,11 +39,12 @@ const TransferForm = (
     // We have a slight chance of collisions on sampleID as we are coping with 3 different ActiveRecord models, two
     // with integer id (Solvent, DiverseSolvent; MediumSamples have uuid).
     let newSample = sampleOptions.find(sample => sample?.value === value && sample?.label === label)
+
     if (newSample) {
-      const sampleSource = transferOptions.targets.find(reactionStep => reactionStep.saved_sample_ids.includes(newSample.id))
+      const sampleSourceStep = transferOptions.targets.find(reactionStep => reactionStep.saved_sample_ids.includes(newSample.id))
       onWorkupChange({ name: 'acts_as', value: newSample.acts_as })
       onWorkupChange({ name: 'sample_id', value: newSample.value })
-      onWorkupChange({ name: 'source_step_id', value: sampleSource?.value })
+      onWorkupChange({ name: 'source_step_id', value: sampleSourceStep?.value })
       onWorkupChange({ name: 'sample_original_amount', value: newSample.amount })
       newSample?.amount?.value && onWorkupChange({ name: 'target_amount', value: { ...newSample.amount, ...{ percentage: 100 } } })
     } else {
@@ -51,6 +54,11 @@ const TransferForm = (
     if (currentTarget?.saved_sample_ids?.includes(newSample?.id)) {
       onWorkupChange({ name: 'target_step_id', value: undefined })
     }
+
+    onWorkupChange({
+      name: 'automation_control',
+      value: AutomationControlDecorator.automationControlForTransferFromSampleIdSampleId(newSample?.value, activityOptions)
+    })
   }
 
   const handleTransferFromChange = (source_step) => {
@@ -58,6 +66,10 @@ const TransferForm = (
     onWorkupChange({ name: 'sample_id', value: undefined })
     onWorkupChange({ name: 'target_amount', value: { percentage: 100 } })
     onWorkupChange({ name: 'source_step_id', value: source_step?.value })
+    onWorkupChange({
+      name: 'automation_control',
+      value: AutomationControlDecorator.automationControlForTransferFromStepId(source_step?.value)
+    })
 
     if (source_step?.value === workup.target_step_id) {
       onWorkupChange({ name: 'target_step_id', value: undefined })

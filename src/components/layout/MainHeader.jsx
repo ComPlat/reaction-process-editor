@@ -131,8 +131,6 @@ const MainHeader = () => {
   };
 
   const toggleShowSpinner = (event) => {
-    // let newValue = localStorage.getItem("showSpinner") === "true" ? "false" : "true"
-    console.log(!showSpinner)
     localStorage.setItem("showSpinner", showSpinner ? "false" : "true")
     setShowSpinner(!showSpinner)
   }
