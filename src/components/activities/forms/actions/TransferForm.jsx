@@ -57,7 +57,7 @@ const TransferForm = (
 
     onWorkupChange({
       name: 'automation_control',
-      value: AutomationControlDecorator.automationControlForTransferFromSampleIdSampleId(newSample?.value, activityOptions)
+      value: AutomationControlDecorator.automationControlForTransferFromSampleId(newSample?.value, activityOptions)
     })
   }
 

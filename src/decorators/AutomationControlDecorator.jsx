@@ -119,7 +119,7 @@ export default class AutomationControlDecorator {
     }
   }
 
-  static automationControlForTransferFromSampleIdSampleId = (sampleId, activityOptions) => {
+  static automationControlForTransferFromSampleId = (sampleId, activityOptions) => {
     return {
       status: this.automation_status['DEPENDS_ON_ACTION'],
       depends_on_action_id: activityOptions.find(activity => activity.saved_sample_id === sampleId)?.id,
