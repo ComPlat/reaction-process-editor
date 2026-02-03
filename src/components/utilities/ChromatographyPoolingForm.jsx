@@ -213,7 +213,6 @@ const ChromatographyPoolingForm = ({ activity, onCancel, onSave }) => {
 	}
 
 	return (
-
 		<>
 			{hasAutomationResponse && renderVialOverview()}
 			{hasAutomationResponse && renderFractionsForms()}
