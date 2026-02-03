@@ -47,18 +47,22 @@ const TransferForm = (
       onWorkupChange({ name: 'source_step_id', value: sampleSourceStep?.value })
       onWorkupChange({ name: 'sample_original_amount', value: newSample.amount })
       newSample?.amount?.value && onWorkupChange({ name: 'target_amount', value: { ...newSample.amount, ...{ percentage: 100 } } })
+      onWorkupChange({
+        name: 'automation_control',
+        value: AutomationControlDecorator.automationControlForTransferFromSampleId(newSample?.value, activityOptions)
+      })
     } else {
       onWorkupChange({ name: 'sample_id', value: undefined })
+      onWorkupChange({
+        name: 'automation_control',
+        value: workup.source_step_id && AutomationControlDecorator.automationControlForTransferFromStepId(workup.source_step_id)
+      })
+
     }
 
     if (currentTarget?.saved_sample_ids?.includes(newSample?.id)) {
       onWorkupChange({ name: 'target_step_id', value: undefined })
     }
-
-    onWorkupChange({
-      name: 'automation_control',
-      value: AutomationControlDecorator.automationControlForTransferFromSampleId(newSample?.value, activityOptions)
-    })
   }
 
   const handleTransferFromChange = (source_step) => {
