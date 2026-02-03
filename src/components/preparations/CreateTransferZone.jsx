@@ -20,8 +20,6 @@ const CreateTransferZone = ({ sample }) => {
     return 'insert-zone--' + stateAppendix
   }
 
-  console.log("CreateTransferZone")
-  console.log(sample)
   const initialTransferActivity = {
     activity_name: 'TRANSFER', workup: { sample_id: sample?.id }
   }

@@ -1,13 +1,7 @@
-export default class AutomationStatusDecorator {
-
-  static automationStatus = (status) =>
-    this.automation_status[status] || this.automation_status["RUN"]
-
-  static stepAutomationStatus = (status) =>
-    this.step_automation_status[status] || this.step_automation_status["STEP_CAN_RUN"]
-
+export default class AutomationControlDecorator {
   static automation_status = {
-    "RUN": {
+    "CAN_RUN": {
+      value: "CAN_RUN",
       next: "HALT",
       label: "Can Run",
       tooltip: "This Action can run.",
@@ -15,6 +9,7 @@ export default class AutomationStatusDecorator {
       icon: "circle-play"
     },
     "HALT": {
+      value: "HALT",
       next: "AUTOMATION_RESPONDED",
       label: 'Halts Automation',
       tooltip: "This Action halts the automation to wait for an API response from the automation lab.",
@@ -22,6 +17,7 @@ export default class AutomationStatusDecorator {
       icon: "pause",
     },
     "AUTOMATION_RESPONDED": {
+      value: "AUTOMATION_RESPONDED",
       next: "HALT_RESOLVED_NEEDS_CONFIRMATION",
       label: 'Response Received',
       tooltip: "This Action has received the required API response with intermediate results of the automation. The response needs manual processing.",
@@ -30,6 +26,7 @@ export default class AutomationStatusDecorator {
       needsManualResolve: true,
     },
     "HALT_RESOLVED_NEEDS_CONFIRMATION": {
+      value: "HALT_RESOLVED_NEEDS_CONFIRMATION",
       next: "HALT_RESOLVED",
       label: 'Resolve Needs Confirmation',
       tooltip: "The automation response has been processed manually but can still be changed. Please confirm the Resolve manually to allow proceesing with the automation.  ",
@@ -38,32 +35,34 @@ export default class AutomationStatusDecorator {
       needsManualResolve: true,
     },
     "HALT_RESOLVED": {
-      next: "DEPENDS_ON_ACTIVITY",
+      value: "HALT_RESOLVED",
+      next: "DEPENDS_ON_ACTION",
       label: 'Halt Resolved',
       tooltip: "The automation response has been processed and confirmed manually. This Action can run.",
       color: "warning",
       icon: "share",
-      needsManualResolve: true,
     },
-    "DEPENDS_ON_ACTIVITY": {
+    "DEPENDS_ON_ACTION": {
+      value: "DEPENDS_ON_ACTION",
       next: "DEPENDS_ON_STEP",
       label: 'Depends On Activity',
       tooltip: "This Action depends on the completion of a previous Action.",
-      color: "warning",
+      color: "danger",
       icon: "hand",
       dependsOnActivity: true,
     },
     "DEPENDS_ON_STEP": {
+      value: "DEPENDS_ON_STEP",
       next: "COMPLETED",
       label: 'Depends On Step',
       tooltip: "This Action depends on the completion of the previous Step.",
-      color: "warning",
-      icon: "pause",
-      dependsOnActivity: true,
+      color: "danger",
+      icon: "hand",
       dependsOnStep: true,
     },
     "COMPLETED": {
-      next: "RUN",
+      value: "COMPLETED",
+      next: "CAN_RUN",
       label: 'Completed',
       tooltip: "This Action has completed succesfully.",
       color: "success",
@@ -73,6 +72,7 @@ export default class AutomationStatusDecorator {
 
   static step_automation_status = {
     "STEP_CAN_RUN": {
+      value: "STEP_CAN_RUN",
       next: "STEP_DEPENDS_ON_PRECEDING",
       label: "Step Can Run",
       tooltip: "This Step can run.",
@@ -80,20 +80,16 @@ export default class AutomationStatusDecorator {
       icon: "circle-play"
     },
     "STEP_DEPENDS_ON_PRECEDING": {
-      next: "STEP_MANUAL_PROCEED",
-      label: "Depends On Previous Step",
-      tooltip: "This Step can run only after the previous Step has completed.",
-      color: 'warning',
-      icon: "hand"
-    },
-    "STEP_MANUAL_PROCEED": {
+      value: "STEP_DEPENDS_ON_PRECEDING",
       next: "STEP_COMPLETED",
-      label: "Manually Can Run",
-      tooltip: "This Step is manually set to proceed regardless of earlier steps and their completion status.",
-      color: 'step',
-      icon: "hand-point-right"
+      label: "Depends On Preceding Step",
+      tooltip: "This Step can run only after a preceding Step has completed.",
+      color: 'danger',
+      icon: "hand",
+      dependsOnStep: true,
     },
     "STEP_COMPLETED": {
+      value: "STEP_COMPLETED",
       next: "STEP_CAN_RUN",
       label: "Completed",
       tooltip: "This Step has completed succesfully.",
@@ -101,4 +97,33 @@ export default class AutomationStatusDecorator {
       icon: "circle-play"
     },
   }
+
+  static automationStatusByName = (name) => this.automation_status[name]
+    || this.step_automation_status[name]
+
+  static nextAutomationStatus = (status) => this.automation_status[status.next]
+    || this.step_automation_status[status.next]
+
+  static defaultAutomationStatus = this.automation_status['CAN_RUN']
+  static defaultStepAutomationStatus = this.step_automation_status['STEP_CAN_RUN']
+
+  static defaultAutomationControl = { status: 'CAN_RUN' }
+  static defaultStepAutomationControl = { status: 'STEP_CAN_RUN' }
+
+  static automationControlByStatusName = (name) => { return { status: this.automation_status[name] || this.step_automation_status[name] } }
+
+  static automationControlForTransferFromStepId = (stepId) => {
+    return {
+      status: 'DEPENDS_ON_STEP',
+      depends_on_step_id: stepId
+    }
+  }
+
+  static automationControlForTransferFromSampleId = (sampleId, activityOptions) => {
+    return {
+      status: 'DEPENDS_ON_ACTION',
+      depends_on_action_id: activityOptions.find(activity => activity.saved_sample_id === sampleId)?.id,
+    }
+  }
+
 }

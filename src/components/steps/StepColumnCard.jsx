@@ -13,7 +13,7 @@ import StepLockButton from "./StepLockButton";
 import IconButton from "../utilities/IconButton";
 import ProcedureCard from "../utilities/ProcedureCard";
 
-import AutomationStatusDecorator from "../../decorators/AutomationStatusDecorator";
+import AutomationControlDecorator from "../../decorators/AutomationControlDecorator";
 
 import { StepSelectOptions } from "../../contexts/StepSelectOptions";
 import { StepLock } from "../../contexts/StepLock";
@@ -27,9 +27,7 @@ const StepColumCard = ({ processStep, reactionProcess, previousStep, onCloseForm
   const api = useReactionsFetcher();
   const isLocked = !!processStep?.locked;
 
-
-  const currentAutomationStatus = AutomationStatusDecorator.stepAutomationStatus(processStep?.automation_status)
-
+  const currentAutomationStatus = AutomationControlDecorator.automationStatusByName(processStep?.automation_control?.status) || AutomationControlDecorator.defaultStepAutomationStatus
 
   const displayMode = () => {
     return showForm ? "form" : "info";
@@ -100,13 +98,13 @@ const StepColumCard = ({ processStep, reactionProcess, previousStep, onCloseForm
   const renderTitleBar = (title) => {
     return (
       <div className="d-md-flex gap-2">
-        <div id={"actual_automation_status_" + processStep?.id}>
+        <div id={"automation_status_" + processStep?.id}>
           <IconButton disabled
             positive={false}
             icon={currentAutomationStatus.icon}
             color={currentAutomationStatus.color} />
         </div>
-        <UncontrolledTooltip target={"actual_automation_status_" + processStep?.id} >
+        <UncontrolledTooltip target={"automation_status_" + processStep?.id} >
           {currentAutomationStatus.tooltip}
         </UncontrolledTooltip>
         {title}

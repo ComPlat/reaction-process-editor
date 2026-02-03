@@ -15,14 +15,15 @@ import FormSection from '../../../../utilities/FormSection'
 import OntologiesDecorator from '../../../../../decorators/OntologiesDecorator';
 import OptionsDecorator from '../../../../../decorators/OptionsDecorator';
 
-import { SelectOptions } from '../../../../../contexts/SelectOptions';
-
 import withActivitySteps from '../../../../utilities/WithActivitySteps';
 
 import { OntologyConstants } from '../../../../../constants/OntologyConstants';
 
+import { SelectOptions } from '../../../../../contexts/SelectOptions';
+
 const ChromatographyForm = (
   {
+    activity,
     workup,
     onWorkupChange,
     activitySteps,
@@ -77,27 +78,6 @@ const ChromatographyForm = (
     }
   }
 
-  // const handleChangeAutomation = (newAutomationMode) => {
-  //   switch (newAutomationMode) {
-  //     case OntologyConstants.isAutomated(newAutomationMode):
-  //       handleChangeDevice(currentDeviceOption)
-  //       setMethodAnalysisDefaults(currentMethodOption)
-  //       setStationaryPhaseDefaults(currentStationaryPhaseOption)
-  //       onWorkupChange({ name: 'mobile_phase', value: undefined })
-  //       break;
-  //     case OntologyConstants.isSemiAutomated(newAutomationMode):
-  //       handleChangeDevice(currentDeviceOption)
-  //       onWorkupChange({ name: 'method', value: undefined })
-  //       onWorkupChange({ name: 'stationary_phase', value: undefined })
-  //       break;
-  //     case OntologyConstants.isManual(newAutomationMode):
-  //       handleChangeDevice(undefined)
-  //       onWorkupChange({ name: 'stationary_phase', value: undefined })
-  //       break;
-  //     default:
-  //   }
-  //   onWorkupChange({ name: 'automation_mode', value: newAutomationMode })
-  // }
 
   const handleChangeDevice = (device) => {
     onWorkupChange({ name: 'device', value: device?.value })

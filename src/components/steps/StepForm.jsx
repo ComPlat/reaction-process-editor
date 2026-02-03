@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import { FormGroup, Label } from 'reactstrap';
 
@@ -7,9 +7,11 @@ import ButtonGroupToggle from "../activities/forms/formgroups/ButtonGroupToggle"
 import AutoComplete from "../activities/forms/formgroups/AutoComplete";
 import FormButtons from "../utilities/FormButtons";
 import VesselableFormSection from "../vesselables/VesselableFormSection";
-import StepAutomationStatusFormGroup from "../activities/forms/formgroups/StepAutomationStatusFormGroup";
+import AutomationControlFormGroup from "../activities/forms/formgroups/AutomationControlFormGroup";
+
 import { useActivityValidator } from "../../validators/ActivityValidator";
 
+import AutomationControlDecorator from "../../decorators/AutomationControlDecorator";
 import OntologiesDecorator from '../../decorators/OntologiesDecorator';
 
 import { OntologyConstants } from "../../constants/OntologyConstants";
@@ -19,8 +21,16 @@ import { SelectOptions } from "../../contexts/SelectOptions";
 const StepForm = ({ processStep, previousStep, nameSuggestionOptions, onSave, onCancel, initialSampleVessel }) => {
 
   let ontologies = useContext(SelectOptions).ontologies
-  const [stepForm, setStepForm] = useState(processStep || { name: "", automation_mode: OntologyConstants.automation_mode.automated })
+  const [stepForm, setStepForm] = useState(processStep || {name: ''})
   const activityValidator = useActivityValidator();
+
+  useEffect(() => {
+    stepForm.automation_control ||
+      setStepForm({ ...stepForm, automation_control: AutomationControlDecorator.defaultStepAutomationControl })
+
+    stepForm.automation_mode ||
+      setStepForm({ ...stepForm, automation_mode: OntologyConstants.automation_mode.automated })
+  }, [stepForm])
 
   const handleSave = () => {
     if (stepForm === processStep) {
@@ -34,28 +44,7 @@ const StepForm = ({ processStep, previousStep, nameSuggestionOptions, onSave, on
     setStepForm({ ...stepForm, [attribute]: value })
   }
 
-  const handleChangeAutomationMode = (newMode) => {
-    let newStatus = OntologyConstants.isAutomated(newMode) ?
-      processStep?.automation_status : ""
-
-    setStepForm({
-      ...stepForm,
-      automation_mode: newMode,
-      automation_status: newStatus,
-      actual_automation_status: newStatus
-    })
-  }
-
-  const handleChangeAutomationStatus = (newStatus) => {
-    setStepForm({
-      ...stepForm,
-      automation_status: newStatus,
-      actual_automation_status: newStatus
-    })
-  }
-
   const ontologiesByRoleName = (roleName) => OntologiesDecorator.activeOptionsForRoleName({ roleName: roleName, options: ontologies })
-
 
   return (
     <>
@@ -71,25 +60,21 @@ const StepForm = ({ processStep, previousStep, nameSuggestionOptions, onSave, on
         <ButtonGroupToggle
           value={stepForm.automation_mode}
           options={ontologiesByRoleName('automation_mode')}
-          onChange={handleChangeAutomationMode} />
+          onChange={handleChange('automation_mode')} />
       </FormGroup>
-      {OntologyConstants.isAutomated(stepForm.automation_mode) &&
-        <StepAutomationStatusFormGroup
-          key={"status" + stepForm.automation_status}
-          modelId={stepForm.id}
-          status={stepForm.automation_status}
-          onChange={handleChangeAutomationStatus}
-        />
-      }
       <VesselableFormSection
         onChange={handleChange('reaction_process_vessel')}
         reactionProcessVessel={stepForm.reaction_process_vessel}
-        initialSampleVessel={initialSampleVessel}
-        suggestInitialVessel
         previousStepVessel={previousStep?.reaction_process_vessel}
+        initialSampleVessel={initialSampleVessel}
+        suggestPreviousVessel={stepForm.position > 0}
+        suggestInitialVessel
         typeColor="step"
-        label={"Step" + (stepForm.name ? ' "' + stepForm.name + '"' : "")}
         automationMode={stepForm.automation_mode}
+      />
+      <AutomationControlFormGroup
+        automationControl={stepForm.automation_control}
+        onChange={handleChange('automation_control')}
       />
       <FormButtons
         onSave={handleSave}

@@ -43,9 +43,10 @@ const VesselableSelector = ({
     <>
       <InputGroup>
         <Input
-          value={VesselableDecorator.vesselableSingleLine(currentVesselable) || "-"}
+          value={VesselableDecorator.vesselableSingleLine(currentVesselable)}
           onClick={toggleModal}
           readOnly
+          placeholder={"Vessel List"}
         />
         <Button onClick={toggleModal} color={typeColor}>
           <FontAwesomeIcon icon="list" />

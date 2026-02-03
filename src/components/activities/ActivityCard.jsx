@@ -13,8 +13,9 @@ import { SubFormController } from "../../contexts/SubFormController";
 import { StepLock } from "../../contexts/StepLock";
 import { useActivityValidator } from "../../validators/ActivityValidator";
 import IconButton from "../utilities/IconButton";
-import AutomationStatusDecorator from "../../decorators/AutomationStatusDecorator";
+
 import { UncontrolledTooltip } from "reactstrap";
+import AutomationControlDecorator from "../../decorators/AutomationControlDecorator";
 
 const ActivityCard = ({
   type,
@@ -37,7 +38,8 @@ const ActivityCard = ({
   const isInitialised = !!activity;
 
   const workup = isInitialised ? activity.workup : {}
-  const currentAutomationStatus = AutomationStatusDecorator.automationStatus(workup.AUTOMATION_STATUS)
+
+  const currentAutomationStatus = AutomationControlDecorator.automationStatusByName(workup.automation_control?.status) || AutomationControlDecorator.defaultAutomationStatus
 
   const uninitialisedForm = isCondition ? { activity_name: "CONDITION", workup: workup } : undefined;
   const uninitialisedDisplayMode = isCondition || forceShowForm ? "form" : "type-panel";
@@ -67,7 +69,6 @@ const ActivityCard = ({
 
   const onSelectType = (newActivity) => () => {
     newActivity.workup ||= {}
-    newActivity.workup['AUTOMATION_STATUS'] ||= 'RUN'
     fillActivityForm(newActivity);
     setDisplayMode("form");
   };
