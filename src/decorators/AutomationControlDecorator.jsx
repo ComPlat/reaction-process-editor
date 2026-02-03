@@ -107,21 +107,21 @@ export default class AutomationControlDecorator {
   static defaultAutomationStatus = this.automation_status['CAN_RUN']
   static defaultStepAutomationStatus = this.step_automation_status['STEP_CAN_RUN']
 
-  static defaultAutomationControl = { status: this.defaultAutomationStatus }
-  static defaultStepAutomationControl = { status: this.defaultStepAutomationStatus }
+  static defaultAutomationControl = { status: 'CAN_RUN' }
+  static defaultStepAutomationControl = { status: 'STEP_CAN_RUN' }
 
   static automationControlByStatusName = (name) => { return { status: this.automation_status[name] || this.step_automation_status[name] } }
 
   static automationControlForTransferFromStepId = (stepId) => {
     return {
-      status: this.automation_status['DEPENDS_ON_STEP'],
+      status: 'DEPENDS_ON_STEP',
       depends_on_step_id: stepId
     }
   }
 
   static automationControlForTransferFromSampleId = (sampleId, activityOptions) => {
     return {
-      status: this.automation_status['DEPENDS_ON_ACTION'],
+      status: 'DEPENDS_ON_ACTION',
       depends_on_action_id: activityOptions.find(activity => activity.saved_sample_id === sampleId)?.id,
     }
   }

@@ -21,8 +21,7 @@ const AutomationControlFormGroup = ({ automationControl, onChange }) => {
   const currentDependsOnStepId = OptionsDecorator.optionForValue(automationControl.depends_on_step_id, stepOptions.targets)
   const currentDependsOnActivityId = OptionsDecorator.optionForValue(automationControl.depends_on_action_id, dependsOnActivityOptions)
 
-  const automationStatus = AutomationControlDecorator.automationStatusByName(automationControl.status) ||
-    AutomationControlDecorator.defaultStepAutomationStatus
+  const automationStatus = AutomationControlDecorator.automationStatusByName(automationControl.status) || AutomationControlDecorator.defaultAutomationStatus
 
   const handleChange = (key) => (value) => {
     let newAutomationControl = {

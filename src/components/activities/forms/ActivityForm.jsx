@@ -36,6 +36,7 @@ const ActivityForm = (
 
   const currentAutomationControl = workup.automation_control || {}
   const currentAutomationStatus = AutomationControlDecorator.automationStatusByName(currentAutomationControl.status)
+    || AutomationControlDecorator.defaultAutomationStatus
 
   useEffect(() => {
     setDisabled(subFormController.anyBlockingSubformOpen())

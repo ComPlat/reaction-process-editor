@@ -39,7 +39,7 @@ const ActivityCard = ({
 
   const workup = isInitialised ? activity.workup : {}
 
-  const currentAutomationStatus = AutomationControlDecorator.automationStatusByName(workup.automation_control?.status) || AutomationControlDecorator.defaultAutomationControl.status
+  const currentAutomationStatus = AutomationControlDecorator.automationStatusByName(workup.automation_control?.status) || AutomationControlDecorator.defaultAutomationStatus
 
   const uninitialisedForm = isCondition ? { activity_name: "CONDITION", workup: workup } : undefined;
   const uninitialisedDisplayMode = isCondition || forceShowForm ? "form" : "type-panel";
