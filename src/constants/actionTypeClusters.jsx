@@ -1,3 +1,5 @@
+import AutomationControlDecorator from "../decorators/AutomationControlDecorator"
+
 export const actionTypeClusters = [[
   {
     id: 'add',
@@ -15,9 +17,6 @@ export const actionTypeClusters = [[
         createLabel: 'Transfer',
         activity: {
           activity_name: 'TRANSFER',
-          workup: {
-            AUTOMATION_STATUS: 'DEPENDS_ON_ACTIVITY',
-          }
         }
       },
     ]
@@ -96,8 +95,8 @@ export const actionTypeClusters = [[
         activity: {
           activity_name: 'ANALYSIS_CHROMATOGRAPHY',
           workup: {
-            AUTOMATION_STATUS: 'HALT',
-          }
+            automation_control: AutomationControlDecorator.automationControlByStatusName('HALT')
+          },
         }
       },
       {
@@ -147,8 +146,8 @@ export const actionTypeClusters = [[
         activity: {
           activity_name: 'CHROMATOGRAPHY',
           workup: {
-            AUTOMATION_STATUS: 'HALT',
-          }
+            automation_control: AutomationControlDecorator.automationControlByStatusName('HALT')
+          },
         }
       },
       {

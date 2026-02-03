@@ -16,6 +16,7 @@ const VesselableFormSection = ({
   onChange,
   reactionProcessVessel,
   previousStepVessel,
+  suggestPreviousVessel,
   initialSampleVessel,
   suggestInitialVessel,
   typeColor,
@@ -67,17 +68,16 @@ const VesselableFormSection = ({
     });
   };
 
-  const renderVesselSuggestion = () => {
+  const renderVesselSuggestion = (vesselTemplate, label) => {
     return (
       <div className="pt-1 mb-3">
         <div className="d-flex justify-content-between align-self-center">
-          <div className="col-form-label">
-            {VesselableDecorator.vesselableSingleLine(previousStepVessel.vesselable)}
-          </div>
+          {vesselTemplate ? VesselableDecorator.vesselableSingleLine(vesselTemplate.vesselable)
+            : "No " + label + " Vessel assigned"}
           <div className="optional-form-group__open-controls">
             <div className="d-grid gap-2">
-              <Button size={'sm'} color={'step'} onClick={() => onChange(previousStepVessel)} >
-                Use Previous
+              <Button size={'sm'} color={'step'} onClick={() => onChange(vesselTemplate)} disabled={!vesselTemplate}>
+                Use {label}
               </Button>
             </div>
           </div>
@@ -85,30 +85,12 @@ const VesselableFormSection = ({
       </div>
     )
   }
-  const renderInitialSampleVesselSuggestion = () => {
-    return (
-      <div className="pt-1 mb-3">
-        <div className="d-flex justify-content-between align-self-center">
-
-          {initialSampleVessel ? VesselableDecorator.vesselableSingleLine(initialSampleVessel.vesselable) : "No initial Vessel assigned"}
-
-          <div className="optional-form-group__open-controls">
-            <div className="d-grid gap-2">
-              <Button size={'sm'} color={'step'} onClick={() => onChange(initialSampleVessel)} disabled={!initialSampleVessel} >
-                Use Initial
-              </Button>
-            </div>
-          </div>
-        </div >
-      </div>
-    )
-  }
 
   return (
     <>
       <MultiInputFormGroup label={VesselableDecorator.vesselableType(currentVesselable)} typeColor={typeColor}>
-        {!!suggestInitialVessel && renderInitialSampleVesselSuggestion()}
-        {!!previousStepVessel && renderVesselSuggestion()}
+        {!!suggestInitialVessel && renderVesselSuggestion(initialSampleVessel, 'Initial')}
+        {!!suggestInitialVessel && renderVesselSuggestion(previousStepVessel, 'Previous')}
         <div className="pt-1 mb-3">
           <div className="d-flex justify-content-between">
             <span className="col-5 col-form-label">

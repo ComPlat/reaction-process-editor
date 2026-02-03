@@ -213,13 +213,13 @@ const ChromatographyPoolingForm = ({ activity, onCancel, onSave }) => {
 	}
 
 	return (
-
 		<>
 			{hasAutomationResponse && renderVialOverview()}
 			{hasAutomationResponse && renderFractionsForms()}
 			{!hasAutomationResponse && renderNoAutomationResponseHint()}
 			{activity.incomplete_fractions && renderIncompleteFractions()}
 			<FormButtons
+				disableSave={!hasAutomationResponse || !activity.id}
 				onSave={handleSave}
 				onCancel={onCancel}
 			/>

@@ -77,6 +77,7 @@ const ActionForm = (
 
     return CustomActivityForm ?
       <CustomActivityForm
+        activity={activity}
         workup={workup}
         onWorkupChange={onWorkupChange}
         preconditions={preconditions}

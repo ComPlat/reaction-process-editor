@@ -19,9 +19,12 @@ const ChromatographyPoolingFormModal = (
 
 	return (
 		<>
-			<Button onClick={toggleModal}>
+			<Button onClick={toggleModal} disabled={!activity.id}>
 				Select Fractions
 			</Button>
+			{!activity.id &&
+				<div>Please save action before resolving Fractions</div>
+			}
 			<Modal
 				className={'d-flex align-items-center justify-content-center modal--primary modal-xl'}
 				isOpen={showModal}

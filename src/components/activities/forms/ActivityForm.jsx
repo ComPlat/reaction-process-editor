@@ -1,17 +1,20 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Form } from 'reactstrap'
+import { Form, FormGroup } from 'reactstrap'
 import PropTypes from 'prop-types'
 
 import ApplyExtraEquipmentFormSet from './formsets/ApplyExtraEquipmentFormSet';
 import TextInputFormSet from './formsets/TextInputFormSet';
 import FormButtons from "../../utilities/FormButtons";
-import AutomationStatusFormGroup from './formgroups/AutomationStatusFormGroup';
+import AutomationControlFormGroup from './formgroups/AutomationControlFormGroup';
 import Timer from '../timing/Timer';
 
 import { OntologyConstants } from '../../../constants/OntologyConstants';
 
 import { SubFormController } from '../../../contexts/SubFormController';
 import { StepLock } from '../../../contexts/StepLock';
+
+import ChromatographyPoolingFormModal from '../../utilities/ChromatographyPoolingFormModal';
+import AutomationControlDecorator from '../../../decorators/AutomationControlDecorator';
 
 const ActivityForm = (
   {
@@ -31,9 +34,20 @@ const ActivityForm = (
   const [disabled, setDisabled] = useState(false)
   const workup = activity.workup
 
+  const currentAutomationControl = workup.automation_control || {}
+  const currentAutomationStatus = AutomationControlDecorator.automationStatusByName(currentAutomationControl.status)
+    || AutomationControlDecorator.defaultAutomationStatus
+
   useEffect(() => {
     setDisabled(subFormController.anyBlockingSubformOpen())
   }, [subFormController, activity, activity.workup])
+
+  useEffect(() => {
+    workup.automation_control ||
+      onWorkupChange({ name: 'automation_control', value: AutomationControlDecorator.defaultAutomationControl })
+    // eslint-disable-next-line
+  }, [workup.automation_control])
+
 
   const handleWorkupChange = (key) => (value) => {
     onWorkupChange({ name: key, value: value });
@@ -64,12 +78,18 @@ const ActivityForm = (
         onWorkupChange={onWorkupChange}
         displayMode={'form'}
       />
-      <AutomationStatusFormGroup
-        activity={activity}
-        modelId={activity.id}
-        onChange={handleWorkupChange('AUTOMATION_STATUS')}
-        onResolvePooling={handleWorkupChange('fractions')}
+      <AutomationControlFormGroup
+        automationControl={currentAutomationControl}
+        onChange={handleWorkupChange('automation_control')}
       />
+      {currentAutomationStatus?.needsManualResolve &&
+        <FormGroup className={"form-section"}>
+          <ChromatographyPoolingFormModal
+            activity={activity}
+            onResolvePooling={handleWorkupChange('fractions')}
+          />
+        </FormGroup>
+      }
       <FormButtons
         onSave={onSave}
         onCancel={onCancel}
@@ -79,7 +99,7 @@ const ActivityForm = (
         type={type}
       >
       </FormButtons>
-    </Form>
+    </Form >
   )
 }
 
