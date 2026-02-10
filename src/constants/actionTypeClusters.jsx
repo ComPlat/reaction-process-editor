@@ -1,5 +1,3 @@
-import AutomationControlDecorator from "../decorators/AutomationControlDecorator"
-
 export const actionTypeClusters = [[
   {
     id: 'add',
@@ -95,7 +93,7 @@ export const actionTypeClusters = [[
         activity: {
           activity_name: 'ANALYSIS_CHROMATOGRAPHY',
           workup: {
-            automation_control: AutomationControlDecorator.automationControlByStatusName('HALT')
+            automation_control: { status: 'HALT' }
           },
         }
       },
@@ -146,7 +144,7 @@ export const actionTypeClusters = [[
         activity: {
           activity_name: 'CHROMATOGRAPHY',
           workup: {
-            automation_control: AutomationControlDecorator.automationControlByStatusName('HALT')
+            automation_control: { status: 'HALT' }
           },
         }
       },

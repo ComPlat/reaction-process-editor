@@ -17,7 +17,7 @@ const AnalysisSpectroscopyForm = ({ workup, onWorkupChange }) => {
 	const molecularEntitiesOptions = useContext(SelectOptions).materials['MOLECULAR_ENTITY']
 
 	const filteredOntologiesByRoleName = (roleName) =>
-		OntologiesDecorator.activeOptionsForWorkupDependencies({ roleName: roleName, options: selectOptions.ontologies, workup: workup })
+		OntologiesDecorator.activeOptionsForWorkupDependencies({ roleName: roleName, ontologies: selectOptions.ontologies, workup: workup })
 
 	const handleWorkupChange = (workupKey) => (value) => onWorkupChange({ name: workupKey, value: value })
 
