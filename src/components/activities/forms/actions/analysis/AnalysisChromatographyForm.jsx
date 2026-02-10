@@ -42,7 +42,7 @@ const AnalysisChromatographyForm = (
   const currentMethodOption = OptionsDecorator.inclusiveOptionForValue(workup.method, currentDeviceOption?.methods)
   const currentStationaryPhaseOption = OptionsDecorator.inclusiveOptionForValue(workup.stationary_phase, currentMethodOption?.stationary_phase)
 
-  const filteredOntologiesByRoleName = (roleName) => OntologiesDecorator.activeOptionsForWorkupDependencies({ roleName: roleName, options: selectOptions.ontologies, workup: workup })
+  const filteredOntologiesByRoleName = (roleName) => OntologiesDecorator.activeOptionsForWorkupDependencies({ roleName: roleName, ontologies: selectOptions.ontologies, workup: workup })
 
   const filterMethodsByDetectors = (detectors, methods) => {
     if (!methods) { return [] }
@@ -125,17 +125,7 @@ const AnalysisChromatographyForm = (
 
   const mobilePhasePlaceHolder = isAutomated ? "Depends on Method" : workup.device ? "Please Select" : "Depends on Device"
 
-  const filterDevicesByDetectors = () => {
-    let devices = OntologiesDecorator.activeOptionsForRoleName({ roleName: 'device', options: selectOptions.ontologies })
-
-    if (workup.detector?.length) {
-      devices = devices.filter(device =>
-        workup.detector.every(detectorInWorkup =>
-          !!device.detectors.find(detector =>
-            detector.value === detectorInWorkup)))
-    }
-    return devices
-  }
+  const filterDevicesByDetectors = () => OntologiesDecorator.filterDevicesByDetectors({ workup: workup, ontologies: selectOptions.ontologies })
 
   const renderAutomationSpecificFields = () => {
     if (OntologyConstants.isAutomated(workup.automation_mode) || OntologyConstants.isSemiAutomated(workup.automation_mode)) {

@@ -38,9 +38,8 @@ const OntologySelectFormGroup = (
   tooltip ||= selectedOption && !selectedOption.active && tooltips['selection_inactive']
   tooltip ||= selectedOption?.unmetDependency && tooltips['selection_unmet_dependency']
 
-  label ||= StringDecorator.toLabelSpelling(roleName) // || value
+  label ||= StringDecorator.toLabelSpelling(roleName)
 
-  // label = value
   return (<>
     <SingleLineFormGroup
       key={"form-group-" + roleName + "-" + value + Math.random(10000)}

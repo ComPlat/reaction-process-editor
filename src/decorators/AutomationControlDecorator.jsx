@@ -29,7 +29,7 @@ export default class AutomationControlDecorator {
       value: "HALT_RESOLVED_NEEDS_CONFIRMATION",
       next: "HALT_RESOLVED",
       label: 'Resolve Needs Confirmation',
-      tooltip: "The automation response has been processed manually but can still be changed. Please confirm the Resolve manually to allow proceesing with the automation.  ",
+      tooltip: "The automation response has been processed manually but can still be changed. Please confirm the Resolve manually to allow proceesing with the automation.",
       color: "warning",
       icon: "thumbs-up",
       needsManualResolve: true,
@@ -55,7 +55,7 @@ export default class AutomationControlDecorator {
       value: "DEPENDS_ON_STEP",
       next: "COMPLETED",
       label: 'Depends On Step',
-      tooltip: "This Action depends on the completion of the previous Step.",
+      tooltip: "This Action depends on the completion of a preceding Step.",
       color: "danger",
       icon: "hand",
       dependsOnStep: true,
@@ -98,19 +98,17 @@ export default class AutomationControlDecorator {
     },
   }
 
-  static automationStatusByName = (name) => this.automation_status[name]
-    || this.step_automation_status[name]
-
-  static nextAutomationStatus = (status) => this.automation_status[status.next]
-    || this.step_automation_status[status.next]
-
   static defaultAutomationStatus = this.automation_status['CAN_RUN']
   static defaultStepAutomationStatus = this.step_automation_status['STEP_CAN_RUN']
 
   static defaultAutomationControl = { status: 'CAN_RUN' }
   static defaultStepAutomationControl = { status: 'STEP_CAN_RUN' }
 
-  static automationControlByStatusName = (name) => { return { status: this.automation_status[name] || this.step_automation_status[name] } }
+  static automationStatusByName = (name) => this.automation_status[name]
+    || this.step_automation_status[name]
+
+  static nextAutomationStatus = (status) => this.automation_status[status.next]
+    || this.step_automation_status[status.next]
 
   static automationControlForTransferFromStepId = (stepId) => {
     return {
@@ -125,5 +123,4 @@ export default class AutomationControlDecorator {
       depends_on_action_id: activityOptions.find(activity => activity.saved_sample_id === sampleId)?.id,
     }
   }
-
 }

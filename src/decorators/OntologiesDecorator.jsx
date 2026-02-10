@@ -17,8 +17,35 @@ export default class OntologiesDecorator {
     })
   }
 
-  static activeOptionsForWorkupDependencies = ({ roleName, workup, options }) => {
-    return options.filter((option) => {
+  static filterDevicesByDetectors = ({ workup, ontologies }) => {
+    let devices = this.activeOptionsForRoleName({ roleName: 'device', options: ontologies })
+
+    if (workup.detector?.length) {
+      devices = devices.filter(device =>
+        workup.detector.every(detectorInWorkup =>
+          !!device.detectors.find(detector =>
+            detector.value === detectorInWorkup)))
+    }
+    return devices
+  }
+
+  static filterSubtypeByDetectors = ({ workup, ontologies }) => {
+    let matchingDevices = this.filterDevicesByDetectors({ workup: workup, ontologies: ontologies })
+
+    return ontologies
+      .filter((option) => option.roles['subtype'])
+      .filter(subtype => matchingDevices?.find((device) => {
+        let roles = device.roles['device']
+        return device.active && roles?.find(role => role['subtype']?.includes(subtype.value))
+      }))
+  }
+
+  static activeOptionsForWorkupDependencies = ({ roleName, workup, ontologies }) => {
+    if (roleName === 'subtype' && !!workup.detector) {
+      ontologies = this.filterSubtypeByDetectors({ workup: workup, ontologies: ontologies })
+    }
+
+    let activeOptions = ontologies.filter((option) => {
       let roles = option.roles[roleName]
 
       return option.active && roles?.find(role => {
@@ -27,12 +54,14 @@ export default class OntologiesDecorator {
           .every(([dependency_key, dependencies]) => dependencies.includes(workup[dependency_key]))
       })
     })
+
+    return activeOptions
   }
 
   static selectableOptionsMatchingWorkupDependencies = ({ roleName, options, ontologies, workup }) => {
     options ||= ontologies
     let currentValue = workup[roleName]
-    let activeDependencyOptions = this.activeOptionsForWorkupDependencies({ roleName: roleName, options: options, workup: workup })
+    let activeDependencyOptions = this.activeOptionsForWorkupDependencies({ roleName: roleName, ontologies: options, workup: workup })
 
     if (currentValue && !this.findByOntologyId({ ontologyId: currentValue, ontologies: activeDependencyOptions })) {
       let missingCurrentOption =
@@ -47,7 +76,7 @@ export default class OntologiesDecorator {
   static selectableMultiOptionsForWorkupDependencies = ({ roleName, ontologies, options, workup }) => {
     options ||= ontologies
     let currentValues = workup[roleName]
-    let activeDependencyOptions = this.activeOptionsForWorkupDependencies({ roleName: roleName, options: options, workup: workup })
+    let activeDependencyOptions = this.activeOptionsForWorkupDependencies({ roleName: roleName, ontologies: options, workup: workup })
 
     currentValues?.forEach(currentValue => {
       if (currentValue && !this.findByOntologyId({ ontologyId: currentValue, ontologies: activeDependencyOptions })) {
