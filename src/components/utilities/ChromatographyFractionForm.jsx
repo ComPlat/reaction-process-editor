@@ -48,7 +48,7 @@ const ChromatographyFractionForm = ({ fraction, onChange, claimVial, onDelete, c
 
 	const handleChange = (key) => (value) => { onChange({ ...fraction, [key]: value }) }
 
-	const handleFollowUpActionChange = (selection) => { handleChange("consuming_activity_name")(selection.value) }
+	const handleFollowUpActionChange = (selection) => { handleChange("consuming_action_name")(selection.value) }
 
 	const renderDeleteButton = () => {
 		return (
@@ -74,8 +74,8 @@ const ChromatographyFractionForm = ({ fraction, onChange, claimVial, onDelete, c
 							className="react-select--overwrite"
 							classNamePrefix="react-select"
 							name="activityType"
-							options={selectOptions.consuming_activity_names}
-							value={OptionsDecorator.optionForValue(fraction.consuming_activity_name, selectOptions.consuming_activity_names)}
+							options={selectOptions.consuming_action_names}
+							value={OptionsDecorator.optionForValue(fraction.consuming_action_name, selectOptions.consuming_action_names)}
 							onChange={handleFollowUpActionChange}
 						/>
 						<VesselableFormSection

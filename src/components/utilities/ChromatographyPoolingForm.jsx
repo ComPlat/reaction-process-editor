@@ -30,7 +30,7 @@ const ChromatographyPoolingForm = ({ activity, onCancel, onSave }) => {
 	const trayColumns = currentPlate?.['trayColumns'] || 1
 	const vialsPerTray = currentPlate?.['vials']?.length || 1
 
-	const initialFraction = { position: 1, vials: allVials.filter(v => v), consuming_activity_name: 'DEFINE_FRACTION' }
+	const initialFraction = { position: 1, vials: allVials.filter(v => v), consuming_action_name: 'DEFINE_FRACTION' }
 	const [fractions, setFractions] = useState(activity.fractions?.length > 0 ? activity.fractions : [initialFraction])
 
 	const [renderCountToForciblyUpdateVialsStateInFunctionClaimVial, setRenderCount] = useState(0);
@@ -47,7 +47,7 @@ const ChromatographyPoolingForm = ({ activity, onCancel, onSave }) => {
 
 	const addFraction = () => {
 		let newFractions = [...fractions]
-		newFractions.push({ consuming_activity_name: 'DEFINE_FRACTION', vials: [] })
+		newFractions.push({ consuming_action_name: 'DEFINE_FRACTION', vials: [] })
 		updateFractions(newFractions)
 	}
 
