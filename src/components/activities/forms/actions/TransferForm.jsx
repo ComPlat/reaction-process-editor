@@ -68,7 +68,7 @@ const TransferForm = (
   const handleTransferFromChange = (source_step) => {
     onWorkupChange({ name: 'acts_as', value: undefined })
     onWorkupChange({ name: 'sample_id', value: undefined })
-    onWorkupChange({ name: 'target_amount', value: { percentage: 100 } })
+    onWorkupChange({ name: 'target_amount', value: { } })
     onWorkupChange({ name: 'source_step_id', value: source_step?.value })
     onWorkupChange({
       name: 'automation_control',
