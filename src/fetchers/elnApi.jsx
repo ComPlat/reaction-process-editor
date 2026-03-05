@@ -45,17 +45,17 @@ function useElnApi() {
 
   function download(path) {
     return requestWrapper.request("GET", path).then((response) => {
-      if (response.ok) {
+      if (response?.ok) {
         return response
       } else {
-        let data = response.text();
-        let errorMessage = (data && data.message) || response.statusText || "Download Error";
+        let data = response?.text();
+        let errorMessage = (data && data.message) || response?.statusText || "Download Error";
         addNotification({
-          title: "Error " + response.status,
+          title: "Error " + response?.status,
           message: errorMessage,
           type: "error",
         });
-        [401, 403].includes(response.status) && signoutAndRedirect()
+        [401, 403].includes(response?.status) && signoutAndRedirect()
       }
     });
   }
