@@ -178,6 +178,9 @@ const MainHeader = () => {
               <Nav justified navbar className="me-auto main-header__nav">
                 <OptionsQuickNavigator justified label={'Samples'} options={sampleOptions} />
               </Nav>
+              <Nav navbar >
+                <a href="/ontologies">Ontologies</a>
+              </Nav>
               <Nav navbar className="justify-content-end align-items-center">
                 <UserMenu
                   defaultConditions={userDefaultConditions}
@@ -188,7 +191,7 @@ const MainHeader = () => {
           )}
         </Navbar>
       </SubFormController.Provider>
-    </SelectOptions.Provider>
+    </SelectOptions.Provider >
   );
 };
 

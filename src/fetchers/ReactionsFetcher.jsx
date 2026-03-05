@@ -16,6 +16,7 @@ function useReactionsFetcher() {
     getReactionProcess,
     getSampleProcess,
     geDefaultConditions,
+    getOntologies,
     updateReactionDefaultConditions,
     updateUserDefaultConditions,
     updateProvenance,
@@ -32,7 +33,8 @@ function useReactionsFetcher() {
     updateActivityPosition,
     updateProcessStepPosition,
     createFractionActivities,
-    updateReactionProcess
+    updateReactionProcess,
+    saveOntology
   }
 
   function index() {
@@ -58,17 +60,16 @@ function useReactionsFetcher() {
     return `${apiHostname}/images/reactions/${reaction.reaction_svg_file}`
   }
 
-  // function svgImageLink(file) {
-  //   // Note that this is not an api call but a link target.
-  //   return `${apiHostname}/images/reactions/${file}`
-  // }
-
   function collectionSelectOptions() {
     return api.get(`/collection_select_options`);
   }
 
   function geDefaultConditions() {
     return api.get(`/default_conditions`);
+  }
+
+  function getOntologies() {
+    return api.get(`/ontologies`);
   }
 
   function reactionSelectOptions() {
@@ -157,5 +158,9 @@ function useReactionsFetcher() {
 
   function updateActivityPosition(id, position) {
     return api.put(`/reaction_process_activities/${id}/update_position`, { 'position': position })
+  }
+
+  function saveOntology(ontology) {
+    return api.post(`/ontologies/`, { 'ontology': ontology })
   }
 }
