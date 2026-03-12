@@ -101,7 +101,7 @@ function useReactionsFetcher() {
   }
 
   function downloadClap(id) {
-    return api.download(`/reaction_processes/${id}/ord`)
+    return api.download(`/reaction_processes/${id}/clap`)
   }
 
   function updateReactionProcessVessel(reactionProcessVessel) {

@@ -126,7 +126,7 @@ export const unitTypes = {
   // Definition of availble units for use in NumericalInputs etc.
 
   // mg, mmol, ml, etc. are downcase for consistency with ELN.
-  // All others are unaltered (upcase) ORD constants.
+  // All others are unaltered CLAP constants (i.e. upcase).
 
   // fromBase, toBase are required technically only on metrics bearing more than one but better have it complete.
 
