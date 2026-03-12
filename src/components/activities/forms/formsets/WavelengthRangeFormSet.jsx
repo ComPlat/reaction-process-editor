@@ -10,7 +10,7 @@ import OptionalFormSet from './OptionalFormSet';
 import ActivityInfoDecorator from '../../../../decorators/ActivityInfoDecorator';
 import MetricsDecorator from '../../../../decorators/MetricsDecorator';
 
-const WavelengthListFormSet = (
+const WavelengthRangeFormSet = (
   {
     label,
     wavelengths,
@@ -197,5 +197,5 @@ const WavelengthListFormSet = (
   )
 }
 
-export default WavelengthListFormSet
+export default WavelengthRangeFormSet
 

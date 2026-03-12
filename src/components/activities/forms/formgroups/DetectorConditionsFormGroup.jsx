@@ -2,12 +2,15 @@ import React from 'react'
 
 import MetricSubFormSet from '../formsets/MetricSubFormSet'
 import TextInputFormSet from '../formsets/TextInputFormSet'
-import WavelengthListFormSet from '../formsets/WavelengthListFormSet'
+import WavelengthRangeFormSet from '../formsets/WavelengthRangeFormSet'
 
-const DetectorConditionsFormGroup = ({ detectorsOptions, conditions, onChange, disabled }) => {
+const DetectorConditionsFormGroup = ({ detectorsOptions, detectorConditions, onChange, disabled }) => {
+
+	console.log("detectorConditions")
+	console.log(detectorConditions)
 
 	const handleChangeDetectorValue = (detectorId, metricName) => (value) => {
-		onChange({ ...conditions, [detectorId]: { ...conditions[detectorId], [metricName]: value } })
+		onChange({ ...detectorConditions, [detectorId]: { ...detectorConditions[detectorId], [metricName]: value } })
 	}
 
 	const renderDetectorInputs = (detector) => {
@@ -17,7 +20,10 @@ const DetectorConditionsFormGroup = ({ detectorsOptions, conditions, onChange, d
 			let metricName = analysis_default.metric_name
 
 			let label = '' + detector.label + ' ' + analysis_default.label
-			let value = conditions?.[detectorId]?.[metricName]
+			let value = detectorConditions?.[detectorId]?.[metricName]
+
+			console.log("analysis_default")
+			console.log(analysis_default)
 
 			switch (analysis_default.data_type) {
 				case 'TEXT':
@@ -37,8 +43,8 @@ const DetectorConditionsFormGroup = ({ detectorsOptions, conditions, onChange, d
 						onSave={handleChangeDetectorValue(detectorId, metricName)}
 						disabled={disabled}
 					/>)
-				case 'WAVELENGTHLIST':
-					return (<WavelengthListFormSet
+				case 'WAVELENGTHRANGE':
+					return (<WavelengthRangeFormSet
 						label={label}
 						wavelengths={value}
 						onChange={handleChangeDetectorValue(detectorId, metricName)}

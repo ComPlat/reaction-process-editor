@@ -77,6 +77,9 @@ export default class ActivityInfoDecorator {
   };
 
   static infoLineWavelengths = (wavelengths) => {
+    console.log("infoLineWavelengths")
+    console.log(wavelengths)
+
     return wavelengths?.peaks[0] && (
       wavelengths.is_range ?
         'Range ' + wavelengths.peaks[0]?.value + ' - ' + wavelengths.peaks.at(-1)?.value + ' nm'
