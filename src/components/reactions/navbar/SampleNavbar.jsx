@@ -15,7 +15,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import IconButton from "../../utilities/IconButton";
-import OrdDownloadButton from "./OrdDownloadButton";
+import ClapDownloadButton from "./ClapDownloadButton";
 import ProvenanceFormButton from "./ProvenanceFormButton";
 import ReactionConditionsFormButton from "./ReactionConditionsFormButton";
 
@@ -62,7 +62,7 @@ const SampleNavbar = ({ reactionProcess }) => {
               preconditions={reactionProcess.user_reaction_default_conditions}
             />
             <ProvenanceFormButton provenance={reactionProcess.provenance} />
-            <OrdDownloadButton reactionProcessId={reactionProcess.id} />
+            <ClapDownloadButton reactionProcessId={reactionProcess.id} />
           </Nav>
         </Navbar>
         <Accordion

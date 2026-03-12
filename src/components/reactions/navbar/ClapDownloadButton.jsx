@@ -4,12 +4,12 @@ import { UncontrolledTooltip } from 'reactstrap';
 import { useReactionsFetcher } from '../../../fetchers/ReactionsFetcher';
 import IconButton from "../../utilities/IconButton";
 
-const OrdDownloadButton = ({ reactionProcessId }) => {
+const ClapDownloadButton = ({ reactionProcessId }) => {
 
   const api = useReactionsFetcher();
 
-  const downloadOrd = () => {
-    api.downloadOrd(reactionProcessId).then((response) => {
+  const downloadClap = () => {
+    api.downloadClap(reactionProcessId).then((response) => {
       if (response?.headers) {
 
         const filename = response.headers.get('Content-Disposition').split("filename*=UTF-8''")[1];
@@ -32,18 +32,18 @@ const OrdDownloadButton = ({ reactionProcessId }) => {
   return (
     <div>
       <IconButton
-        id='ord-download-button'
+        id='clap-download-button'
         icon='download'
         size='lg'
         positive={true}
-        onClick={downloadOrd}
+        onClick={downloadClap}
         target="_blank"
       />
-      <UncontrolledTooltip target={"ord-download-button"} >
-        Download the reaction in ORD-KIT format (JSON)
+      <UncontrolledTooltip target={"clap-download-button"} >
+        Download the reaction in CLAP/JSON format.
       </UncontrolledTooltip >
     </div>
   )
 };
 
-export default OrdDownloadButton;
+export default ClapDownloadButton;
