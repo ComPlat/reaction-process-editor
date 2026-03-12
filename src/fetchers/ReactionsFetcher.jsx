@@ -19,7 +19,7 @@ function useReactionsFetcher() {
     updateReactionDefaultConditions,
     updateUserDefaultConditions,
     updateProvenance,
-    downloadOrd,
+    downloadClap,
     updateReactionProcessVessel,
     updateSamplePreparation,
     deleteSamplePreparation,
@@ -100,7 +100,7 @@ function useReactionsFetcher() {
       { 'default_conditions': default_conditions });
   }
 
-  function downloadOrd(id) {
+  function downloadClap(id) {
     return api.download(`/reaction_processes/${id}/ord`)
   }
 
