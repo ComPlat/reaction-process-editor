@@ -16,7 +16,7 @@ const VesselableFormSection = ({
   onChange,
   reactionProcessVessel,
   previousStepVessel,
-  suggestPreviousVessel,
+  suggestPreviousVessel, // TODO: use or delete. Meant to hide pointless suggestion in Step 1.
   initialSampleVessel,
   suggestInitialVessel,
   typeColor,
@@ -24,6 +24,7 @@ const VesselableFormSection = ({
 }) => {
   const selectOptions = useContext(SelectOptions);
   const vesselables = useContext(VesselOptions);
+  console.log(vesselables)
 
   const preparationOptions = selectOptions.vessel_preparations;
 

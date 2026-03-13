@@ -10,6 +10,8 @@ import MetricsDecorator from "../../../../decorators/MetricsDecorator";
 import OptionsDecorator from "../../../../decorators/OptionsDecorator";
 import { SelectOptions } from "../../../../contexts/SelectOptions";
 
+import { OntologyConstants } from "../../../../constants/OntologyConstants";
+
 const MotionForm = ({
   label,
   valueSummary,
@@ -26,7 +28,7 @@ const MotionForm = ({
     findInitialValue("motion_type", motionOptions.types[0].value);
 
   const initialMotionMode = () =>
-    findInitialValue("motion_mode", motionOptions.automation_modes[1].value);
+    findInitialValue("motion_mode", motionOptions.motion_modes[1].value);
 
   const [speed, setSpeed] = useState(initialSpeed());
   const [motionType, setMotionType] = useState(initialMotionType());
@@ -53,7 +55,7 @@ const MotionForm = ({
 
   const handleCancel = () => resetFormData();
 
-  const displayRpmInput = () => motionMode !== 'MANUAL'
+  const displayRpmInput = () => OntologyConstants.isAutomated(motionMode)
 
   return (
     <OptionalFormSet
@@ -74,7 +76,7 @@ const MotionForm = ({
           />
         </FormGroup>
         <ButtonGroupToggle
-          options={motionOptions.automation_modes}
+          options={motionOptions.motion_modes}
           value={motionMode}
           onChange={setMotionMode}
           activityType="condition"

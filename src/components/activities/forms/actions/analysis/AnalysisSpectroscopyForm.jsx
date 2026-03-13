@@ -50,7 +50,7 @@ const AnalysisSpectroscopyForm = ({ workup, onWorkupChange }) => {
 					isMulti
 					isClearable={false}
 					options={molecularEntitiesOptions}
-					samples={workup.molecular_entitites}
+					samples={workup.molecular_entities}
 					onChange={handleWorkupChange('molecular_entities')}
 				/>
 			</FormGroup>

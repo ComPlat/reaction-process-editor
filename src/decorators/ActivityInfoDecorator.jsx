@@ -70,7 +70,7 @@ export default class ActivityInfoDecorator {
       ),
       OptionsDecorator.valueToLabel(
         conditionWorkup?.motion_mode,
-        selectOptions.FORMS.MOTION.automation_modes
+        selectOptions.FORMS.MOTION.motion_modes
       ),
       MetricsDecorator.infoLineAmount(conditionWorkup.speed),
     ].join(" ");

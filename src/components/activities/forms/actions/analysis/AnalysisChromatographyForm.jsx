@@ -251,7 +251,7 @@ const AnalysisChromatographyForm = (
       <>
         <DetectorConditionsFormGroup
           detectorsOptions={currentDetectorsOptions}
-          conditions={workup.detector_conditions}
+          detectorConditions={workup.detector_conditions}
           onChange={handleWorkupChange('detector_conditions')}
           disabled={isAutomated}
         />
