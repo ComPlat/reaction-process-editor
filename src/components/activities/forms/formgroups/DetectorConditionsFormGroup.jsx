@@ -6,9 +6,6 @@ import WavelengthRangeFormSet from '../formsets/WavelengthRangeFormSet'
 
 const DetectorConditionsFormGroup = ({ detectorsOptions, detectorConditions, onChange, disabled }) => {
 
-	console.log("detectorConditions")
-	console.log(detectorConditions)
-
 	const handleChangeDetectorValue = (detectorId, metricName) => (value) => {
 		onChange({ ...detectorConditions, [detectorId]: { ...detectorConditions[detectorId], [metricName]: value } })
 	}
@@ -21,9 +18,6 @@ const DetectorConditionsFormGroup = ({ detectorsOptions, detectorConditions, onC
 
 			let label = '' + detector.label + ' ' + analysis_default.label
 			let value = detectorConditions?.[detectorId]?.[metricName]
-
-			console.log("analysis_default")
-			console.log(analysis_default)
 
 			switch (analysis_default.data_type) {
 				case 'TEXT':

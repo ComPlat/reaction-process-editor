@@ -25,10 +25,11 @@ const SamplePreparation = ({ preparation, reactionProcessId }) => {
   const preparationOptions = selectOptions.samples_preparations;
 
   const showCard = preparation || initPreparation;
+
   const sampleName = preparation
     ? OptionsDecorator.valueToLabel(
       preparation.sample_id,
-      preparationOptions.preparable_samples
+      preparationOptions.prepared_samples
     )
     : "";
   const cardTitle = preparation ? sampleName : "New Preparation";

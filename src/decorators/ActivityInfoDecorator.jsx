@@ -70,16 +70,13 @@ export default class ActivityInfoDecorator {
       ),
       OptionsDecorator.valueToLabel(
         conditionWorkup?.motion_mode,
-        selectOptions.FORMS.MOTION.automation_modes
+        selectOptions.FORMS.MOTION.motion_modes
       ),
       MetricsDecorator.infoLineAmount(conditionWorkup.speed),
     ].join(" ");
   };
 
   static infoLineWavelengths = (wavelengths) => {
-    console.log("infoLineWavelengths")
-    console.log(wavelengths)
-
     return wavelengths?.peaks[0] && (
       wavelengths.is_range ?
         'Range ' + wavelengths.peaks[0]?.value + ' - ' + wavelengths.peaks.at(-1)?.value + ' nm'

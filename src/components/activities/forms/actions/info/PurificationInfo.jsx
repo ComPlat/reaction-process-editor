@@ -8,7 +8,6 @@ import PurificationDecorator from '../../../../../decorators/PurificationDecorat
 import { SelectOptions } from "../../../../../contexts/SelectOptions";
 
 import ActivityInfoDecorator from '../../../../../decorators/ActivityInfoDecorator';
-// import OntologiesDecorator from '../../../../../decorators/OntologiesDecorator';
 
 const PurificationInfo = ({ activity, preconditions }) => {
 
@@ -18,17 +17,6 @@ const PurificationInfo = ({ activity, preconditions }) => {
 	let steps = workup["purification_steps"];
 
 	const purificationOptions = useContext(SelectOptions).FORMS[activity.activity_name];
-	// const selectOptions = useContext(SelectOptions);
-
-	// const addOntologyAutomationToTitle = () => {
-	// 	infoTitle += " "
-	// 	infoTitle += OntologiesDecorator.labelForOntologyId({ ontologyId: workup.automation_mode, ontologies: selectOptions.ontologies })
-	// }
-
-	// const addAutomationToTitle = () => {
-	// 	infoTitle += " "
-	// 	infoTitle += OptionsDecorator.valueToLabel(workup.automation_mode, purificationOptions.automation_modes)
-	// }
 
 	const addStepsToTitle = () => {
 		if (steps) {

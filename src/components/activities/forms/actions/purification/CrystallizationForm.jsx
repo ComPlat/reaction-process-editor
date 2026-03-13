@@ -22,8 +22,6 @@ const CrystallizationForm = (
   const crystallizationOptions = useContext(SelectOptions).FORMS.CRYSTALLIZATION
 
   useEffect(() => {
-    workup.automation_mode ||
-      onWorkupChange({ name: 'automation_mode', value: crystallizationOptions.automation_modes[0].value })
     workup.TEMPERATURE ||
       onWorkupChange({ name: 'TEMPERATURE', value: preconditions.TEMPERATURE })
     workup.crystallization_mode ||

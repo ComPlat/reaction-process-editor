@@ -30,7 +30,7 @@ const VesselableFormSection = ({
   const [showVesselTemplates, setShowVesselTemplates] = useState(true)
   const [showVessels, setShowVessels] = useState(false)
 
-  const matchesAutomationMode = (vessel) => !automationMode || vessel.automation_modes?.includes(automationMode)
+  const matchesAutomationMode = (vessel) => !automationMode || vessel.motion_modes?.includes(automationMode)
 
   const matchesTemplateTpe = (vessel) => {
     return (showVesselTemplates && vessel.vesselable_type === 'VesselTemplate')
