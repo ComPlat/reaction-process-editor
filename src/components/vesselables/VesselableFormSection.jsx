@@ -24,7 +24,6 @@ const VesselableFormSection = ({
 }) => {
   const selectOptions = useContext(SelectOptions);
   const vesselables = useContext(VesselOptions);
-  console.log(vesselables)
 
   const preparationOptions = selectOptions.vessel_preparations;
 
