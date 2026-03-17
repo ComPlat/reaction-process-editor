@@ -2,12 +2,12 @@ import React, { useContext, useEffect, useState } from "react";
 
 import { FormGroup, Label } from 'reactstrap';
 
+import AutoComplete from "../activities/forms/formgroups/AutoComplete";
+import AutomationControlFormGroup from "../activities/forms/formgroups/AutomationControlFormGroup";
 import ButtonGroupToggle from "../activities/forms/formgroups/ButtonGroupToggle";
 
-import AutoComplete from "../activities/forms/formgroups/AutoComplete";
 import FormButtons from "../utilities/FormButtons";
 import VesselableFormSection from "../vesselables/VesselableFormSection";
-import AutomationControlFormGroup from "../activities/forms/formgroups/AutomationControlFormGroup";
 
 import { useActivityValidator } from "../../validators/ActivityValidator";
 
@@ -15,14 +15,20 @@ import AutomationControlDecorator from "../../decorators/AutomationControlDecora
 import OntologiesDecorator from '../../decorators/OntologiesDecorator';
 
 import { OntologyConstants } from "../../constants/OntologyConstants";
+import { notifications } from '../../constants/translations';
 
 import { SelectOptions } from "../../contexts/SelectOptions";
+import NotificationContext from "../../contexts/NotificationContext";
+
 
 const StepForm = ({ processStep, previousStep, nameSuggestionOptions, onSave, onCancel, initialSampleVessel }) => {
+
+  const { addNotification } = useContext(NotificationContext);
 
   let ontologies = useContext(SelectOptions).ontologies
   const [stepForm, setStepForm] = useState(processStep || {name: ''})
   const activityValidator = useActivityValidator();
+
 
   useEffect(() => {
     stepForm.automation_control ||
@@ -37,8 +43,10 @@ const StepForm = ({ processStep, previousStep, nameSuggestionOptions, onSave, on
       onCancel()
     } else {
       activityValidator.validateStep(stepForm) && onSave(stepForm)
+      stepForm.automation_mode === processStep.automation_mode || addNotification(notifications.automation_mode.has_been_changed)
     }
   }
+
 
   const handleChange = (attribute) => (value) => {
     setStepForm({ ...stepForm, [attribute]: value })

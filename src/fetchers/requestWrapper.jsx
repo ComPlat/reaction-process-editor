@@ -4,7 +4,7 @@ import NotificationContext from "../contexts/NotificationContext";
 
 import { apiBasePath, afterSignOutPath } from "../constants";
 
-import { translations } from "../constants/translations";
+import { notifications } from "../constants/translations";
 
 export { useRequestWrapper };
 
@@ -42,11 +42,7 @@ function useRequestWrapper() {
   function handleRequestFailure() {
     localStorage.removeItem("username");
     localStorage.removeItem("bearer_auth_token");
-    addNotification({
-      title: translations.network.error.server_not_reachable.title,
-      message: translations.network.error.server_not_reachable.message,
-      type: "error",
-    });
+    addNotification(notifications.network.error.server_not_reachable);
     navigate(afterSignOutPath);
     return;
   }

@@ -5,12 +5,15 @@ import Select from "react-select";
 import MultiInputFormGroup from "../activities/forms/formgroups/MultiInputFormGroup";
 import SingleLineFormGroup from "../activities/forms/formgroups/SingleLineFormGroup";
 import VesselableSelector from "../vesselables/VesselableSelector";
-import VesselableDecorator from "../../decorators/VesselableDecorator";
 import VesselableQuickSelector from "./VesselableQuickSelector";
 
 import { SelectOptions } from "../../contexts/SelectOptions";
 import { VesselOptions } from "../../contexts/VesselOptions";
 import OptionsDecorator from "../../decorators/OptionsDecorator";
+import VesselableDecorator from "../../decorators/VesselableDecorator";
+
+import TooltipLabel from "../utilities/TooltipLabel";
+
 
 const VesselableFormSection = ({
   onChange,
@@ -24,7 +27,6 @@ const VesselableFormSection = ({
 }) => {
   const selectOptions = useContext(SelectOptions);
   const vesselables = useContext(VesselOptions);
-  console.log(vesselables)
 
   const preparationOptions = selectOptions.vessel_preparations;
 
@@ -118,7 +120,7 @@ const VesselableFormSection = ({
             onSelectVesselable={assignVesselable}
             typeColor={typeColor}
             vesselOptions={filteredVesselOptions}
-          />
+            />
         </div>
         <div className="pt-1 mb-3">
           <VesselableSelector
@@ -127,8 +129,10 @@ const VesselableFormSection = ({
             vesselOptions={vesselables}
             typeColor={typeColor}
             buttonLabel={!!reactionProcessVessel?.vesselable_id ? "Change" : "Set"}
-          />
+            />
         </div>
+            {!currentVesselable || matchesAutomationMode(currentVesselable) ||
+          <TooltipLabel name={"vessel_unmet_automation_mode"} label={"Vessel unavailable in Automation mode"} />}
         <SingleLineFormGroup label="Preparations:" typeColor={typeColor}>
           <Select
             className="react-select--overwrite"

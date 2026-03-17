@@ -1,4 +1,11 @@
 export default class AutomationControlDecorator {
+
+  static formDependsOnAutomationMode = (actionName) => {
+    let actionsWithAutomationSpecificFields = ["ANALYSIS_CHROMATOGRAPHY", "CHROMATOGRAPHY", "MOTION"]
+
+    return actionsWithAutomationSpecificFields.includes(actionName)
+  }
+
   static automation_status = {
     "CAN_RUN": {
       value: "CAN_RUN",

@@ -172,7 +172,7 @@ const AddSampleForm = ({ workup, preconditions, onWorkupChange }) => {
               isMulti
               isClearable={false}
               options={materialOptions['MOLECULAR_ENTITY']}
-              samples={workup.molecular_entitites}
+              samples={workup.molecular_entities}
               onChange={handleChange('molecular_entities')}
             />
           </FormGroup>

@@ -57,7 +57,6 @@ const ActivityInfo = (props) => {
     let infoLine = fraction ?
       "Fraction #" + fraction.position + ': ' + (fraction.vials.length || 'No') + " Vials"
       : ''
-
     return (<>{infoLine}</>)
   }
 

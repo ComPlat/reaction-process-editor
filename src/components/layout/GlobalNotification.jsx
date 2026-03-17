@@ -8,7 +8,7 @@ import {
 } from "reactstrap";
 import NotificationContext from "../../contexts/NotificationContext";
 
-import { messageCloseTime } from "../../constants";
+import { defaultlMessageCloseTime } from "../../constants";
 
 const GlobalNotification = () => {
   const { notifications } = useContext(NotificationContext);
@@ -42,11 +42,8 @@ const GlobalNotification = () => {
       setLatestNotification(notification);
       changeShowNotification(true);
       setNotificationTimeout(
-        setTimeout(
-          () => {
-            changeShowNotification(false);
-          },
-          notification.type === "error" ? messageCloseTime.error : messageCloseTime.info
+        setTimeout(() => { changeShowNotification(false); },
+          notification.messageCloseTime || defaultlMessageCloseTime[notification.type]
         )
       );
     }

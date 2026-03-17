@@ -14,6 +14,8 @@ import { StepLock } from "../../contexts/StepLock";
 import { useActivityValidator } from "../../validators/ActivityValidator";
 import IconButton from "../utilities/IconButton";
 
+import { tooltips } from "../../constants/translations";
+
 import { UncontrolledTooltip } from "reactstrap";
 import AutomationControlDecorator from "../../decorators/AutomationControlDecorator";
 
@@ -34,12 +36,16 @@ const ActivityCard = ({
   const stepLock = useContext(StepLock);
   const activityValidator = useActivityValidator();
 
-  const isCondition = type === "condition";
   const isInitialised = !!activity;
+
+  const isCondition = type === "condition";
+  const formDependsOnAutomationMode = AutomationControlDecorator.formDependsOnAutomationMode(activity?.activity_name)
 
   const workup = isInitialised ? activity.workup : {}
 
   const currentAutomationStatus = AutomationControlDecorator.automationStatusByName(workup.automation_control?.status) || AutomationControlDecorator.defaultAutomationStatus
+
+  const automationModeMismatch = processStep && workup.automation_mode !== processStep?.automation_mode
 
   const uninitialisedForm = isCondition ? { activity_name: "CONDITION", workup: workup } : undefined;
   const uninitialisedDisplayMode = isCondition || forceShowForm ? "form" : "type-panel";
@@ -112,11 +118,30 @@ const ActivityCard = ({
     }));
   };
 
+  const renderAutomationModeTooltip = () => {
+    return (
+      <>
+        <div id={"activity_automation_mode_" + activity?.id}>
+          <IconButton
+            size={"sm"}
+            positive={true}
+            icon={"circle-info"}
+            color={"danger"} />
+        </div>
+        <UncontrolledTooltip target={"activity_automation_mode_" + activity?.id}>
+          {tooltips['action_unmet_automation_mode']}
+        </UncontrolledTooltip>
+      </>
+    )
+  }
+
   const renderTitleBar = (title) => {
     return (
       <div className="d-md-flex gap-2">
+        {automationModeMismatch && formDependsOnAutomationMode && renderAutomationModeTooltip()}
         <div id={"activity_automation_status_" + activity?.id}>
-          <IconButton disabled
+          <IconButton
+            disabled
             size={"sm"}
             positive={false}
             icon={currentAutomationStatus.icon}

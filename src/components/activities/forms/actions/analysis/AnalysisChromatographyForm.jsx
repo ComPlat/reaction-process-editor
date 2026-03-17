@@ -223,25 +223,6 @@ const AnalysisChromatographyForm = (
               />
             </SingleLineFormGroup>
           }
-          <MetricsInputFormGroup
-            metricName={'LENGTH'}
-            label={'Diameter'}
-            amount={workup.jar_diameter}
-            onChange={handleWorkupChange('jar_diameter')}
-          />
-          <MetricsInputFormGroup
-            metricName={'LENGTH'}
-            label={'Height'}
-            amount={workup.jar_height}
-            onChange={handleWorkupChange('jar_height')}
-          />
-          <MetricsInputFormGroup
-            metricName={'LENGTH'}
-            label={'Filling Height'}
-            amount={workup.jar_filling_height}
-            max={workup.jar_height?.value}
-            onChange={handleWorkupChange('jar_filling_height')}
-          />
         </ >)
     }
   }
@@ -278,7 +259,7 @@ const AnalysisChromatographyForm = (
             isMulti
             isClearable={false}
             options={selectOptions.materials['MOLECULAR_ENTITY']}
-            samples={workup.molecular_entitites}
+            samples={workup.molecular_entities}
             onChange={handleWorkupChange('molecular_entities')}
           />
         </FormGroup>
