@@ -23,7 +23,6 @@ import { SelectOptions } from '../../../../../contexts/SelectOptions';
 
 const ChromatographyForm = (
   {
-    activity,
     workup,
     onWorkupChange,
     activitySteps,
@@ -128,8 +127,8 @@ const ChromatographyForm = (
 
   const renderAutomationSpecificFields = () => {
     switch (workup.automation_mode) {
-      case OntologyConstants.isAutomated(workup.automation_mode):
-      case OntologyConstants.isSemiAutomated(workup.automation_mode):
+      case OntologyConstants.automation_mode.automated:
+      case OntologyConstants.automation_mode.semiAutomated:
         return (
           <>
             <OntologySelectFormGroup
@@ -195,9 +194,10 @@ const ChromatographyForm = (
               onChange={handleWorkupChange('inject_volume')}
             />
           </>)
-      case OntologyConstants.isManual(workup.automation_mode):
+      case OntologyConstants.automation_mode.manual:
         return (
           <>
+            "MANUAL FORM"
             <OntologySelectFormGroup
               key={"material" + workup.material}
               roleName={'material'}
