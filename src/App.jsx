@@ -4,7 +4,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import GlobalNotification from "./components/layout/GlobalNotification";
 import Login from "./components/views/Login";
 import MainHeader from "./components/layout/MainHeader";
-import Ontologies from "./components/views/Ontologies";
+import OntologiesEditor from "./components/views/OntologiesEditor";
 import ReactionIndex from "./components/views/ReactionIndex";
 import ReactionProcess from "./components/views/ReactionProcess";
 import SampleProcess from "./components/views/SampleProcess";
@@ -31,7 +31,7 @@ const App = () => {
           <Route path="/" exact={true} element={<Login />} />
           <Route path="/reactions" exact={true} element={<ReactionIndex />} />
           <Route path="/reactions/:reactionId" element={<ReactionProcess />} />
-          <Route path="/ontologies" element={<Ontologies />} />
+          <Route path="/ontologies" element={<OntologiesEditor />} />
           <Route path="/samples/:sampleId" element={<SampleProcess />} />
         </Routes>
       </NotificationContext.Provider>

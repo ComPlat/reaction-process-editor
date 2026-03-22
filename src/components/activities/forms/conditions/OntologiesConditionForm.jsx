@@ -9,7 +9,7 @@ import OptionalFormSet from '../formsets/OptionalFormSet.jsx';
 import { ONTOLOGIES } from '../../../../constants/ontologies.js';
 import { SelectOptions } from '../../../../contexts/SelectOptions.jsx';
 
-import OntologiesDecorator from '../../../../decorators/OntologiesDecorator.jsx';
+import OntologiesOptionsDecorator from '../../../../decorators/OntologiesOptionsDecorator.jsx';
 
 
 const OntologiesConditionForm = (
@@ -30,18 +30,15 @@ const OntologiesConditionForm = (
   let ontologies = useContext(SelectOptions).ontologies
 
   let selectableOptionsMatchingWorkupDependencies =
-    OntologiesDecorator.selectableOptionsMatchingWorkupDependencies(
+    OntologiesOptionsDecorator.selectableOptionsMatchingWorkupDependencies(
       { ontologies: ontologies, roleName: 'class', workup: activity.workup, key: Math.random(10000) }
     )
 
   const workup = activity.workup
 
-  console.log("conditionFormMetricNames")
-  console.log(workup.device)
-  console.log(ontologies)
 
   const deviceMethodSummary = workup.device ?
-    OntologiesDecorator.labelForOntologyId({ ontologyId: workup.device, ontologies: ontologies }) + ' ' + (workup.method || '')
+    OntologiesOptionsDecorator.labelForOntologyId({ ontologyId: workup.device, ontologies: ontologies }) + ' ' + (workup.method || '')
     : ""
 
   return (
