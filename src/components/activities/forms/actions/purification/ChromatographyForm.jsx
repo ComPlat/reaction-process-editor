@@ -12,7 +12,7 @@ import SingleLineFormGroup from '../../formgroups/SingleLineFormGroup';
 import CreateButton from "../../../../utilities/CreateButton";
 import FormSection from '../../../../utilities/FormSection'
 
-import OntologiesDecorator from '../../../../../decorators/OntologiesDecorator';
+import OntologiesOptionsDecorator from '../../../../../decorators/OntologiesOptionsDecorator';
 import OptionsDecorator from '../../../../../decorators/OptionsDecorator';
 
 import withActivitySteps from '../../../../utilities/WithActivitySteps';
@@ -41,7 +41,7 @@ const ChromatographyForm = (
   const currentMethodOption = OptionsDecorator.inclusiveOptionForValue(workup.method, currentDeviceOption?.methods)
   const currentStationaryPhaseOption = OptionsDecorator.inclusiveOptionForValue(workup.stationary_phase, currentMethodOption?.stationary_phase)
 
-  const filteredOntologiesByRoleName = (roleName) => OntologiesDecorator.activeOptionsForWorkupDependencies({ roleName: roleName, ontologies: ontologies, workup: workup })
+  const filteredOntologiesByRoleName = (roleName) => OntologiesOptionsDecorator.activeOptionsForWorkupDependencies({ roleName: roleName, ontologies: ontologies, workup: workup })
 
   const filterMethodsByDetectors = (detectors, methods) => {
     if (!methods) { return [] }

@@ -13,7 +13,7 @@ import CreateButton from "../../../../utilities/CreateButton";
 import FormSection from '../../../../utilities/FormSection'
 import SamplesIconSelect from '../../../../utilities/SamplesIconSelect.jsx';
 
-import OntologiesDecorator from '../../../../../decorators/OntologiesDecorator';
+import OntologiesOptionsDecorator from '../../../../../decorators/OntologiesOptionsDecorator';
 import OptionsDecorator from '../../../../../decorators/OptionsDecorator';
 
 import withActivitySteps from '../../../../utilities/WithActivitySteps';
@@ -42,7 +42,7 @@ const AnalysisChromatographyForm = (
   const currentMethodOption = OptionsDecorator.inclusiveOptionForValue(workup.method, currentDeviceOption?.methods)
   const currentStationaryPhaseOption = OptionsDecorator.inclusiveOptionForValue(workup.stationary_phase, currentMethodOption?.stationary_phase)
 
-  const filteredOntologiesByRoleName = (roleName) => OntologiesDecorator.activeOptionsForWorkupDependencies({ roleName: roleName, ontologies: selectOptions.ontologies, workup: workup })
+  const filteredOntologiesByRoleName = (roleName) => OntologiesOptionsDecorator.activeOptionsForWorkupDependencies({ roleName: roleName, ontologies: selectOptions.ontologies, workup: workup })
 
   const filterMethodsByDetectors = (detectors, methods) => {
     if (!methods) { return [] }
@@ -125,7 +125,7 @@ const AnalysisChromatographyForm = (
 
   const mobilePhasePlaceHolder = isAutomated ? "Depends on Method" : workup.device ? "Please Select" : "Depends on Device"
 
-  const filterDevicesByDetectors = () => OntologiesDecorator.filterDevicesByDetectors({ workup: workup, ontologies: selectOptions.ontologies })
+  const filterDevicesByDetectors = () => OntologiesOptionsDecorator.filterDevicesByDetectors({ workup: workup, ontologies: selectOptions.ontologies })
 
   const renderAutomationSpecificFields = () => {
     if (OntologyConstants.isAutomated(workup.automation_mode) || OntologyConstants.isSemiAutomated(workup.automation_mode)) {

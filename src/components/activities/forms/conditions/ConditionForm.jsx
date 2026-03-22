@@ -6,7 +6,7 @@ import MetricFormGroup from "./MetricFormGroup";
 import DeviceMethodFormSet from '../formsets/DeviceMethodFormSet.jsx';
 import OptionalFormSet from '../formsets/OptionalFormSet.jsx';
 
-import OntologiesDecorator from '../../../../decorators/OntologiesDecorator.jsx';
+import OntologiesOptionsDecorator from '../../../../decorators/OntologiesOptionsDecorator.jsx';
 
 import { conditionFormMetricNames } from "../../../../constants/formMetrics.jsx";
 
@@ -25,7 +25,7 @@ const ConditionForm = (
   let ontologies = useContext(SelectOptions).ontologies
   const workup = activity.workup
   const deviceMethodSummary = workup.device ?
-    OntologiesDecorator.labelForValue(workup.device, ontologies) + ' ' + (workup.method || '')
+    OntologiesOptionsDecorator.labelForValue(workup.device, ontologies) + ' ' + (workup.method || '')
     : ""
 
   return (

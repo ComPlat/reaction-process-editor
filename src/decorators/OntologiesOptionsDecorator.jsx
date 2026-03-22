@@ -1,4 +1,4 @@
-export default class OntologiesDecorator {
+export default class OntologiesOptionsDecorator {
 
   static labelForOntologyId = ({ ontologyId, ontologies }) =>
     this.findByOntologyId({ ontologyId: ontologyId, ontologies: ontologies })?.label

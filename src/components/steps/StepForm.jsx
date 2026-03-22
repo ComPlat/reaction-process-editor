@@ -12,7 +12,7 @@ import VesselableFormSection from "../vesselables/VesselableFormSection";
 import { useActivityValidator } from "../../validators/ActivityValidator";
 
 import AutomationControlDecorator from "../../decorators/AutomationControlDecorator";
-import OntologiesDecorator from '../../decorators/OntologiesDecorator';
+import OntologiesOptionsDecorator from '../../decorators/OntologiesOptionsDecorator';
 
 import { OntologyConstants } from "../../constants/OntologyConstants";
 import { notifications } from '../../constants/translations';
@@ -52,7 +52,7 @@ const StepForm = ({ processStep, previousStep, nameSuggestionOptions, onSave, on
     setStepForm({ ...stepForm, [attribute]: value })
   }
 
-  const ontologiesByRoleName = (roleName) => OntologiesDecorator.activeOptionsForRoleName({ roleName: roleName, options: ontologies })
+  const ontologiesByRoleName = (roleName) => OntologiesOptionsDecorator.activeOptionsForRoleName({ roleName: roleName, options: ontologies })
 
   return (
     <>
