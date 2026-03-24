@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import Select from 'react-select'
 
 import SingleLineFormGroup from './SingleLineFormGroup';
-import OntologiesDecorator from '../../../../decorators/OntologiesDecorator';
+import OntologiesOptionsDecorator from '../../../../decorators/OntologiesOptionsDecorator';
 import StringDecorator from '../../../../decorators/StringDecorator';
 
 import { tooltips } from '../../../../constants/translations';
@@ -26,9 +26,9 @@ const OntologyMultiSelectFormGroup = (
 
   let value = workup[roleName]
 
-  let selectableOptionsMatchingWorkupDependencies = OntologiesDecorator.selectableMultiOptionsForWorkupDependencies({ options: options, ontologies: ontologies, roleName: roleName, workup: workup })
+  let selectableOptionsMatchingWorkupDependencies = OntologiesOptionsDecorator.selectableMultiOptionsForWorkupDependencies({ options: options, ontologies: ontologies, roleName: roleName, workup: workup })
 
-  let selectedOptions = OntologiesDecorator.findAllByOntologyIds({ ontologyIds: value, ontologies: selectableOptionsMatchingWorkupDependencies })
+  let selectedOptions = OntologiesOptionsDecorator.findAllByOntologyIds({ ontologyIds: value, ontologies: selectableOptionsMatchingWorkupDependencies })
 
   const inactiveSelection = (selected) => selected.find(item => !item.active)
   const unavailableSelection = (selected) => selected.find(item => item.unavailable)

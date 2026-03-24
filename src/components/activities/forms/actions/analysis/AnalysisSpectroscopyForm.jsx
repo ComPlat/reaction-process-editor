@@ -8,7 +8,7 @@ import OntologySelectFormGroup from '../../formgroups/OntologySelectFormGroup'
 import SolventListFormGroup from '../../formgroups/SolventListFormGroup'
 
 import OptionsDecorator from '../../../../../decorators/OptionsDecorator'
-import OntologiesDecorator from '../../../../../decorators/OntologiesDecorator'
+import OntologiesOptionsDecorator from '../../../../../decorators/OntologiesOptionsDecorator'
 
 import { SelectOptions } from '../../../../../contexts/SelectOptions';
 
@@ -17,7 +17,7 @@ const AnalysisSpectroscopyForm = ({ workup, onWorkupChange }) => {
 	const molecularEntitiesOptions = useContext(SelectOptions).materials['MOLECULAR_ENTITY']
 
 	const filteredOntologiesByRoleName = (roleName) =>
-		OntologiesDecorator.activeOptionsForWorkupDependencies({ roleName: roleName, ontologies: selectOptions.ontologies, workup: workup })
+		OntologiesOptionsDecorator.activeOptionsForWorkupDependencies({ roleName: roleName, ontologies: selectOptions.ontologies, workup: workup })
 
 	const handleWorkupChange = (workupKey) => (value) => onWorkupChange({ name: workupKey, value: value })
 

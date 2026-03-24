@@ -3,7 +3,7 @@ import Select from 'react-select'
 
 import SingleLineFormGroup from './SingleLineFormGroup';
 
-import OntologiesDecorator from '../../../../decorators/OntologiesDecorator';
+import OntologiesOptionsDecorator from '../../../../decorators/OntologiesOptionsDecorator';
 import StringDecorator from '../../../../decorators/StringDecorator';
 
 import { tooltips } from '../../../../constants/translations';
@@ -28,11 +28,11 @@ const OntologySelectFormGroup = (
   let value = workup?.[roleName]
 
   let selectableOptionsMatchingWorkupDependencies =
-    OntologiesDecorator.selectableOptionsMatchingWorkupDependencies(
+    OntologiesOptionsDecorator.selectableOptionsMatchingWorkupDependencies(
       { options: options, ontologies: ontologies, roleName: roleName, workup: workup, key: Math.random(10000) }
     )
 
-  let selectedOption = OntologiesDecorator.findByOntologyId({ ontologyId: value, ontologies: selectableOptionsMatchingWorkupDependencies })
+  let selectedOption = OntologiesOptionsDecorator.findByOntologyId({ ontologyId: value, ontologies: selectableOptionsMatchingWorkupDependencies })
 
   tooltip ||= selectedOption?.unavailable && tooltips['selection_unavailable']
   tooltip ||= selectedOption && !selectedOption.active && tooltips['selection_inactive']

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 
 import ActivityForm from "../ActivityForm";
 import MetricFormGroup from "./MetricFormGroup";
@@ -6,7 +6,11 @@ import MetricFormGroup from "./MetricFormGroup";
 import DeviceMethodFormSet from '../formsets/DeviceMethodFormSet.jsx';
 import OptionalFormSet from '../formsets/OptionalFormSet.jsx';
 
+import OntologiesInfoDecorator from '../../../../decorators/OntologiesInfoDecorator.jsx';
+
 import { conditionFormMetricNames } from "../../../../constants/formMetrics.jsx";
+
+import { SelectOptions } from '../../../../contexts/SelectOptions';
 
 const ConditionForm = (
   {
@@ -18,9 +22,10 @@ const ConditionForm = (
     onChangeDuration,
   }) => {
 
+  let ontologies = useContext(SelectOptions).ontologies
   const workup = activity.workup
   const deviceMethodSummary = workup.device ?
-    workup.device + ' ' + (workup.method || '')
+    OntologiesInfoDecorator.labelForValue(workup.device, ontologies) + ' ' + (workup.method || '')
     : ""
 
   return (
