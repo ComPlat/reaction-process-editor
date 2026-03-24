@@ -35,8 +35,7 @@ export default class OntologiesInfoDecorator {
 
   static dependenciesForRole = ({ role, ontologies }) => {
     let [roleName, dependencies] = role
-    console.log(role)
-    console.log(roleName)
+
     return dependencies.map((dependency) => {
       return (<div className='border'>
         {'=' + roleName}
@@ -48,12 +47,11 @@ export default class OntologiesInfoDecorator {
     // })
   }
 
-  //   return Object.entries(role).map(([index, dependencies]) => {
-  //     return dependencies.map(dependency => {return })
-
-  //   })
-  // }
-  // static label = (ontology)  =>  ontology?.label
-  // static label = (ontology)  =>  ontology?.label
+  static enrichedOntologyOption = (ont) => {
+    return {
+      value: ont.ontology_id,
+      label: '[' + ont.ontology_id + '] ' + (ont.label || ont.name || "No label")
+    }
+  }
 
 }

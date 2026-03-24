@@ -22,15 +22,14 @@ const OntologiesEditor = () => {
 
   const filteredOntologies = ontologies.filter((ont) => ontologyMatchesQuery(ont))
 
-
   useEffect(() => {
     if (localStorage.getItem("bearer_auth_token")) {
       fetchOntologies();
     }
-    window.addEventListener("ontologiesRequiresReload", fetchOntologies);
+    window.addEventListener("requireReload", fetchOntologies);
 
     return () => {
-      window.removeEventListener("ontologiesRequiresReload", fetchOntologies);
+      window.removeEventListener("requireReload", fetchOntologies);
     };
     // eslint-disable-next-line
   }, [])
@@ -43,14 +42,9 @@ const OntologiesEditor = () => {
   };
 
 
-  const handleChangeOntology = (ontology) => {
-    console.log(ontology)
-    window.dispatchEvent(new Event("ontologiesRequiresReload"));
-  }
-
   return (
     <>
-      <Nav fill className="navbar fixed-bottom bg-preparation border-top px-5">
+      <Nav fill className="navbar fixed-bottom bg-preparation px-5">
         <NavbarBrand href="/">
           {'Ontologies: ' + filteredOntologies.length + ' / ' + ontologies.length}
         </NavbarBrand>
@@ -63,16 +57,16 @@ const OntologiesEditor = () => {
         </NavItem>
       </Nav>
 
-      {filteredOntologies.map(ontology => {
-        return (
-          <SelectOptions.Provider value={ontologies}>
+      <SelectOptions.Provider value={ontologies}>
+        {filteredOntologies.map(ontology => {
+          return (
             <OntologyForm
-              key={"ontology_" + ontology.id}
+              key={"ontology_" + ontology.ontology_id}
               ontology={ontology}
-              onChange={handleChangeOntology} />
-          </SelectOptions.Provider>
-        )
-      })}
+            />
+          )
+        })}
+      </SelectOptions.Provider>
     </>
   )
 
