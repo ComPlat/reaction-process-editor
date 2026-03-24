@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import { Input, Nav, NavItem, NavbarBrand } from "reactstrap";
+import { Input, Nav, NavItem, NavbarBrand, Button } from "reactstrap";
 import OntologyForm from '../ontologies/OntologyForm';
 
 import { useReactionsFetcher } from "../../fetchers/ReactionsFetcher";
@@ -14,6 +14,8 @@ const OntologiesEditor = () => {
 
   const [ontologyQuery, setOntologyQuery] = useState('');
 
+  const [showNewForm, setShowNewForm] = useState(false)
+
   const ontologyMatchesQuery = (ont) => {
     return ont.ontology_id?.toLowerCase().match(ontologyQuery?.toLowerCase())
       || ont.label?.toLowerCase().match(ontologyQuery?.toLowerCase())
@@ -22,15 +24,14 @@ const OntologiesEditor = () => {
 
   const filteredOntologies = ontologies.filter((ont) => ontologyMatchesQuery(ont))
 
-
   useEffect(() => {
     if (localStorage.getItem("bearer_auth_token")) {
       fetchOntologies();
     }
-    window.addEventListener("ontologiesRequiresReload", fetchOntologies);
+    window.addEventListener("requireReload", fetchOntologies);
 
     return () => {
-      window.removeEventListener("ontologiesRequiresReload", fetchOntologies);
+      window.removeEventListener("requireReload", fetchOntologies);
     };
     // eslint-disable-next-line
   }, [])
@@ -42,37 +43,49 @@ const OntologiesEditor = () => {
     });
   };
 
-
-  const handleChangeOntology = (ontology) => {
-    console.log(ontology)
-    window.dispatchEvent(new Event("ontologiesRequiresReload"));
-  }
+  const initialOntology = { roles: {}, label: '', ontology_id: '', active: true, detectors: [], solvents: [], stationary_phase: [] }
 
   return (
     <>
-      <Nav fill className="navbar fixed-bottom bg-preparation border-top px-5">
-        <NavbarBrand href="/">
-          {'Ontologies: ' + filteredOntologies.length + ' / ' + ontologies.length}
-        </NavbarBrand>
-        <NavItem className="p-5">
-          <Input
-            placeholder={'Search Ontologies'}
-            value={ontologyQuery}
-            onChange={(event) => setOntologyQuery(event.target.value)}
-          />
-        </NavItem>
-      </Nav>
+      <SelectOptions.Provider value={ontologies}>
+        <Nav fill className="navbar fixed-bottom bg-preparation px-5">
+          <NavbarBrand>
+            <Button onClick={e => setShowNewForm(true)}>+ Ontology</Button>
+          </NavbarBrand>
+          <NavItem>
+            {'Ontologies: ' + filteredOntologies.length + ' / ' + ontologies.length}
+          </NavItem>
+          <NavItem className="p-5">
+            <Input
+              placeholder={'Search Ontologies'}
+              value={ontologyQuery}
+              onChange={(event) => setOntologyQuery(event.target.value)}
+            />
+          </NavItem>
 
-      {filteredOntologies.map(ontology => {
-        return (
-          <SelectOptions.Provider value={ontologies}>
+        </Nav>
+        <Nav  className="fixed-bottom bg-preparation px-5">
+        {showNewForm ?
             <OntologyForm
-              key={"ontology_" + ontology.id}
+              key={"ontology_new"}
+              ontology={initialOntology}
+              isOpen={true}
+              onFinished={e => setShowNewForm(false)}
+              />
+          : <></>}
+
+          </Nav>
+
+        {filteredOntologies.map(ontology => {
+          return (
+            <OntologyForm
+              key={"ontology_" + ontology.ontology_id}
               ontology={ontology}
-              onChange={handleChangeOntology} />
-          </SelectOptions.Provider>
-        )
-      })}
+            />
+          )
+        })}
+
+      </SelectOptions.Provider>
     </>
   )
 
