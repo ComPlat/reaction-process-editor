@@ -2,8 +2,7 @@ import React from 'react';
 
 import OntologyRoleDependenciesForm from './OntologyRoleDependenciesForm';
 
-const OntologyRoleForm = ({ role, onChange, selectableOntologyOptions, dependencyTypeOptions }) => {
-
+const OntologyRoleForm = ({ role, onChange, selectableOntologyOptions, roleTypeOptions }) => {
   const [roleName, roleDependencies] = role
 
   const handleChangeRoleDependencies = (index) => (newRoleDependency) => {
@@ -20,15 +19,15 @@ const OntologyRoleForm = ({ role, onChange, selectableOntologyOptions, dependenc
   return (
     <>
       {roleDependencies.map((dependencies, index) =>
-        <div className="col-3 border">
+        <tr>
           <OntologyRoleDependenciesForm
             roleName={roleName}
             dependencies={dependencies}
             onDelete={handleDeleteRoleDependency(index)}
             onChange={handleChangeRoleDependencies(index)}
-            dependencyTypeOptions={dependencyTypeOptions}
+            roleTypeOptions={roleTypeOptions}
             selectableOntologyOptions={selectableOntologyOptions} />
-        </div>
+        </tr>
       )}
     </>
   )

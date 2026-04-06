@@ -1,4 +1,6 @@
 
+import StringDecorator from "../decorators/StringDecorator"
+
 export const OntologyConstants = {
 	class:
 	{
@@ -24,5 +26,11 @@ export const OntologyConstants = {
 
 	isAutomated: (status => status === OntologyConstants.automation_mode.automated),
 	isSemiAutomated: (status => status === OntologyConstants.automation_mode.semiAutomated),
-	isManual: (status => status === OntologyConstants.automation_mode.manual)
+	isManual: (status => status === OntologyConstants.automation_mode.manual),
+
+	ontologyTypeOptions: ['TERMINOLOGY', 'CUSTOM_TERMINOLOGY', 'DEVICE_TYPE', 'DEVICE_CONFIG'].map((ont) => { return { value: ont, label: StringDecorator.toLabelSpelling(ont)}}),
+
+	roleTypeOptions: ["action", "class", "type", "subtype", "detector", "condition", "device", "solvent", "mobile_phase", "material", "automation_mode"].map(i => { return { value: i, label: StringDecorator.toLabelSpelling(i) } }),
+
+	isDevice: (type => ['DEVICE_TYPE', 'DEVICE_CONFIG'].includes(type))
 }

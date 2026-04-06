@@ -1,4 +1,6 @@
-import OntologiesOptionsDecorator from "./OntologiesOptionsDecorator"
+import OntologyRichLabel from "../components/ontologies/OntologyRichLabel"
+
+import StringDecorator from "./StringDecorator"
 
 export default class OntologiesInfoDecorator {
 
@@ -7,48 +9,54 @@ export default class OntologiesInfoDecorator {
   static name = (ontology) => ontology?.name
   static link = (ontology) => ontology?.link
 
-  static infoLabelForId = ({ ontologyId, ontologies }) => {
-
-    let ontology = OntologiesOptionsDecorator.findByOntologyId({ ontologyId: ontologyId, ontologies: ontologies })
-
-    return '' + ontologyId + ' [' + (ontology?.label || ontology?.name) + ']'
-  }
-
   static rolesInfo = ({ ontology, ontologies }) => {
     return Object.entries(ontology.roles).map(role => {
-
-      return this.dependenciesForRole({ role: role, ontologies: ontologies })
+      return (
+        <>
+          {this.dependenciesForRole({ role: role, ontologies: ontologies })}
+        </>
+      )
     })
   }
 
   static dependencyInfo = ({ dependency, ontologies }) => {
     return Object.entries(dependency).map(([dependencyName, dependencyIds]) => {
-      return (<div>
-        {dependencyName + ': '}
-        {dependencyIds.map(dependencyId => this.infoLabelForId({ ontologyId: dependencyId, ontologies: ontologies })).join(', ')}
-      </div>)
+      return (
+        <div>
+          <b>
+            {StringDecorator.toLabelSpelling(dependencyName) + ': '}
+          </b>
+          {dependencyIds.map(dependencyId =>
+            <OntologyRichLabel ontologyId={dependencyId} />)}
+        </div>)
     })
   }
-
 
   static dependenciesForRole = ({ role, ontologies }) => {
     let [roleName, dependencies] = role
 
     return dependencies.map((dependency) => {
-      return (<div className='border'>
-        {'=' + roleName}
-        {this.dependencyInfo({ dependency: dependency, ontologies: ontologies })}
-      </div>
+      return (<>
+        <div className='row border-bottom'>
+          <b>
+
+            {'=' + StringDecorator.toLabelSpelling(roleName)}
+          </b>
+          <div>
+            {this.dependencyInfo({ dependency: dependency, ontologies: ontologies })}
+          </div>
+        </div>
+      </>
       )
     })
-    // })
-    // })
   }
 
-  static enrichedOntologyOption = (ont) => {
+  static richLabel = (ont) => { return '[' + ont?.ontology_id + '] ' + (ont?.label || ont?.name || 'No label') }
+
+  static richLabelOption = (ont) => {
     return {
       value: ont.ontology_id,
-      label: '[' + ont.ontology_id + '] ' + (ont.label || ont.name || "No label")
+      label: this.richLabel(ont)
     }
   }
 

@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
 
-import { Button, FormGroup, Label } from 'reactstrap';
+import { Button, Label } from 'reactstrap';
 
 import Select from 'react-select';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import OntologyDeletableItem from './OntologyDeletableItem';
+import DeletableItem from './DeletableItem';
+import StringDecorator from '../../decorators/StringDecorator';
 
-const OntologyRoleDependenciesForm = ({ onChange, roleName, dependencies, onDelete, dependencyTypeOptions, selectableOntologyOptions }) => {
+const OntologyRoleDependenciesForm = ({ onChange, roleName, dependencies, onDelete, roleTypeOptions, selectableOntologyOptions }) => {
 
   const [addDependencyType, setDependencyType] = useState()
   const [addDependencyOntology, setDependencyOntology] = useState()
@@ -29,59 +30,74 @@ const OntologyRoleDependenciesForm = ({ onChange, roleName, dependencies, onDele
 
     let index = dependencies[dependencyType].indexOf(ontologyId);
     if (index > -1) { newDependencies[dependencyType] = dependencies[dependencyType].toSpliced(index, 1); }
+
+    if (newDependencies[dependencyType].length === 0) { delete newDependencies[dependencyType] }
     onChange(newDependencies)
   }
 
   const renderDependency = ([dependencyType, dependsOn]) => {
     return (
-      <div key={"dependencyType_" + dependencyType} >
-        <div>{dependencyType} is any of:</div>
+      <div className="col-3" key={"dependencyType_" + dependencyType} >
+        <div>available for <b>{StringDecorator.toLabelSpelling(dependencyType)}:</b>
+        </div>
         {dependsOn.map(dependencyId =>
-          <OntologyDeletableItem ontologyId={dependencyId} onDelete={deleteDependency(dependencyType)(dependencyId)} />)
+          <DeletableItem ontologyId={dependencyId} onDelete={deleteDependency(dependencyType)(dependencyId)} />)
         }
       </div>
     )
   }
 
-  return (
-    <>
-      <FormGroup className="mt-3">
-        <Button color="danger" onClick={onDelete} size="sm" >
-          <FontAwesomeIcon icon="trash" size="sm" />
-        </Button>
-        <Label className="px-3">
-          Role: {roleName}
-        </Label>
-        <div>
-          {Object.entries(dependencies).length ? "Available if: " : "Always available (no dependencies)"}
-        </div>
-      </FormGroup>
-      <div className="px-5">
-        {Object.entries(dependencies).map((dependency) => renderDependency(dependency))}
-      </div>
-      <FormGroup className="mt-5 success">
+  const renderDependencies = () => Object.entries(dependencies).length > 0 ? Object.entries(dependencies).map((dependency) => renderDependency(dependency)) : <>Always available</>
+
+  const renderAddDependencyForm = () => {
+    return (<>
+      <div className="col-2">
         <Select
-          placeholder={'Add Dependency: Type'}
+          placeholder={'Add Dependency Type'}
           className="react-select--overwrite"
           classNamePrefix="react-select"
           name="AddDependencyType"
-          options={dependencyTypeOptions}
+          options={roleTypeOptions}
           selected={addDependencyType}
-          onChange={selectedOption => setDependencyType(selectedOption.value)}
+          isClearable
+          onChange={selectedOption => setDependencyType(selectedOption?.value)}
         />
+      </div>
+      <div className="col-3">
         <Select
           key={"Need-to-provide-a-stupid-key-just-so-react-knows-that-it-is-now-supposed-to-do-what-it-was-actually-invented-for" + renderCountToForceStupidReactToRerenderOnStateChange}
-          placeholder={'Add Dependency: Ontology'}
+          placeholder={'Add Dependency Ontology'}
           className="react-select--overwrite"
           classNamePrefix="react-select"
           name="AddDependencyOntology"
           options={selectableOntologyOptions}
           selected={addDependencyOntology}
-          onChange={selectedOption => setDependencyOntology(selectedOption.value)}
+          isClearable
+          onChange={selectedOption => setDependencyOntology(selectedOption?.value)}
         />
-      </FormGroup>
-      <Button onClick={addDependency} disabled={!addDependencyType || !addDependencyOntology}>+ Add Dependency</Button>
-    </>
+      </div>
+      <div className="col-1">
+        <Button color="success" onClick={addDependency} disabled={!addDependencyType || !addDependencyOntology}>+ Add</Button>
+      </div>
+    </>)
+  }
+
+  return (
+    <div className="row">
+      <div className="col-2 px-3">
+        <Button color="danger" onClick={onDelete} size="sm" >
+          <FontAwesomeIcon icon="trash" size="sm" />
+        </Button>
+        <Label className="px-3">
+          {StringDecorator.toLabelSpelling(roleName)}
+        </Label>
+      </div>
+      {renderDependencies()}
+      <div className="row mt-3">
+        {renderAddDependencyForm()}
+      </div>
+    </div >
+
   )
 
 }
