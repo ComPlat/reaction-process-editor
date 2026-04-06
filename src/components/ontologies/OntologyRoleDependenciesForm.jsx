@@ -47,7 +47,8 @@ const OntologyRoleDependenciesForm = ({ onChange, roleName, dependencies, onDele
     )
   }
 
-  const renderDependencies = () => Object.entries(dependencies).length > 0 ? Object.entries(dependencies).map((dependency) => renderDependency(dependency)) : <>Always available</>
+  const renderDependencies = () => Object.entries(dependencies).length > 0 ?
+    Object.entries(dependencies).map((dependency) => renderDependency(dependency)) : <>Always available</>
 
   const renderAddDependencyForm = () => {
     return (<>

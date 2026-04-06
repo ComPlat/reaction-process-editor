@@ -17,10 +17,12 @@ const OntologiesEditor = () => {
 
   const [showNewForm, setShowNewForm] = useState(false)
 
+  const downcasedQuery = ontologyQuery?.toLowerCase()
+
   const ontologyMatchesQuery = (ont) => {
-    return ont.ontology_id?.toLowerCase().match(ontologyQuery?.toLowerCase())
-      || ont.label?.toLowerCase().match(ontologyQuery?.toLowerCase())
-      || ont.name?.toLowerCase().match(ontologyQuery?.toLowerCase())
+    return ont.ontology_id?.toLowerCase().match(downcasedQuery)
+      || ont.label?.toLowerCase().match(downcasedQuery)
+      || ont.name?.toLowerCase().match(downcasedQuery)
   }
 
   const filteredOntologies = ontologies.filter((ont) => ontologyMatchesQuery(ont))
@@ -44,12 +46,13 @@ const OntologiesEditor = () => {
   };
 
   const initialOntology = {
-    roles: {}, label: '', name:'', ontology_id: '', ontology_type: "CUSTOM_TERMINOLOGY",
+    roles: {}, label: '', name: '', ontology_id: '', ontology_type: "CUSTOM_TERMINOLOGY",
     active: true, detectors: [], solvents: [], stationary_phase: []
   }
 
   return (
     <>
+
       <SelectOptions.Provider value={{ ontologies: ontologies }}>
         <Nav fill className="navbar fixed-bottom bg-preparation px-5">
           <NavbarBrand>
@@ -81,11 +84,8 @@ const OntologiesEditor = () => {
           <tbody>
             {filteredOntologies.map(ontology => {
               return (
-                <tr>
-                  <OntologyListItem
-                    key={"ontology_" + ontology.ontology_id}
-                    ontology={ontology}
-                  />
+                <tr key={"ontology-list-row" + ontology.ontology_id}>
+                  <OntologyListItem ontology={ontology} />
                 </tr>
               )
             })}

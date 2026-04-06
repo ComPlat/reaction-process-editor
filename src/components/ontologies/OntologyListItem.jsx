@@ -19,30 +19,37 @@ const OntologyListItem = ({ ontology, isOpen }) => {
   const toggleModal = () => setFormOpen(!formOpen)
 
   const renderDeviceInfoRow = (ontology) => {
-    return (ontology.detectors?.length || ontology.solvents?.length || ontology.stationary_phase?.length)
+    let detectorsLength = ontology.detectors?.length
+    let solventsLength = ontology.solvents?.length
+    let phasesLength = ontology.stationary_phase?.length
+
+    return (detectorsLength || solventsLength || phasesLength)
       ?
       <div className="row">
         <div className="col-2 border-top">
-          <b>{ontology.detectors?.length ? ontology.detectors?.length + " Detectors" : ''}</b>
-          {ontology.detectors?.map(detectorId => <div key={"detectorId" + detectorId}>
-            <OntologyRichLabel ontologyId={detectorId} />
-          </div>
+          <b>{detectorsLength ? detectorsLength + " Detectors" : ''}</b>
+          {ontology.detectors?.map(detectorId =>
+            <div key={"detectorId_" + ontology.ontology_id + detectorId}>
+              <OntologyRichLabel ontologyId={detectorId} />
+            </div>
           )}
         </div>
         <div className="col-2 border-top">
-          <b>{ontology.solvents?.length ? ontology.solvents?.length + " Solvents" : ''}  </b>
-          {ontology.solvents.map(solventId => <div key={"solventId_" + solventId}>
-            <OntologyRichLabel ontologyId={solventId} />
-          </div>
+          <b>{solventsLength ? solventsLength + " Solvents" : ''}  </b>
+          {ontology.solvents.map(solventId =>
+            <div key={"solventId_" + ontology.ontology_id + solventId}>
+              <OntologyRichLabel ontologyId={solventId} />
+            </div>
           )}
         </div>
         <div className="col-6 border-top">
           <b>
-            {ontology.stationary_phase?.length ? ontology.stationary_phase?.length + " Stationary Phase" : ''}
+            {phasesLength ? phasesLength + " Stationary Phase" : ''}
           </b>
-          {ontology.stationary_phase?.map(phase => <div key={"stat_pgase" + phase}>
-            {phase}
-          </div>
+          {ontology.stationary_phase?.map(phase =>
+            <div key={"stat_phase" + ontology.ontology_id + phase}>
+              {phase}
+            </div>
           )}
         </div>
       </div> : <></>
@@ -51,7 +58,7 @@ const OntologyListItem = ({ ontology, isOpen }) => {
   const renderInfoRow = (ontology) => {
     let buttonColor = ontology?.active ? 'success' : 'condition'
     return (
-      <div className="row"  >
+      <div className="row" >
         <div className="col-2">
           <Button onClick={toggleModal} size="sm" color={buttonColor}>
             {ontology.ontology_id}
@@ -70,11 +77,13 @@ const OntologyListItem = ({ ontology, isOpen }) => {
     )
   }
 
+  const isDevice = OntologyConstants.isDevice(ontology.ontology_type)
+
   return (
     <td key={"ontology-item-" + ontology.ontology_id}>
       {renderInfoRow(ontology)}
-      {OntologyConstants.isDevice(ontology.ontology_type) && renderDeviceInfoRow(ontology)}
-      <OntologyFormModal key={"ontology-form-modal-" + ontology.ontology_id} ontology={ontology} isOpen={formOpen} onClose={toggleModal} />
+      {isDevice && renderDeviceInfoRow(ontology)}
+      {formOpen && <OntologyFormModal key={"ontology-form-modal-" + ontology.ontology_id} ontology={ontology} isOpen onClose={toggleModal} />}
     </td>
   )
 }
