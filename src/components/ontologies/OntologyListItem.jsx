@@ -57,7 +57,7 @@ const OntologyListItem = ({ ontology, isOpen }) => {
             {ontology.ontology_id}
           </Button>
           <span className='ms-3' >
-            <OntologyLink ontology={ontology} size=""/>
+            <OntologyLink ontology={ontology} />
           </span>
           <div>
             {StringDecorator.toLabelSpelling(ontology.ontology_type)}
@@ -71,10 +71,10 @@ const OntologyListItem = ({ ontology, isOpen }) => {
   }
 
   return (
-    <td>
+    <td key={"ontology-item-" + ontology.ontology_id}>
       {renderInfoRow(ontology)}
       {OntologyConstants.isDevice(ontology.ontology_type) && renderDeviceInfoRow(ontology)}
-      <OntologyFormModal ontology={ontology} isOpen={formOpen} onClose={toggleModal} />
+      <OntologyFormModal key={"ontology-form-modal-" + ontology.ontology_id} ontology={ontology} isOpen={formOpen} onClose={toggleModal} />
     </td>
   )
 }
