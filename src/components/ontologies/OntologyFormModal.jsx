@@ -182,7 +182,7 @@ const OntologyFormModal = ({ ontology, isOpen, onClose }) => {
             disabled={!!ontology.id}
           />
           <Label className="mx-3">Ontology ID</Label>
-        {ontologyIdExists && renderDuplicateIdWarning()}
+          {ontologyIdExists && renderDuplicateIdWarning()}
         </FormGroup>
         <FormGroup floating className="col-3">
           <Input
