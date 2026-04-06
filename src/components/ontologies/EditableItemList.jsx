@@ -4,10 +4,9 @@ import { Label } from 'reactstrap';
 
 import Select from 'react-select';
 
-import OntologyDeletableItem from './OntologyDeletableItem';
+import DeletableItem from './DeletableItem';
 
-const OntologyEditableItemList = ({ label, items, onChange, filteredOntologies }) => {
-
+const EditableItemList = ({ label, items, onChange, options }) => {
 
 	const deleteItem = (itemId) => () => {
 		let newItems = JSON.parse(JSON.stringify(items))
@@ -17,27 +16,28 @@ const OntologyEditableItemList = ({ label, items, onChange, filteredOntologies }
 	}
 
 	const addItem = (itemId) => {
-		console.log("addItem")
 		let newItems = JSON.parse(JSON.stringify(items)) || []
 		onChange(newItems.concat([itemId]))
 	}
 
 	return (
 		<>
-			<Label>{label}</Label>
-			{
-				items?.map(itemId =>
-					<OntologyDeletableItem ontologyId={itemId} onDelete={deleteItem(itemId)} />)
-			}
 			<Select
 				type="select"
 				placeholder={'Add ' + label}
-				className="mt-3 form-select-border-success"
-				options={filteredOntologies}
+				className="m-3 react-select--overwrite"
+				classNamePrefix="react-select"
+				options={options}
+				value={''}
 				onChange={selectedOption => addItem(selectedOption.value)}
 			/>
+			<Label className="font-weight-bold">{label}s</Label>
+			{
+				items?.map(itemId =>
+					<DeletableItem ontologyId={itemId} onDelete={deleteItem(itemId)} />)
+			}
 		</>)
 
 }
 
-export default OntologyEditableItemList
+export default EditableItemList

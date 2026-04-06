@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { Input, Button, Label } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-const OntologyEditableTextList = ({ label, items, onChange }) => {
+const EditableTextList = ({ label, items, onChange }) => {
 
 	const [inputText, setInputText] = useState('')
 
@@ -30,6 +30,18 @@ const OntologyEditableTextList = ({ label, items, onChange }) => {
 
 	return (
 		<>
+			<div className="row">
+				<div className="col-9">
+					<Input
+						className="m-3"
+						value={inputText}
+						placeholder={'Add ' + label}
+						onChange={(event) => setInputText(event.target.value)}
+						onKeyUp={handleKeyInput}
+					/>
+				</div>
+				<Button color="success" className="col-2 m-3" onClick={addItem} disabled={inputText?.length === 0}>+ Add</Button>
+			</div>
 			<Label>{label}</Label>
 			{items?.map(item => <div>
 				<Button color="danger" onClick={deleteItem(item)} size="sm" className="mt-1 mx-3">
@@ -37,19 +49,7 @@ const OntologyEditableTextList = ({ label, items, onChange }) => {
 				</Button>
 				{item}</div>)}
 
-			<div className="row">
-				<div className="col-10">
-					<Input
-						className="mt-3"
-						value={inputText}
-						placeholder={'Add ' + label}
-						onChange={(event) => setInputText(event.target.value)}
-						onKeyUp={handleKeyInput}
-					/>
-				</div>
-				<Button className="col-2 mt-3" onClick={addItem}> + Add </Button>
-			</div>
 		</>)
 }
 
-export default OntologyEditableTextList
+export default EditableTextList
