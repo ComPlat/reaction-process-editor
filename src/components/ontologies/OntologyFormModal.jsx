@@ -188,6 +188,7 @@ const OntologyFormModal = ({ ontology, isOpen, onClose }) => {
           <Input
             type="textfield"
             value={currentOntology.label || ''}
+            placeholder="Label"
             onChange={event => handleChange('label')(event.target.value)}
           />
           <Label className="mx-3">Label</Label>
@@ -200,6 +201,7 @@ const OntologyFormModal = ({ ontology, isOpen, onClose }) => {
             <Input
               type="textfield"
               value={currentOntology.link}
+              placeholder="URL"
               onChange={event => handleChange('link')(event.target.value)}
             />
             <Label className="mx-3">URL</Label>
@@ -238,7 +240,7 @@ const OntologyFormModal = ({ ontology, isOpen, onClose }) => {
   }
 
 
-  const modalTitle = !!ontology.ontology_id ?
+  const modalTitle = !!ontology.id ?
     <>Edit Ontology – <OntologyRichLabel ontology={ontology} /></> : 'Create Ontology'
 
   return (
