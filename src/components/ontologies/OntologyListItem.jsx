@@ -49,7 +49,7 @@ const OntologyListItem = ({ ontology, isOpen }) => {
   }
 
   const renderInfoRow = (ontology) => {
-    let buttonColor = ontology?.active ? 'success' : 'danger'
+    let buttonColor = ontology?.active ? 'success' : 'condition'
     return (
       <div className="row"  >
         <div className="col-2">
