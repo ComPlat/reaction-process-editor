@@ -17,21 +17,17 @@ const OntologyRoleForm = ({ role, onChange, selectableOntologyOptions, roleTypeO
   }
 
   return (
-    <>
-      {roleDependencies.map((dependencies, index) =>
-        <tr>
-          <OntologyRoleDependenciesForm
-            roleName={roleName}
-            dependencies={dependencies}
-            onDelete={handleDeleteRoleDependency(index)}
-            onChange={handleChangeRoleDependencies(index)}
-            roleTypeOptions={roleTypeOptions}
-            selectableOntologyOptions={selectableOntologyOptions} />
-        </tr>
-      )}
-    </>
-  )
-
+    roleDependencies.map((dependencies, index) =>
+      <tr key={'role_dependency-' + index}>
+        <OntologyRoleDependenciesForm
+          roleName={roleName}
+          dependencies={dependencies}
+          onDelete={handleDeleteRoleDependency(index)}
+          onChange={handleChangeRoleDependencies(index)}
+          roleTypeOptions={roleTypeOptions}
+          selectableOntologyOptions={selectableOntologyOptions} />
+      </tr>
+    ))
 }
 
 export default OntologyRoleForm;

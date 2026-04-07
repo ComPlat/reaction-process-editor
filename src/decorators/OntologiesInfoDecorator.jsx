@@ -11,11 +11,7 @@ export default class OntologiesInfoDecorator {
 
   static rolesInfo = ({ ontology, ontologies }) => {
     return Object.entries(ontology.roles).map(role => {
-      return (
-        <>
-          {this.dependenciesForRole({ role: role, ontologies: ontologies })}
-        </>
-      )
+      return(this.dependenciesForRole({ role: role, ontologies: ontologies }))
     })
   }
 
@@ -39,7 +35,6 @@ export default class OntologiesInfoDecorator {
       return (<>
         <div className='row border-bottom'>
           <b>
-
             {'=' + StringDecorator.toLabelSpelling(roleName)}
           </b>
           <div>

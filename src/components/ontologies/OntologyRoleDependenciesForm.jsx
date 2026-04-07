@@ -47,7 +47,9 @@ const OntologyRoleDependenciesForm = ({ onChange, roleName, dependencies, onDele
     )
   }
 
-  const renderDependencies = () => Object.entries(dependencies).length > 0 ? Object.entries(dependencies).map((dependency) => renderDependency(dependency)) : <>Always available</>
+  const renderDependencies = () => Object.entries(dependencies).length > 0 ?
+    Object.entries(dependencies).map((dependency) => renderDependency(dependency)) :
+    <>Always available</>
 
   const renderAddDependencyForm = () => {
     return (<>
@@ -92,9 +94,9 @@ const OntologyRoleDependenciesForm = ({ onChange, roleName, dependencies, onDele
           {StringDecorator.toLabelSpelling(roleName)}
         </Label>
       </div>
-      {renderDependencies()}
+      {roleName === 'unused' ? <>Never available</> : renderDependencies()}
       <div className="row mt-3">
-        {renderAddDependencyForm()}
+        {roleName === 'unused' || renderAddDependencyForm()}
       </div>
     </div >
 

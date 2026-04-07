@@ -241,7 +241,7 @@ const OntologyFormModal = ({ ontology, isOpen, onClose }) => {
 
 
   const modalTitle = !!ontology.id ?
-    <>Edit Ontology – <OntologyRichLabel ontology={ontology} /></> : 'Create Ontology'
+    <>Edit Ontology -- <OntologyRichLabel ontology={ontology} /></> : 'Create Ontology'
 
   return (
     <Modal
