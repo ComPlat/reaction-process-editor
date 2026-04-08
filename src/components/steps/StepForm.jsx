@@ -26,7 +26,7 @@ const StepForm = ({ processStep, previousStep, nameSuggestionOptions, onSave, on
   const { addNotification } = useContext(NotificationContext);
 
   let ontologies = useContext(SelectOptions).ontologies
-  const [stepForm, setStepForm] = useState(processStep || {name: ''})
+  const [stepForm, setStepForm] = useState(processStep || { name: '' })
   const activityValidator = useActivityValidator();
 
 
@@ -43,7 +43,11 @@ const StepForm = ({ processStep, previousStep, nameSuggestionOptions, onSave, on
       onCancel()
     } else {
       activityValidator.validateStep(stepForm) && onSave(stepForm)
-      stepForm.automation_mode === processStep.automation_mode || addNotification(notifications.automation_mode.has_been_changed)
+
+      if (!!processStep) {
+        stepForm.automation_mode === processStep.automation_mode
+          || addNotification(notifications.automation_mode.has_been_changed)
+      }
     }
   }
 
