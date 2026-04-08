@@ -84,10 +84,10 @@ const OntologyFormModal = ({ ontology, isOpen, onClose }) => {
     return (
       <div className="row bg-condition bg-opacity-25">
         <div className="col-4 border pb-3"  >
-          <EditableItemList label={'Detector'} items={currentOntology.detectors} onChange={handleChange('detectors')} ontologyOptions={filteredOntologyOptions} />
+          <EditableItemList label={'Detector'} items={currentOntology.detectors} onChange={handleChange('detectors')} options={filteredOntologyOptions} />
         </div>
         <div className="col-4 border pb-3"  >
-          <EditableItemList label={'Solvent'} items={currentOntology.solvents} onChange={handleChange('solvents')} ontologyOptions={filteredOntologyOptions} />
+          <EditableItemList label={'Solvent'} items={currentOntology.solvents} onChange={handleChange('solvents')} options={filteredOntologyOptions} />
         </div>
         <div className="col-4 border pb-3"  >
           <EditableTextList label={'Stationary Phase'} items={currentOntology.stationary_phase} onChange={handleChange('stationary_phase')} />

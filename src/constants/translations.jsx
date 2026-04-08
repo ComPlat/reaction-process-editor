@@ -6,7 +6,8 @@ export const tooltips = {
 	action_unmet_automation_mode: "The automation mode of the current Step has been changed. This action has fields depending on the automation mode. Please check this action. Saving unchanged will resolve this warning.",
 	vessel_unmet_automation_mode: "Selected Vessel is not available in the current Automation mode",
 	purification_amount: 'Please add volume for manual purification',
-	purification_duration: 'Please add the duration of the step for manual purification.'
+	purification_duration: 'Please add the duration of the step for manual purification.',
+	reload_spinner: 'Toggle visibility of the spinner after an Action is saved. The spinner indicates that the displayed data is not yet up-to-date but may be considered annoying by some users for disturbing the workflow.'
 }
 
 export const notifications = {
