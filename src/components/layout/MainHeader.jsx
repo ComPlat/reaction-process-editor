@@ -125,15 +125,13 @@ const MainHeader = () => {
     window.dispatchEvent(new Event("indexRequiresReload"));
   };
 
-  const brandHref = () => {
-    return localStorage.getItem("username") ? "/reactions" : "/";
-  };
+  const brandHref = localStorage.getItem("username") ? "/reactions" : "/";
 
   return (
     <SelectOptions.Provider value={selectOptions}>
       <SubFormController.Provider value={SubFormToggle()}>
         <Navbar className="bg-secondary main-header" dark expand={true}>
-          <NavbarBrand href={brandHref()} className="main-header__brand">
+          <NavbarBrand href={brandHref} className="main-header__brand">
             <span className="main-header__brand-name">ELN Process Editor</span>
           </NavbarBrand>
           {localStorage.getItem("username") && (
