@@ -25,7 +25,7 @@ const UserMenu = (
   }
   const [showSpinner, setShowSpinner] = useState(localStorage.getItem("showSpinner") === "true")
 
-  const ontologyEditor = "/ontologies"
+  const ontologyEditorPath = "/ontologies"
 
   return (
     <>
@@ -48,7 +48,7 @@ const UserMenu = (
           {defaultConditions.user_is_admin &&
             <DropdownItem
               tag={Link}
-              to={ontologyEditor}
+              to={ontologyEditorPath}
             >
               <FontAwesomeIcon icon="edit" /> Ontology Editor
             </DropdownItem>
@@ -61,7 +61,7 @@ const UserMenu = (
               checked={showSpinner}
               onChange={toggleShowSpinner}
             />
-            Show reload spinner
+            Show spinner on save.
             <UncontrolledTooltip
               target="reload_spinner"
             >
