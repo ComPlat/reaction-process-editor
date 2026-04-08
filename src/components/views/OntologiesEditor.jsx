@@ -101,8 +101,6 @@ const OntologiesEditor = () => {
             >
               {'<'}
             </button>
-
-
           </NavItem>
           <NavItem>
             <div>{(firstIndex + 1) + ' - ' + (lastIndex + 1)}</div>
