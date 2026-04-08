@@ -14,20 +14,41 @@ import Select from 'react-select';
 const OntologiesEditor = () => {
   const [ontologies, setOntologies] = useState([])
   const reactionApi = useReactionsFetcher();
-
-  const [ontologyQuery, setOntologyQuery] = useState('');
-
   const [showNewForm, setShowNewForm] = useState(false)
 
+  const [ontologyQuery, setOntologyQuery] = useState('');
   const downcasedQuery = ontologyQuery?.toLowerCase()
 
-  const ontologyMatchesQuery = (ont) => {
-    return ont.ontology_id?.toLowerCase().match(downcasedQuery)
-      || ont.label?.toLowerCase().match(downcasedQuery)
-      || ont.name?.toLowerCase().match(downcasedQuery)
+  const [filter, setFilter] = useState(
+    {
+      "active": ["true", "false"],
+      "ontology_type": ["TERMINOLOGY", "CUSTOM_TERMINOLOGY", "DEVICE_TYPE", "DEVICE_CONFIG"]
+    }
+  )
+
+  const ontologyMatchesQuery = (ont) =>
+    ont.ontology_id?.toLowerCase().match(downcasedQuery)
+    || ont.label?.toLowerCase().match(downcasedQuery)
+    || ont.name?.toLowerCase().match(downcasedQuery)
+
+  const ontologyMatchesFilter = (ont) =>
+    Object.entries(filter).every(([filterKey, requiredValues]) =>
+      requiredValues.includes(ont[filterKey].toString()))
+
+  const filteredOntologies = ontologies.filter((ont) => ontologyMatchesQuery(ont) && ontologyMatchesFilter(ont))
+
+  const toggleFilter = (key) => (value) => () => {
+    let newFilter = JSON.parse(JSON.stringify(filter))
+    let index = newFilter[key].indexOf(value)
+
+    if (index > -1) {
+      newFilter[key].splice(index, 1);
+    } else {
+      newFilter[key].push(value)
+    }
+    setFilter(newFilter)
   }
 
-  const filteredOntologies = ontologies.filter((ont) => ontologyMatchesQuery(ont))
 
   const [itemsPerPage, setItemsPerPage] = useState(100)
   const [currentPage, setCurrentPage] = useState(1)
@@ -40,6 +61,8 @@ const OntologiesEditor = () => {
   const firstIndex = (visiblePage - 1) * itemsPerPage
   const lastIndex = Math.min(firstIndex + itemsPerPage - 1, filteredOntologies.length)
   const paginatedOntologies = filteredOntologies.slice(firstIndex, lastIndex)
+
+
 
   useEffect(() => {
     if (localStorage.getItem("bearer_auth_token")) {
@@ -64,6 +87,19 @@ const OntologiesEditor = () => {
     active: true, detectors: [], solvents: [], stationary_phase: []
   }
 
+  const renderFilterCheckbox = (label, key, value) => {
+    return (
+      <div className="d-flex align-content-start">
+        <Input
+          className={"me-2"}
+          type="checkbox"
+          checked={filter[key]?.includes(value)}
+          onChange={toggleFilter(key)(value)}
+        /> {label}
+      </div>
+    )
+  }
+
   return (
     <>
       <SelectOptions.Provider value={{ ontologies: ontologies }}>
@@ -71,7 +107,7 @@ const OntologiesEditor = () => {
           <NavbarBrand>
             <Button onClick={e => setShowNewForm(true)}>+ Ontology</Button>
           </NavbarBrand>
-          <NavItem >
+          <NavItem>
             <Input
               className="mt-2 flex-grow-1"
               placeholder={'Search Ontologies'}
@@ -86,7 +122,19 @@ const OntologiesEditor = () => {
               {'Total: ' + ontologies.length}
             </span>
           </NavItem>
-          <NavItem >
+          <NavItem>
+            {renderFilterCheckbox("Active", "active", "true")}
+            {renderFilterCheckbox("Inactive", "active", "false")}
+          </NavItem>
+          <NavItem>
+            {renderFilterCheckbox("Terminology", "ontology_type", "TERMINOLOGY")}
+            {renderFilterCheckbox("Custom Terminology", "ontology_type", "CUSTOM_TERMINOLOGY")}
+          </NavItem>
+          <NavItem>
+            {renderFilterCheckbox("Device Type", "ontology_type", "DEVICE_TYPE")}
+            {renderFilterCheckbox("Device Config", "ontology_type", "DEVICE_CONFIG")}
+          </NavItem>
+          <NavItem>
             <button
               className="mx-2"
               onClick={() => setCurrentPage(1)}
