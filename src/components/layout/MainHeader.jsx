@@ -3,7 +3,6 @@ import {
   DropdownMenu,
   DropdownItem,
   DropdownToggle,
-  Input,
   Navbar,
   NavbarBrand,
   Nav,
@@ -130,25 +129,10 @@ const MainHeader = () => {
     return localStorage.getItem("username") ? "/reactions" : "/";
   };
 
-  const toggleShowSpinner = (event) => {
-    localStorage.setItem("showSpinner", showSpinner ? "false" : "true")
-    setShowSpinner(!showSpinner)
-  }
-
-  const [showSpinner, setShowSpinner] = useState(localStorage.getItem("showSpinner") === "true")
-
   return (
     <SelectOptions.Provider value={selectOptions}>
       <SubFormController.Provider value={SubFormToggle()}>
         <Navbar className="bg-secondary main-header" dark expand={true}>
-          <NavbarBrand >
-            <Input
-              type="checkbox"
-              checked={showSpinner}
-              onChange={toggleShowSpinner}
-            />
-            Spinner
-          </NavbarBrand>
           <NavbarBrand href={brandHref()} className="main-header__brand">
             <span className="main-header__brand-name">ELN Process Editor</span>
           </NavbarBrand>
