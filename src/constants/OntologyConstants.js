@@ -28,6 +28,12 @@ export const OntologyConstants = {
 	isSemiAutomated: (status => status === OntologyConstants.automation_mode.semiAutomated),
 	isManual: (status => status === OntologyConstants.automation_mode.manual),
 
+	automationModeOptions: [
+		{ value: "NCIT:C63513", label: "Manual" },
+		{ value: "NCIT:C172484", label: "Semi-Automated" },
+		{ value: "NCIT:C70669", label: "Automated" },
+	],
+
 	ontologyTypeOptions: ['TERMINOLOGY', 'CUSTOM_TERMINOLOGY', 'DEVICE_TYPE', 'DEVICE_CONFIG'].map((ont) => { return { value: ont, label: StringDecorator.toLabelSpelling(ont)}}),
 
 	roleTypeOptions: ["action", "class", "type", "subtype", "detector", "condition", "device", "solvent", "mobile_phase", "material", "automation_mode"].map(i => { return { value: i, label: StringDecorator.toLabelSpelling(i) } }),

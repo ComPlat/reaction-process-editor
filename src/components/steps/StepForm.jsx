@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 
 import { FormGroup, Label } from 'reactstrap';
 
@@ -14,29 +14,26 @@ import { useActivityValidator } from "../../validators/ActivityValidator";
 import AutomationControlDecorator from "../../decorators/AutomationControlDecorator";
 import OntologiesOptionsDecorator from '../../decorators/OntologiesOptionsDecorator';
 
-import { OntologyConstants } from "../../constants/OntologyConstants";
 import { notifications } from '../../constants/translations';
 
 import { SelectOptions } from "../../contexts/SelectOptions";
 import NotificationContext from "../../contexts/NotificationContext";
 
 
-const StepForm = ({ processStep, previousStep, nameSuggestionOptions, onSave, onCancel, initialSampleVessel }) => {
+const StepForm = ({ processStep, reactionProcess, previousStep, nameSuggestionOptions, onSave, onCancel, initialSampleVessel }) => {
 
   const { addNotification } = useContext(NotificationContext);
 
+  const emptyStepForm = {
+    name: '',
+    automation_mode: reactionProcess.initial_conditions.automation_mode,
+    automation_control: AutomationControlDecorator.defaultStepAutomationControl
+  }
+
   let ontologies = useContext(SelectOptions).ontologies
-  const [stepForm, setStepForm] = useState(processStep || { name: '' })
+  const [stepForm, setStepForm] = useState(processStep || emptyStepForm)
   const activityValidator = useActivityValidator();
 
-
-  useEffect(() => {
-    stepForm.automation_control ||
-      setStepForm({ ...stepForm, automation_control: AutomationControlDecorator.defaultStepAutomationControl })
-
-    stepForm.automation_mode ||
-      setStepForm({ ...stepForm, automation_mode: OntologyConstants.automation_mode.automated })
-  }, [stepForm])
 
   const handleSave = () => {
     if (stepForm === processStep) {

@@ -10,6 +10,8 @@ import { useReactionsFetcher } from '../../fetchers/ReactionsFetcher'
 
 import { SubFormController } from '../../contexts/SubFormController';
 
+import AutomationModeFormSet from '../activities/forms/formsets/AutomationModeFormSet';
+
 const DefaultConditionsForm = (
   {
     defaultConditions,
@@ -24,6 +26,10 @@ const DefaultConditionsForm = (
   const subFormController = useContext(SubFormController)
 
   const [defaultConditionsForm, updateDefaultConditionsForm] = useState(defaultConditions)
+
+  const handleChange = (attribute) => (value) => {
+    handleWorkupChange({ name: attribute, value: value })
+  }
 
   const handleWorkupChange = (field) => {
     const { name, value } = field;
@@ -62,13 +68,21 @@ const DefaultConditionsForm = (
           />)
         )
       }
+
+      <AutomationModeFormSet
+        label='Automation Mode:'
+        value={defaultConditionsForm.automation_mode}
+        onSave={handleChange( 'automation_mode')}
+        typeColor={typeColor}
+        />
+
       <FormButtons
         onSave={handleSave}
         onCancel={closeForm}
         type={typeColor}
         disabled={subFormController.anyBlockingSubformOpen()}
       />
-    </Form>
+    </Form >
 
   )
 }
