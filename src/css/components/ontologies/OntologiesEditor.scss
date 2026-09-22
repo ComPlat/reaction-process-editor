@@ -1,0 +1,44 @@
+.ontologies-editor {
+  --ontology-toolbar-height: 5rem;
+
+  &__toolbar {
+    height: var(--ontology-toolbar-height);
+    position: sticky;
+    top: var(--main-header-height);
+    z-index: 1020;
+
+    .navbar {
+      flex-wrap: nowrap;
+      height: 100%;
+    }
+  }
+
+  &__table-header {
+    --bs-table-bg: #{tint-color(color("preparation"), 30%)};
+
+    color: $black;
+    position: sticky;
+    top: calc(var(--main-header-height) + var(--ontology-toolbar-height));
+    z-index: 1010;
+  }
+}
+
+.icon-button.ontology-list-item__edit-button {
+  --bs-btn-color: #{color("primary")};
+  --bs-btn-hover-bg: #{color("primary")};
+  --bs-btn-hover-color: #{$white};
+}
+
+.badge.ontology-list-item__status-badge {
+  color: $black;
+  padding: 0.4rem 0.6rem;
+}
+
+.ontology-form__add-role {
+  width: calc(15ch + 4rem);
+}
+
+.ontology-form__dependencies {
+  min-width: 0;
+  padding: $spacer;
+}

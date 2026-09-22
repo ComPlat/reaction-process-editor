@@ -12,7 +12,7 @@ const OntologyRichLabel = ({ ontology, ontologyId }) => {
 
 	return (
 		<>
-			{'[' + ontology?.ontology_id + '] ' }
+			{' [' + ontology?.ontology_id + '] ' }
 			<b>
 				{(ontology?.label || ontology?.name || 'No label')}
 			</b>

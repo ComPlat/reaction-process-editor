@@ -33,7 +33,7 @@ const OntologiesEditor = () => {
 
   const ontologyMatchesFilter = (ont) =>
     Object.entries(filter).every(([filterKey, requiredValues]) =>
-      requiredValues.includes(ont[filterKey].toString()))
+      requiredValues.includes(ont[filterKey]?.toString()))
 
   const filteredOntologies = ontologies.filter((ont) => ontologyMatchesQuery(ont) && ontologyMatchesFilter(ont))
 
@@ -61,8 +61,6 @@ const OntologiesEditor = () => {
   const firstIndex = (visiblePage - 1) * itemsPerPage
   const lastIndex = Math.min(firstIndex + itemsPerPage - 1, filteredOntologies.length)
   const paginatedOntologies = filteredOntologies.slice(firstIndex, lastIndex)
-
-
 
   useEffect(() => {
     if (localStorage.getItem("bearer_auth_token")) {
@@ -103,83 +101,86 @@ const OntologiesEditor = () => {
   return (
     <>
       <SelectOptions.Provider value={{ ontologies: ontologies }}>
-        <Nav fill className="navbar fixed-bottom bg-preparation px-5">
-          <NavbarBrand>
-            <Button onClick={e => setShowNewForm(true)}>+ Ontology</Button>
-          </NavbarBrand>
-          <NavItem>
-            <Input
-              className="mt-2 flex-grow-1"
-              placeholder={'Search Ontologies'}
-              value={ontologyQuery}
-              onChange={(event) => setOntologyQuery(event.target.value)}
+        <div className="ontologies-editor">
+        <div className="ontologies-editor__toolbar">
+          <Nav fill className="navbar bg-preparation px-5">
+            <NavbarBrand>
+              <Button onClick={e => setShowNewForm(true)}>+ New Entry</Button>
+            </NavbarBrand>
+            <NavItem>
+              <Input
+                className="mt-2 flex-grow-1"
+                placeholder={'Search Ontologies'}
+                value={ontologyQuery}
+                onChange={(event) => setOntologyQuery(event.target.value)}
+              />
+            </NavItem>
+            <NavItem>
+              <span >
+                {'Filtered: ' + filteredOntologies.length}
+                <br />
+                {'Total: ' + ontologies.length}
+              </span>
+            </NavItem>
+            <NavItem>
+              {renderFilterCheckbox("Active", "active", "true")}
+              {renderFilterCheckbox("Inactive", "active", "false")}
+            </NavItem>
+            <NavItem>
+              {renderFilterCheckbox("Terminology", "ontology_type", "TERMINOLOGY")}
+              {renderFilterCheckbox("Custom Terminology", "ontology_type", "CUSTOM_TERMINOLOGY")}
+            </NavItem>
+            <NavItem>
+              {renderFilterCheckbox("Device Type", "ontology_type", "DEVICE_TYPE")}
+              {renderFilterCheckbox("Device Config", "ontology_type", "DEVICE_CONFIG")}
+            </NavItem>
+            <NavItem>
+              <button
+                className="mx-2"
+                onClick={() => setCurrentPage(1)}
+                disabled={visiblePage === 1}
+              >
+                {'<<'}
+              </button>
+              <button
+                className="mx-2"
+                onClick={() => setCurrentPage(prev => Math.max(Math.min(totalPages, prev) - 1, 1))}
+                disabled={visiblePage === 1}
+              >
+                {'<'}
+              </button>
+            </NavItem>
+            <NavItem>
+              <div>{(firstIndex + 1) + ' - ' + (lastIndex + 1)}</div>
+              <div>Page {visiblePage} of {totalPages}</div>
+            </NavItem>
+            <NavItem>
+              <button
+                className="mx-2"
+                onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                disabled={visiblePage === totalPages}
+              >
+                {'>'}
+              </button>
+              <button
+                className="mx-2"
+                onClick={() => setCurrentPage(totalPages)}
+                disabled={visiblePage === totalPages}
+              >
+                {'>>'}
+              </button>
+            </NavItem>
+            <Select
+              className="react-select--overwrite"
+              classNamePrefix="react-select"
+              value={{ value: itemsPerPage, label: itemsPerPage }}
+              options={perPageOptions}
+              onChange={selected => setItemsPerPage(selected.value)}
+              menuPlacement={"auto"}
             />
-          </NavItem>
-          <NavItem>
-            <span >
-              {'Filtered: ' + filteredOntologies.length}
-              <br />
-              {'Total: ' + ontologies.length}
-            </span>
-          </NavItem>
-          <NavItem>
-            {renderFilterCheckbox("Active", "active", "true")}
-            {renderFilterCheckbox("Inactive", "active", "false")}
-          </NavItem>
-          <NavItem>
-            {renderFilterCheckbox("Terminology", "ontology_type", "TERMINOLOGY")}
-            {renderFilterCheckbox("Custom Terminology", "ontology_type", "CUSTOM_TERMINOLOGY")}
-          </NavItem>
-          <NavItem>
-            {renderFilterCheckbox("Device Type", "ontology_type", "DEVICE_TYPE")}
-            {renderFilterCheckbox("Device Config", "ontology_type", "DEVICE_CONFIG")}
-          </NavItem>
-          <NavItem>
-            <button
-              className="mx-2"
-              onClick={() => setCurrentPage(1)}
-              disabled={visiblePage === 1}
-            >
-              {'<<'}
-            </button>
-            <button
-              className="mx-2"
-              onClick={() => setCurrentPage(prev => Math.max(Math.min(totalPages, prev) - 1, 1))}
-              disabled={visiblePage === 1}
-            >
-              {'<'}
-            </button>
-          </NavItem>
-          <NavItem>
-            <div>{(firstIndex + 1) + ' - ' + (lastIndex + 1)}</div>
-            <div>Page {visiblePage} of {totalPages}</div>
-          </NavItem>
-          <NavItem>
-            <button
-              className="mx-2"
-              onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
-              disabled={visiblePage === totalPages}
-            >
-              {'>'}
-            </button>
-            <button
-              className="mx-2"
-              onClick={() => setCurrentPage(totalPages)}
-              disabled={visiblePage === totalPages}
-            >
-              {'>>'}
-            </button>
-          </NavItem>
-          <Select
-            className="react-select--overwrite"
-            classNamePrefix="react-select"
-            value={{ value: itemsPerPage, label: itemsPerPage }}
-            options={perPageOptions}
-            onChange={selected => setItemsPerPage(selected.value)}
-            menuPlacement={"auto"}
-          />
-          <Label className="p-2">Per Page</Label>
-        </Nav>
+            <Label className="p-2">Per Page</Label>
+          </Nav>
+        </div>
 
         <OntologyFormModal
           key={"ontology_new"}
@@ -188,7 +189,22 @@ const OntologiesEditor = () => {
           onClose={e => setShowNewForm(false)}
         />
 
-        <table className="table table-striped w-auto">
+        <table className="table table-striped w-100">
+          <thead>
+            <tr>
+              <th
+                scope="col"
+                className="ontologies-editor__table-header"
+              >
+                <div className="row">
+                  <div className="col-2">Ontology</div>
+                  <div className="col-2">Label</div>
+                  <div className="col-3">Name</div>
+                  <div className="col-5">Roles</div>
+                </div>
+              </th>
+            </tr>
+          </thead>
           <tbody>
             {paginatedOntologies.map(ontology => {
               return (
@@ -199,6 +215,7 @@ const OntologiesEditor = () => {
             })}
           </tbody>
         </table >
+        </div>
       </SelectOptions.Provider>
     </>
   )

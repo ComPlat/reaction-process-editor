@@ -97,37 +97,35 @@ const OntologyFormModal = ({ ontology, isOpen, onClose }) => {
   }
   const renderRolesDependenciesForm = () => {
     return (
-      <>
-        <table className='table table-striped table-primary'>
-          <tbody>
-            <tr>
-              <td className="row">
-                <FormGroup className="mt-3 col-3">
-                  <Select
-                    placeholder={'Add Role'}
-                    className="bg-primary react-select--overwrite"
-                    classNamePrefix="react-select"
-                    options={OntologyConstants.roleTypeOptions}
-                    value={null}
-                    onChange={selectedOption => addRole(selectedOption?.value)}
-                  />
-                </FormGroup>
-              </td>
-            </tr>
-            {Object.entries(currentOntology.roles).map((role, index) => {
-              return (
-                <OntologyRoleForm
-                  key={"ontology-role-form-" + index}
-                  role={role}
-                  onChange={changeRole}
-                  onDelete={deleteRole(index)}
-                  selectableOntologyOptions={filteredOntologyOptions}
-                  roleTypeOptions={OntologyConstants.roleTypeOptions} />
-              )
-            })}
-          </tbody>
-        </table>
-      </>
+      <div className="d-flex align-items-start gap-3">
+        <FormGroup className="ontology-form__add-role mt-3 flex-shrink-0">
+          <Select
+            placeholder={'Add Role'}
+            className="bg-primary react-select--overwrite"
+            classNamePrefix="react-select"
+            options={OntologyConstants.roleTypeOptions}
+            value={null}
+            onChange={selectedOption => addRole(selectedOption?.value)}
+          />
+        </FormGroup>
+        <div className="ontology-form__dependencies flex-grow-1">
+          <table className='table table-striped table-primary'>
+            <tbody>
+              {Object.entries(currentOntology.roles).map((role, index) => {
+                return (
+                  <OntologyRoleForm
+                    key={"ontology-role-form-" + index}
+                    role={role}
+                    onChange={changeRole}
+                    onDelete={deleteRole(index)}
+                    selectableOntologyOptions={filteredOntologyOptions}
+                    roleTypeOptions={OntologyConstants.roleTypeOptions} />
+                )
+              })}
+            </tbody>
+          </table>
+        </div>
+      </div>
     )
   }
 

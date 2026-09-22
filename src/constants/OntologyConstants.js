@@ -29,9 +29,9 @@ export const OntologyConstants = {
 	isSemiAutomated: (status => status === OntologyConstants.automation_mode.semiAutomated),
 	isManual: (status => status === OntologyConstants.automation_mode.manual),
 
-	ontologyTypeOptions: ['TERMINOLOGY', 'CUSTOM_TERMINOLOGY', 'DEVICE_TYPE', 'DEVICE_CONFIG'].map((ont) => { return { value: ont, label: StringDecorator.toLabelSpelling(ont)}}),
+	ontologyTypeOptions: ['TERMINOLOGY', 'CUSTOM_TERMINOLOGY', 'DEVICE_TYPE', 'DEVICE_CONFIG'].map((ont) => { return { value: ont, label: StringDecorator.toLabelSpelling(ont) } }),
 
-	roleTypeOptions: ["action", "class", "type", "subtype", "detector", "condition", "device", "solvent", "mobile_phase", "material", "automation_mode"].map(i => { return { value: i, label: StringDecorator.toLabelSpelling(i) } }),
+	roleTypeOptions: ["action", "class", "type", "subtype", "detector", "condition", "device", "solvent", "mobile_phase", "material"].map(i => { return { value: i, label: StringDecorator.toLabelSpelling(i) } }),
 
 	isDevice: (type => ['DEVICE_TYPE', 'DEVICE_CONFIG'].includes(type))
 }
