@@ -7,6 +7,8 @@ import OntologyFormModal from '../ontologies/OntologyFormModal';
 
 import { useReactionsFetcher } from "../../fetchers/ReactionsFetcher";
 
+import { OntologyConstants } from '../../constants/OntologyConstants';
+
 import { SelectOptions } from '../../contexts/SelectOptions';
 
 import Select from 'react-select';
@@ -22,7 +24,7 @@ const OntologiesEditor = () => {
   const [filter, setFilter] = useState(
     {
       "active": ["true", "false"],
-      "ontology_type": ["TERMINOLOGY", "CUSTOM_TERMINOLOGY", "DEVICE_TYPE", "DEVICE_CONFIG"]
+      "ontology_type": OntologyConstants.ontologyTypes
     }
   )
 
