@@ -21,7 +21,7 @@ const OntologyLink = ({ ontology, size="lg" }) => {
 			</a>
 			<UncontrolledTooltip
 				target={tooltipId}>
-				{ontology.link}
+				{ontology.link || 'No link available'}
 			</UncontrolledTooltip >
 		</>
 	)
