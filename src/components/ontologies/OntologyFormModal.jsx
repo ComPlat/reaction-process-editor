@@ -222,16 +222,16 @@ const OntologyFormModal = ({ ontology, isOpen, onClose }) => {
 
   const renderOntologiesFilter = () => {
     return (
-      <div className='row mt-5'>
-        <div className='col-10'>
-          <Input
-            className={'bg-preparation bg-opacity-25'}
-            placeholder={'Filter selectable Ontology options'}
-            value={ontologyQuery}
-            onChange={(event) => setOntologyQuery(event.target.value)}
-          />
-        </div>
-        <div className='col-2 bg-preparation bg-opacity-10'>
+      <div className='d-flex align-items-center gap-3 w-100'>
+        <div className='flex-shrink-0'>{modalTitle}</div>
+        <Input
+          className='bg-preparation bg-opacity-25 flex-grow-1'
+          placeholder='Filter selectable Ontology options'
+          title='Filter the Ontologies in the Select Fields for a better overview'
+          value={ontologyQuery}
+          onChange={(event) => setOntologyQuery(event.target.value)}
+        />
+        <div className='bg-preparation bg-opacity-10 text-nowrap px-2'>
           Selectable: {filteredOntologyOptions.length} / {ontologies.length}
         </div>
       </div>)
@@ -249,14 +249,13 @@ const OntologyFormModal = ({ ontology, isOpen, onClose }) => {
       toggle={onClose}
       backdrop={"static"}
     >
-      <ModalHeader>{modalTitle}</ModalHeader>
+      <ModalHeader tag='div' className='d-block'>{renderOntologiesFilter()}</ModalHeader>
       <ModalBody>
         <Card className="procedure-card procedure-card--info">
           <Form className='m-3'>
             {renderMainFields()}
             {renderRolesDependenciesForm()}
             {OntologyConstants.isDevice(currentOntology.ontology_type) && renderDeviceFields()}
-            {renderOntologiesFilter()}
             <FormButtons
               onCancel={handleCancel}
               onSave={handleSave}

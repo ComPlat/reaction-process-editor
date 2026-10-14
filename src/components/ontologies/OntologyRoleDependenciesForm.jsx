@@ -111,7 +111,7 @@ const OntologyRoleDependenciesForm = ({ onChange, roleName, dependencies, onDele
         />
         <Select
           key={"Need-to-provide-a-stupid-key-just-so-react-knows-that-it-is-now-supposed-to-do-what-it-was-actually-invented-for" + renderCountToForceStupidReactToRerenderOnStateChange}
-          placeholder={'Add Dependency Ontology'}
+          placeholder={'Add Dependency Ontology-based term'}
           className="react-select--overwrite"
           classNamePrefix="react-select"
           name="AddDependencyOntology"
