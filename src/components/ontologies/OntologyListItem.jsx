@@ -63,21 +63,19 @@ const OntologyListItem = ({ ontology, isOpen }) => {
     return (
       <div className="row" >
         <div className="col-2">
-          <Badge className="ontology-list-item__status-badge" color={statusColor}>
-            {ontology.ontology_id}
-          </Badge>
           <IconButton
             aria-label={`Edit ${ontology.ontology_id}`}
-            className="ontology-list-item__edit-button ms-2"
+            title={`Edit ${ontology.ontology_id}`}
+            className="ontology-list-item__edit-button me-2"
             icon="pen"
             id={editTooltipId}
             onClick={toggleModal}
             size="sm"
           />
-          <UncontrolledTooltip target={editTooltipId}>
-            {`Edit ${ontology.ontology_id}`}
-          </UncontrolledTooltip>
-          <span className='ms-2' >
+          <Badge className="ontology-list-item__status-badge" color={statusColor}>
+            {ontology.ontology_id}
+          </Badge>
+          <span className='ms-2'>
             <OntologyLink ontology={ontology} />
           </span>
           <div>
