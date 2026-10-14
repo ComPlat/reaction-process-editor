@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { Input, Nav, NavItem, NavbarBrand, Button, Label } from "reactstrap";
 
@@ -10,8 +11,10 @@ import { useReactionsFetcher } from "../../fetchers/ReactionsFetcher";
 import { SelectOptions } from '../../contexts/SelectOptions';
 
 import Select from 'react-select';
+import IconButton from '../utilities/IconButton';
 
 const OntologiesEditor = () => {
+  const navigate = useNavigate();
   const [ontologies, setOntologies] = useState([])
   const reactionApi = useReactionsFetcher();
   const [showNewForm, setShowNewForm] = useState(false)
@@ -104,6 +107,15 @@ const OntologiesEditor = () => {
         <div className="ontologies-editor">
         <div className="ontologies-editor__toolbar">
           <Nav fill className="navbar bg-preparation px-5">
+            <NavItem className="d-flex align-items-center flex-grow-0">
+              <IconButton
+                icon="times"
+                className="ontologies-editor__close-button"
+                aria-label="Close Ontology Editor"
+                title="Close Ontology Editor"
+                onClick={() => navigate('/reactions')}
+              />
+            </NavItem>
             <NavbarBrand>
               <Button onClick={e => setShowNewForm(true)}>+ New Entry</Button>
             </NavbarBrand>

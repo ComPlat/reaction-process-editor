@@ -21,6 +21,18 @@
     top: calc(var(--main-header-height) + var(--ontology-toolbar-height));
     z-index: 1010;
   }
+
+  &__close-button.icon-button {
+    --bs-btn-color: #{$red};
+    --bs-btn-hover-bg: #{$red};
+    --bs-btn-hover-color: #{$white};
+
+    width: 2rem;
+    height: 2rem;
+    margin-right: 0.75rem;
+    border: 2px solid $red;
+    border-radius: 0;
+  }
 }
 
 .icon-button.ontology-list-item__edit-button {
