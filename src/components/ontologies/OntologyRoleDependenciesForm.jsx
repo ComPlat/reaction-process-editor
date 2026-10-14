@@ -16,11 +16,18 @@ const automationModeOptions = [
   { label: 'Automated', value: OntologyConstants.automation_mode.automated },
 ]
 
+export const dependencyTypeOptionsForRole = (roleName, roleTypeOptions) => {
+  const roleIndex = roleTypeOptions.findIndex(({ value }) => value === roleName)
+
+  return roleIndex < 0 ? [] : roleTypeOptions.slice(0, roleIndex)
+}
+
 const OntologyRoleDependenciesForm = ({ onChange, roleName, dependencies, onDelete, roleTypeOptions, selectableOntologyOptions }) => {
 
   const [addDependencyType, setDependencyType] = useState()
   const [addDependencyOntology, setDependencyOntology] = useState()
   const [renderCountToForceStupidReactToRerenderOnStateChange, setRenderCount] = useState(0);
+  const dependencyTypeOptions = dependencyTypeOptionsForRole(roleName, roleTypeOptions)
 
   const addDependency = () => {
     let newDependencies = JSON.parse(JSON.stringify(dependencies))
@@ -104,7 +111,7 @@ const OntologyRoleDependenciesForm = ({ onChange, roleName, dependencies, onDele
           className="react-select--overwrite"
           classNamePrefix="react-select"
           name="AddDependencyType"
-          options={roleTypeOptions}
+          options={dependencyTypeOptions}
           selected={addDependencyType}
           isClearable
           onChange={selectedOption => setDependencyType(selectedOption?.value)}

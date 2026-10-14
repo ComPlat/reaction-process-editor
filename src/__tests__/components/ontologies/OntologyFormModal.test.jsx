@@ -66,6 +66,16 @@ describe('OntologyFormModal', () => {
     expect(screen.getByRole('option', { name: '[TEST:002] Secondary option' })).toBeInTheDocument();
   });
 
+  test('does not offer Action or Class as new roles', () => {
+    renderModal();
+
+    userEvent.click(screen.getByText('Add Role'));
+
+    expect(screen.queryByRole('option', { name: 'Action' })).not.toBeInTheDocument();
+    expect(screen.queryByRole('option', { name: 'Class' })).not.toBeInTheDocument();
+    expect(screen.getByRole('option', { name: 'Type' })).toBeInTheDocument();
+  });
+
   test('filters selectable ontology options from the navbar', () => {
     renderModal();
 

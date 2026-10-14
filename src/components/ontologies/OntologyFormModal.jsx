@@ -23,6 +23,10 @@ import { tooltips } from '../../constants/translations';
 import { SelectOptions } from "../../contexts/SelectOptions";
 import { useReactionsFetcher } from '../../fetchers/ReactionsFetcher';
 
+const addRoleOptions = OntologyConstants.roleTypeOptions.filter(
+  ({ value }) => !['action', 'class'].includes(value)
+)
+
 const OntologyFormModal = ({ ontology, isOpen, onClose }) => {
 
   const api = useReactionsFetcher()
@@ -104,7 +108,7 @@ const OntologyFormModal = ({ ontology, isOpen, onClose }) => {
             placeholder={'Add Role'}
             className="bg-primary react-select--overwrite"
             classNamePrefix="react-select"
-            options={OntologyConstants.roleTypeOptions}
+            options={addRoleOptions}
             value={null}
             onChange={selectedOption => addRole(selectedOption?.value)}
           />
