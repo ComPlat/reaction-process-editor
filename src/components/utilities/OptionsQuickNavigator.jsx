@@ -13,7 +13,7 @@ import {
 
 import { Link } from "react-router-dom";
 
-const OptionsQuickNavigator = ({ options, label }) => {
+const OptionsQuickNavigator = ({ options, label, title }) => {
   const navigate = useNavigate();
 
   const [query, setQuery] = useState('');
@@ -61,6 +61,7 @@ const OptionsQuickNavigator = ({ options, label }) => {
       <div className='col-6'>
         <Input
           placeholder={label}
+          title={title}
           value={query}
           onChange={(event) => setQuery(event.target.value)}
           onKeyUp={handleKeyInput}

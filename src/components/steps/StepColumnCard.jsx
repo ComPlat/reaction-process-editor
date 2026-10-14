@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-import { UncontrolledTooltip } from "reactstrap";
-
 import { useDrag, useDrop } from "react-dnd";
 import { DndItemTypes } from "../../constants/dndItemTypes";
 
@@ -98,15 +96,12 @@ const StepColumCard = ({ processStep, reactionProcess, previousStep, onCloseForm
   const renderTitleBar = (title) => {
     return (
       <div className="d-md-flex gap-2">
-        <div id={"automation_status_" + processStep?.id}>
+        <div title={currentAutomationStatus.tooltip}>
           <IconButton disabled
             positive={false}
             icon={currentAutomationStatus.icon}
             color={currentAutomationStatus.color} />
         </div>
-        <UncontrolledTooltip target={"automation_status_" + processStep?.id} >
-          {currentAutomationStatus.tooltip}
-        </UncontrolledTooltip>
         {title}
       </div>
     )
