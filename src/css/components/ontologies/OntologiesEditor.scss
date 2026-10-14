@@ -54,3 +54,27 @@
   min-width: 0;
   padding: $spacer;
 }
+
+.ontology-form__filtered-options {
+  flex: 0 0 clamp(24rem, 40vw, 42rem);
+
+  .react-select__indicator.react-select__clear-indicator {
+    display: flex;
+    align-self: center;
+    align-items: center;
+    justify-content: center;
+    width: 1.5rem;
+    height: 1.5rem;
+    margin-top: 0;
+
+    svg {
+      display: inline-block !important;
+      width: 1.25rem;
+      height: 1.25rem;
+    }
+  }
+
+  .react-select__option {
+    white-space: nowrap;
+  }
+}

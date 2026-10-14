@@ -49,6 +49,21 @@ describe('OntologyFormModal', () => {
       'Filter the Ontologies in the Select Fields for a better overview'
     );
     expect(screen.getByText('Selectable: 2 / 2')).toBeInTheDocument();
+    const ontologySelect = screen.getByLabelText('Filtered Ontologies');
+    expect(ontologySelect.closest('.modal-header')).toBeInTheDocument();
+    expect(ontologySelect.closest('.ontology-form__filtered-options')).toHaveAttribute(
+      'title',
+      'Preview of selectable Ontology-terms.'
+    );
+  });
+
+  test('shows all matching ontologies in the navbar select', () => {
+    renderModal();
+
+    userEvent.click(screen.getByLabelText('Filtered Ontologies'));
+
+    expect(screen.getByRole('option', { name: '[TEST:001] Primary option' })).toBeInTheDocument();
+    expect(screen.getByRole('option', { name: '[TEST:002] Secondary option' })).toBeInTheDocument();
   });
 
   test('filters selectable ontology options from the navbar', () => {
@@ -57,5 +72,8 @@ describe('OntologyFormModal', () => {
     userEvent.type(screen.getByPlaceholderText('Filter selectable Ontology options'), 'Secondary');
 
     expect(screen.getByText('Selectable: 1 / 2')).toBeInTheDocument();
+    userEvent.click(screen.getByLabelText('Filtered Ontologies'));
+    expect(screen.queryByRole('option', { name: '[TEST:001] Primary option' })).not.toBeInTheDocument();
+    expect(screen.getByRole('option', { name: '[TEST:002] Secondary option' })).toBeInTheDocument();
   });
 });
