@@ -159,7 +159,8 @@ describe("ActionForm variants used by reaction 1 fixture", () => {
       expect(mountedComponent.container).toHaveTextContent("Origin");
       expect(mountedComponent.container).toHaveTextContent("Sample Type");
       expect(mountedComponent.container).toHaveTextContent("Display in ELN");
-      expect(mountedComponent.container).toHaveTextContent("Description -");
+      expect(mountedComponent.container).toHaveTextContent("Description: -");
+      expect(mountedComponent.container.querySelector(".fw-normal")).toHaveTextContent("-");
 
       expect(textControlValues(mountedComponent.container)).toContain(activity.workup.name);
       expect(textControlValues(mountedComponent.container)).toContain(activity.workup.short_label);
