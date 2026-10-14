@@ -22,12 +22,26 @@ export const dependencyTypeOptionsForRole = (roleName, roleTypeOptions) => {
   return roleIndex < 0 ? [] : roleTypeOptions.slice(0, roleIndex)
 }
 
+export const ontologyOptionsForDependencyTypes = ({ options, dependencyTypeOptions, selectedDependencyType }) => {
+  const dependencyTypes = selectedDependencyType
+    ? [selectedDependencyType]
+    : dependencyTypeOptions.map(({ value }) => value)
+
+  return options.filter((option) =>
+    dependencyTypes.some((dependencyType) => option.roles?.[dependencyType])
+  )
+}
+
 const OntologyRoleDependenciesForm = ({ onChange, roleName, dependencies, onDelete, roleTypeOptions, selectableOntologyOptions }) => {
 
   const [addDependencyType, setDependencyType] = useState()
   const [addDependencyOntology, setDependencyOntology] = useState()
-  const [renderCountToForceStupidReactToRerenderOnStateChange, setRenderCount] = useState(0);
   const dependencyTypeOptions = dependencyTypeOptionsForRole(roleName, roleTypeOptions)
+  const dependencyOntologyOptions = ontologyOptionsForDependencyTypes({
+    options: selectableOntologyOptions,
+    dependencyTypeOptions,
+    selectedDependencyType: addDependencyType,
+  })
 
   const addDependency = () => {
     let newDependencies = JSON.parse(JSON.stringify(dependencies))
@@ -35,8 +49,12 @@ const OntologyRoleDependenciesForm = ({ onChange, roleName, dependencies, onDele
     newDependencies[addDependencyType] ||= []
     newDependencies[addDependencyType].push(addDependencyOntology)
     setDependencyOntology(null)
-    setRenderCount(renderCountToForceStupidReactToRerenderOnStateChange + 1)
     onChange(newDependencies)
+  }
+
+  const handleDependencyTypeChange = (selectedOption) => {
+    setDependencyType(selectedOption?.value)
+    setDependencyOntology(null)
   }
 
   const deleteDependency = (dependencyType) => (ontologyId) => () => {
@@ -112,18 +130,17 @@ const OntologyRoleDependenciesForm = ({ onChange, roleName, dependencies, onDele
           classNamePrefix="react-select"
           name="AddDependencyType"
           options={dependencyTypeOptions}
-          selected={addDependencyType}
+          value={dependencyTypeOptions.find(({ value }) => value === addDependencyType) || null}
           isClearable
-          onChange={selectedOption => setDependencyType(selectedOption?.value)}
+          onChange={handleDependencyTypeChange}
         />
         <Select
-          key={"Need-to-provide-a-stupid-key-just-so-react-knows-that-it-is-now-supposed-to-do-what-it-was-actually-invented-for" + renderCountToForceStupidReactToRerenderOnStateChange}
           placeholder={'Add Dependency Ontology-based term'}
           className="react-select--overwrite"
           classNamePrefix="react-select"
           name="AddDependencyOntology"
-          options={selectableOntologyOptions}
-          selected={addDependencyOntology}
+          options={dependencyOntologyOptions}
+          value={dependencyOntologyOptions.find(({ value }) => value === addDependencyOntology) || null}
           isClearable
           onChange={selectedOption => setDependencyOntology(selectedOption?.value)}
         />

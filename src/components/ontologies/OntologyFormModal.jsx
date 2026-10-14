@@ -46,7 +46,10 @@ const OntologyFormModal = ({ ontology, isOpen, onClose }) => {
 
   const filteredOntologyOptions = ontologies
     .filter(ont => ontologyMatchesQuery(ont))
-    .map(ont => OntologiesInfoDecorator.richLabelOption(ont))
+    .map(ont => ({
+      ...OntologiesInfoDecorator.richLabelOption(ont),
+      roles: ont.roles,
+    }))
 
   const handleChange = (key) => (value) => {
     setCurrentOntology({ ...currentOntology, [key]: value }
