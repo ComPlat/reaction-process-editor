@@ -64,14 +64,22 @@ function useElnApi() {
     return function (response) {
       if (response) {
         return response.text().then((text) => {
+          let data;
+          try {
+            data = text && JSON.parse(text);
+          } catch (_error) {
+            data = text;
+          }
+
           if (response.ok) {
-            let data = text && JSON.parse(text);
             method === "GET" ||
               window.dispatchEvent(new Event("requireReload"));
             return data;
           } else {
-            let data = text;
-            let errorMessage = (data && data.message) || response.statusText || "Unknown Error";
+            let errorMessage = data?.message
+              || (typeof data === "string" && data)
+              || response.statusText
+              || "Unknown Error";
             addNotification({
               title: "Error " + response.status,
               message: errorMessage,

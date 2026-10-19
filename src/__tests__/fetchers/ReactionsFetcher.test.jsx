@@ -43,6 +43,16 @@ const ReactionsIndexHarness = ({ onData }) => {
   );
 };
 
+const ClapUploadHarness = ({ onData, reactionProcessId }) => {
+  const reactionsFetcher = useReactionsFetcher();
+
+  return (
+    <button type="button" onClick={() => reactionsFetcher.uploadClap(reactionProcessId).then(onData)}>
+      Upload CLAP
+    </button>
+  );
+};
+
 const renderHarness = ({ onData = jest.fn(), addNotification = jest.fn() } = {}) => {
   const container = document.createElement("div");
   document.body.appendChild(container);
@@ -52,6 +62,30 @@ const renderHarness = ({ onData = jest.fn(), addNotification = jest.fn() } = {})
     root.render(
       <NotificationContext.Provider value={{ addNotification }}>
         <ReactionsIndexHarness onData={onData} />
+      </NotificationContext.Provider>
+    );
+  });
+
+  return {
+    addNotification,
+    onData,
+    button: container.querySelector("button"),
+    unmount: () => {
+      act(() => root.unmount());
+      container.remove();
+    }
+  };
+};
+
+const renderClapUploadHarness = ({ reactionProcessId, onData = jest.fn(), addNotification = jest.fn() }) => {
+  const container = document.createElement("div");
+  document.body.appendChild(container);
+  const root = createRoot(container);
+
+  act(() => {
+    root.render(
+      <NotificationContext.Provider value={{ addNotification }}>
+        <ClapUploadHarness reactionProcessId={reactionProcessId} onData={onData} />
       </NotificationContext.Provider>
     );
   });
@@ -103,5 +137,61 @@ describe("useReactionsFetcher index", () => {
     );
     expect(component.onData).toHaveBeenCalledWith(reactionsFixture.response.json);
     expect(component.onData.mock.calls[0][0].reactions).toHaveLength(8);
+  });
+});
+
+describe("useReactionsFetcher CLAP upload", () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+    localStorage.clear();
+    localStorage.setItem("bearer_auth_token", "fixture-token");
+    global.fetch = jest.fn().mockResolvedValue({
+      ok: true,
+      status: 201,
+      statusText: "Created",
+      text: () => Promise.resolve(JSON.stringify({ uploaded: true, upstream_status: 201 }))
+    });
+  });
+
+  test("posts to the reaction process CLAP upload endpoint", async () => {
+    const component = renderClapUploadHarness({ reactionProcessId: "reaction-2" });
+
+    await act(async () => component.button.click());
+
+    await waitFor(() => expect(global.fetch).toHaveBeenCalledWith(
+      "http://localhost:3000/api/v1/reaction_process_editor/reaction_processes/reaction-2/clap/upload",
+      {
+        method: "POST",
+        headers: {
+          Authorization: "Bearer fixture-token",
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*"
+        }
+      }
+    ));
+    expect(component.onData).toHaveBeenCalledWith({ uploaded: true, upstream_status: 201 });
+
+    component.unmount();
+  });
+
+  test("displays the CLAP upload response message when the upload fails", async () => {
+    const component = renderClapUploadHarness({ reactionProcessId: "reaction-2" });
+    global.fetch.mockResolvedValue({
+      ok: false,
+      status: 502,
+      statusText: "Bad Gateway",
+      text: () => Promise.resolve(JSON.stringify({ message: "Laboratory endpoint rejected the upload." }))
+    });
+
+    await act(async () => component.button.click());
+
+    await waitFor(() => expect(component.addNotification).toHaveBeenCalledWith({
+      title: "Error 502",
+      message: "Laboratory endpoint rejected the upload.",
+      type: "error"
+    }));
+
+    component.unmount();
   });
 });

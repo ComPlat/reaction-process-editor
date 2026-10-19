@@ -21,6 +21,7 @@ function useReactionsFetcher() {
     updateUserDefaultConditions,
     updateProvenance,
     downloadClap,
+    uploadClap,
     updateReactionProcessVessel,
     updateSamplePreparation,
     deleteSamplePreparation,
@@ -103,6 +104,10 @@ function useReactionsFetcher() {
 
   function downloadClap(id) {
     return api.download(`/reaction_processes/${id}/clap`)
+  }
+
+  function uploadClap(id) {
+    return api.post(`/reaction_processes/${id}/clap/upload`)
   }
 
   function updateReactionProcessVessel(reactionProcessVessel) {
