@@ -107,7 +107,20 @@ function useReactionsFetcher() {
   }
 
   function uploadClap(id) {
-    return api.post(`/reaction_processes/${id}/clap/upload`)
+    return api.post(
+      `/reaction_processes/${id}/clap/upload`,
+      undefined,
+      {
+        redirectOnError: false,
+        reloadOnSuccess: false,
+        showSaveIndicator: false,
+        successNotification: {
+          title: 'Send to Lab',
+          message: 'The CLAP data has been succesfully transferred to the Lab server.',
+          type: 'success',
+        }
+      }
+    )
   }
 
   function updateReactionProcessVessel(reactionProcessVessel) {

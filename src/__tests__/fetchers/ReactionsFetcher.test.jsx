@@ -155,6 +155,10 @@ describe("useReactionsFetcher CLAP upload", () => {
 
   test("posts to the reaction process CLAP upload endpoint", async () => {
     const component = renderClapUploadHarness({ reactionProcessId: "reaction-2" });
+    const indicateSaveHandler = jest.fn();
+    const requireReloadHandler = jest.fn();
+    window.addEventListener("indicateSave", indicateSaveHandler);
+    window.addEventListener("requireReload", requireReloadHandler);
 
     await act(async () => component.button.click());
 
@@ -171,12 +175,23 @@ describe("useReactionsFetcher CLAP upload", () => {
       }
     ));
     expect(component.onData).toHaveBeenCalledWith({ uploaded: true, upstream_status: 201 });
+    expect(component.addNotification).toHaveBeenCalledWith({
+      title: "Send to Lab",
+      message: "The CLAP data has been succesfully transferred to the Lab server.",
+      type: "success"
+    });
+    expect(indicateSaveHandler).not.toHaveBeenCalled();
+    expect(requireReloadHandler).not.toHaveBeenCalled();
 
+    window.removeEventListener("indicateSave", indicateSaveHandler);
+    window.removeEventListener("requireReload", requireReloadHandler);
     component.unmount();
   });
 
   test("displays the CLAP upload response message when the upload fails", async () => {
     const component = renderClapUploadHarness({ reactionProcessId: "reaction-2" });
+    const reloadDoneHandler = jest.fn();
+    window.addEventListener("reloadDone", reloadDoneHandler);
     global.fetch.mockResolvedValue({
       ok: false,
       status: 502,
@@ -191,7 +206,10 @@ describe("useReactionsFetcher CLAP upload", () => {
       message: "Laboratory endpoint rejected the upload.",
       type: "error"
     }));
+    expect(mockNavigate).not.toHaveBeenCalled();
+    expect(reloadDoneHandler).not.toHaveBeenCalled();
 
+    window.removeEventListener("reloadDone", reloadDoneHandler);
     component.unmount();
   });
 });

@@ -34,11 +34,25 @@ function useElnApi() {
   }
 
   function request(method) {
-    return (path, body) => {
-      method === "GET" || window.dispatchEvent(new Event("indicateSave"));
+    return (
+      path,
+      body,
+      {
+        redirectOnError = true,
+        reloadOnSuccess = true,
+        showSaveIndicator = true,
+        successNotification
+      } = {}
+    ) => {
       return requestWrapper
-        .request(method, path, body)
-        .then(handleResponse(method))
+        .request(method, path, body, { showSaveIndicator })
+        .then(handleResponse({
+          method,
+          redirectOnError,
+          reloadOnSuccess,
+          showSaveIndicator,
+          successNotification
+        }))
         .catch();
     };
   }
@@ -60,7 +74,13 @@ function useElnApi() {
     });
   }
 
-  function handleResponse(method) {
+  function handleResponse({
+    method,
+    redirectOnError,
+    reloadOnSuccess,
+    showSaveIndicator,
+    successNotification
+  }) {
     return function (response) {
       if (response) {
         return response.text().then((text) => {
@@ -72,8 +92,12 @@ function useElnApi() {
           }
 
           if (response.ok) {
-            method === "GET" ||
+            successNotification && addNotification(successNotification);
+            if (method !== "GET" && reloadOnSuccess) {
               window.dispatchEvent(new Event("requireReload"));
+            } else if (method !== "GET" && showSaveIndicator) {
+              window.dispatchEvent(new Event("reloadDone"));
+            }
             return data;
           } else {
             let errorMessage = data?.message
@@ -85,9 +109,13 @@ function useElnApi() {
               message: errorMessage,
               type: "error",
             });
-            [401, 403].includes(response.status)
-              ? signoutAndRedirect()
-              : redirectOnGeneralError();
+            if ([401, 403].includes(response.status)) {
+              signoutAndRedirect();
+            } else if (redirectOnError) {
+              redirectOnGeneralError();
+            } else if (showSaveIndicator) {
+              window.dispatchEvent(new Event("reloadDone"));
+            }
             return {};
           }
         });
