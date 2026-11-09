@@ -194,6 +194,21 @@ describe("ActionForm variants used by reaction 1 fixture", () => {
     });
   });
 
+  test("renders the empty REMOVE form in the shared action form", async () => {
+    mountedComponent = renderActionForm({
+      activity: {
+        ...saveActivities[0],
+        activity_name: "REMOVE",
+        workup: {},
+      },
+    });
+
+    await waitFor(() => {
+      expect(mountedComponent.container.querySelector(".activity-form.action-form")).toBeInTheDocument();
+    });
+    expect(mountedComponent.container).not.toHaveTextContent("Activity of type REMOVE has no Form");
+  });
+
   test("renders SAVE amount variants from the fixture", async () => {
     mountedComponent = renderActionForm({ activity: saveActivities[0] });
     await waitFor(() => expect(mountedComponent.container).toHaveTextContent("ml"));

@@ -21,6 +21,7 @@ import EvaporationForm from './EvaporationForm';
 import MergeSamplesForm from './MergeSamplesForm';
 import MixingForm from './MixingForm';
 import GasExchangeForm from './GasExchangeForm';
+import RemoveForm from './RemoveForm';
 import WaitForm from './WaitForm';
 
 import FractionFormGroup from '../formgroups/FractionFormGroup';
@@ -62,6 +63,7 @@ const ActionForm = (
     'MERGE_SAMPLES': MergeSamplesForm,
     'MIXING': MixingForm,
     'GAS_EXCHANGE': GasExchangeForm,
+    'REMOVE': RemoveForm,
     'ANALYSIS_CHROMATOGRAPHY': AnalysisChromatographyForm,
     'ANALYSIS_SPECTROSCOPY': AnalysisSpectroscopyForm,
     'ANALYSIS_ELEMENTAL': AnalysisElementalForm,
