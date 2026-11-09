@@ -114,6 +114,7 @@ function useReactionsFetcher() {
         redirectOnError: false,
         reloadOnSuccess: false,
         showSaveIndicator: false,
+        showResponseErrorMessage: true,
         successNotification: {
           title: 'Send to Lab',
           message: 'The CLAP data has been succesfully transferred to the Lab server.',

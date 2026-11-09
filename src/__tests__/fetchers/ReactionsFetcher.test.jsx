@@ -138,6 +138,28 @@ describe("useReactionsFetcher index", () => {
     expect(component.onData).toHaveBeenCalledWith(reactionsFixture.response.json);
     expect(component.onData.mock.calls[0][0].reactions).toHaveLength(8);
   });
+
+  test("does not display a server response message for regular API errors", async () => {
+    const component = renderHarness();
+    mountedComponents.push(component);
+    global.fetch.mockResolvedValue({
+      ok: false,
+      status: 500,
+      statusText: "Internal Server Error",
+      text: () => Promise.resolve(JSON.stringify({ message: "Sensitive backend details" }))
+    });
+
+    await act(async () => component.button.click());
+
+    await waitFor(() => expect(component.addNotification).toHaveBeenCalledWith({
+      title: "Error 500",
+      message: "Internal Server Error",
+      type: "error"
+    }));
+    expect(component.addNotification).not.toHaveBeenCalledWith(
+      expect.objectContaining({ message: "Sensitive backend details" })
+    );
+  });
 });
 
 describe("useReactionsFetcher CLAP upload", () => {

@@ -41,7 +41,8 @@ function useElnApi() {
         redirectOnError = true,
         reloadOnSuccess = true,
         showSaveIndicator = true,
-        successNotification
+        successNotification,
+        showResponseErrorMessage = false
       } = {}
     ) => {
       return requestWrapper
@@ -51,7 +52,8 @@ function useElnApi() {
           redirectOnError,
           reloadOnSuccess,
           showSaveIndicator,
-          successNotification
+          successNotification,
+          showResponseErrorMessage
         }))
         .catch();
     };
@@ -79,7 +81,8 @@ function useElnApi() {
     redirectOnError,
     reloadOnSuccess,
     showSaveIndicator,
-    successNotification
+    successNotification,
+    showResponseErrorMessage
   }) {
     return function (response) {
       if (response) {
@@ -100,10 +103,9 @@ function useElnApi() {
             }
             return data;
           } else {
-            let errorMessage = data?.message
-              || (typeof data === "string" && data)
-              || response.statusText
-              || "Unknown Error";
+            let errorMessage = (showResponseErrorMessage && (
+              data?.message || (typeof data === "string" && data)
+            )) || response.statusText || "Unknown Error";
             addNotification({
               title: "Error " + response.status,
               message: errorMessage,
