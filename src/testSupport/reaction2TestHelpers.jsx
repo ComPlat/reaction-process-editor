@@ -23,6 +23,10 @@ export const mockDeleteSamplePreparation = jest.fn();
 export const mockUpdateReactionProcessVessel = jest.fn();
 export const mockUpdateUserDefaultConditions = jest.fn(() => Promise.resolve());
 export const mockUpdateReactionDefaultConditions = jest.fn(() => Promise.resolve());
+export const mockUpdateProcessStepPosition = jest.fn();
+export const mockUpdateProvenance = jest.fn(() => Promise.resolve());
+export const mockDownloadClap = jest.fn();
+export const mockReactDndDropSpecs = [];
 
 jest.mock("../fetchers/ReactionsFetcher", () => ({
   useReactionsFetcher: () => ({
@@ -30,7 +34,7 @@ jest.mock("../fetchers/ReactionsFetcher", () => ({
     updateProcessStep: mockUpdateProcessStep,
     deleteProcessStep: mockDeleteProcessStep,
     createActivity: mockCreateActivity,
-    updateProcessStepPosition: jest.fn(),
+    updateProcessStepPosition: mockUpdateProcessStepPosition,
     deleteActivity: jest.fn(),
     updateActivity: mockUpdateActivity,
     updateActivityPosition: jest.fn(),
@@ -40,13 +44,18 @@ jest.mock("../fetchers/ReactionsFetcher", () => ({
     updateReactionProcessVessel: mockUpdateReactionProcessVessel,
     updateUserDefaultConditions: mockUpdateUserDefaultConditions,
     updateReactionDefaultConditions: mockUpdateReactionDefaultConditions,
+    updateProvenance: mockUpdateProvenance,
+    downloadClap: mockDownloadClap,
   }),
 }));
 
 jest.mock("react-dnd", () => ({
   DndProvider: ({ children }) => children,
   useDrag: () => [{ isDragging: false }, jest.fn(), jest.fn()],
-  useDrop: () => [{ isOver: false }, jest.fn()],
+  useDrop: (createSpec) => {
+    mockReactDndDropSpecs.push(createSpec());
+    return [{ isOver: false }, jest.fn()];
+  },
 }));
 
 jest.mock("react-dnd-html5-backend", () => ({
@@ -59,8 +68,8 @@ jest.mock("@fortawesome/react-fontawesome", () => ({
 
 jest.mock("../components/utilities/IconButton", () => ({
   __esModule: true,
-  default: ({ icon, onClick, disabled }) => (
-    <button aria-label={icon} disabled={disabled} onClick={onClick} type="button">
+  default: ({ icon, onClick, disabled, id }) => (
+    <button aria-label={icon} disabled={disabled} id={id} onClick={onClick} type="button">
       {icon}
     </button>
   ),
@@ -230,6 +239,11 @@ export const resetReaction2Mocks = () => {
   mockUpdateUserDefaultConditions.mockImplementation(() => Promise.resolve());
   mockUpdateReactionDefaultConditions.mockClear();
   mockUpdateReactionDefaultConditions.mockImplementation(() => Promise.resolve());
+  mockUpdateProcessStepPosition.mockClear();
+  mockUpdateProvenance.mockClear();
+  mockUpdateProvenance.mockImplementation(() => Promise.resolve());
+  mockDownloadClap.mockReset();
+  mockReactDndDropSpecs.length = 0;
 };
 
 export const reaction2Step = (name, position = 0, overrides = {}) => {
@@ -293,7 +307,7 @@ export const fixtureVessel = {
   material_type: "glass",
   volume_amount: 100,
   volume_unit: "ML",
-  automation_modes: [reaction2Process.initial_conditions.automation_mode],
+  automation_modes: ["NCIT:C63513", "NCIT:C172484", "NCIT:C70669"],
 };
 
 export const renderReaction2Steps = ({
