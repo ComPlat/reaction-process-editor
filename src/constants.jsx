@@ -9,4 +9,9 @@ export const afterSignOutPath = "/";
 export const generalErrorRedirectPath = afterSignInPath;
 export const unauthorizedRedirectPath = afterSignOutPath;
 
-export const defaultlMessageCloseTime = { info: 3500, warning: 4000, error: 6000 }
+export const defaultlMessageCloseTime = {
+  info: 3500,
+  warning: 4000,
+  error: 6000,
+  success: 3500,
+}

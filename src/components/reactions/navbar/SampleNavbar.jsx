@@ -16,6 +16,7 @@ import {
 
 import IconButton from "../../utilities/IconButton";
 import ClapDownloadButton from "./ClapDownloadButton";
+import ClapUploadButton from "./ClapUploadButton";
 import ProvenanceFormButton from "./ProvenanceFormButton";
 import ReactionConditionsFormButton from "./ReactionConditionsFormButton";
 
@@ -63,6 +64,7 @@ const SampleNavbar = ({ reactionProcess }) => {
             />
             <ProvenanceFormButton provenance={reactionProcess.provenance} />
             <ClapDownloadButton reactionProcessId={reactionProcess.id} />
+            <ClapUploadButton reactionProcessId={reactionProcess.id} />
           </Nav>
         </Navbar>
         <Accordion
