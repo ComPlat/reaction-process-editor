@@ -46,11 +46,13 @@ const ActionForm = (
   const workup = activity.workup
 
   useEffect(() => {
-    let ontologyValue = OntologyConstants.class[activity.activity_name]
-    onWorkupChange({ name: 'class', value: ontologyValue })
+    // Inject class and action ontology id into workup for ontology dependencies calculations. 
+    // Naming "class", "action" following ELN conventions. 
+    onWorkupChange({ name: 'class', value: OntologyConstants.class_ontology_id[activity.activity_name] })
+    onWorkupChange({ name: 'action', value: OntologyConstants.action_ontology_id[activity.activity_name] })
 
-    // Ontology dependencies will be calculated by the current workout. To avoid complicated multi-level filters,
-    // we inject (piggyback) the step automation_mode into the workup.
+    // Ontology dependencies will be calculated by the current workout only. To avoid complicated multi-level filters,
+    // we also inject (piggyback) the step automation_mode into the workup.
     onWorkupChange({ name: 'automation_mode', value: processStep?.automation_mode })
     // eslint-disable-next-line
   }, [activity.activity_name, processStep?.automation_mode])
