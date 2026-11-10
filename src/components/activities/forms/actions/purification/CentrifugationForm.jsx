@@ -42,14 +42,12 @@ const CentrifugationForm = (
   const renderConditionInputs = () => {
     return centrifugationFormMetricNames.map((metricName) => {
       return (
-        <>
-          <MetricsInputFormGroup
-            key={metricName}
-            metricName={metricName}
-            amount={workup[metricName]}
-            onChange={handleWorkupChange(metricName)}
-          />
-        </>
+        <MetricsInputFormGroup
+          key={metricName}
+          metricName={metricName}
+          amount={workup[metricName]}
+          onChange={handleWorkupChange(metricName)}
+        />
       );
     });
   };

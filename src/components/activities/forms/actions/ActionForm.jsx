@@ -21,6 +21,7 @@ import EvaporationForm from './EvaporationForm';
 import MergeSamplesForm from './MergeSamplesForm';
 import MixingForm from './MixingForm';
 import GasExchangeForm from './GasExchangeForm';
+import RemoveForm from './RemoveForm';
 import WaitForm from './WaitForm';
 
 import FractionFormGroup from '../formgroups/FractionFormGroup';
@@ -62,6 +63,7 @@ const ActionForm = (
     'MERGE_SAMPLES': MergeSamplesForm,
     'MIXING': MixingForm,
     'GAS_EXCHANGE': GasExchangeForm,
+    'REMOVE': RemoveForm,
     'ANALYSIS_CHROMATOGRAPHY': AnalysisChromatographyForm,
     'ANALYSIS_SPECTROSCOPY': AnalysisSpectroscopyForm,
     'ANALYSIS_ELEMENTAL': AnalysisElementalForm,
@@ -96,6 +98,7 @@ const ActionForm = (
     return deviceFormIncluded ? <></> :
       <DeviceMethodFormSet
         activity={activity}
+        formSectionType="action"
         onWorkupChange={onWorkupChange} />
   }
 
@@ -106,7 +109,8 @@ const ActionForm = (
       onCancel={onCancel}
       onSave={onSave}
       onWorkupChange={onWorkupChange}
-      onChangeDuration={onChangeDuration} >
+      onChangeDuration={onChangeDuration}
+      automationMode={processStep?.automation_mode} >
       <FractionFormGroup fraction={activity.consumed_fraction} />
       {renderDeviceOntologiesForm()}
       {renderCustomActivityForm()}

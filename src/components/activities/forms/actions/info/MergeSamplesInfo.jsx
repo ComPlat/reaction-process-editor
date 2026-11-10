@@ -8,9 +8,6 @@ const MergeSamplesInfo = ({ activity }) => {
 	const selectOptions = useContext(SelectOptions);
 	const sampleOptions = selectOptions.materials.SAMPLE;
 
-	console.log("sample options")
-	console.log(sampleOptions)
-
 	const workup = activity.workup;
 
 	const sourceSampleId = workup.source_sample_id

@@ -141,39 +141,41 @@ const SaveSampleForm = ({ workup, onWorkupChange, reactionProcessVessel, onChang
 
   return (
     <>
-      <FormGroup>
-        <Label>Molecular Entities</Label>
-        <SamplesIconSelect
-          isMulti
-          isClearable={false}
-          samples={workup.molecular_entities}
-          options={molecularEntitiesOptions}
-          onChange={handleWorkupChange("molecular_entities")} />
-      </FormGroup>
+      <FormSection type="action">
+        <FormGroup>
+          <Label>Molecular Entities</Label>
+          <SamplesIconSelect
+            isMulti
+            isClearable={false}
+            samples={workup.molecular_entities}
+            options={molecularEntitiesOptions}
+            onChange={handleWorkupChange("molecular_entities")} />
+        </FormGroup>
 
-      <FormGroup>
-        <Label>Name</Label>
-        <Input
-          value={workup.name}
-          placeholder="Name (Leave blank to autofill)"
-          onChange={(event) =>
-            handleWorkupChange("name")(event.target.value)
-          }
-        />
-      </FormGroup>
+        <FormGroup>
+          <Label>Name</Label>
+          <Input
+            value={workup.name}
+            placeholder="Name (Leave blank to autofill)"
+            onChange={(event) =>
+              handleWorkupChange("name")(event.target.value)
+            }
+          />
+        </FormGroup>
 
-      <FormGroup>
-        <Label>Short Label</Label>
-        <Input
-          value={workup.short_label}
-          placeholder="Short Label (Leave blank to autofill)"
-          onChange={(event) =>
-            handleWorkupChange("short_label")(event.target.value)
-          }
-        />
-      </FormGroup>
+        <FormGroup>
+          <Label>Short Label</Label>
+          <Input
+            value={workup.short_label}
+            placeholder="Short Label (Leave blank to autofill)"
+            onChange={(event) =>
+              handleWorkupChange("short_label")(event.target.value)
+            }
+          />
+        </FormGroup>
 
-      {renderOriginFormGroup()}
+        {renderOriginFormGroup()}
+      </FormSection>
 
       <VesselableFormSection
         onChange={onChangeVessel}

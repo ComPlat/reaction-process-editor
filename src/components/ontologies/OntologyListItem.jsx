@@ -75,9 +75,6 @@ const OntologyListItem = ({ ontology, isOpen }) => {
             onClick={toggleModal}
             size="sm"
           />
-          <span className='ms-2' >
-            <OntologyLink ontology={ontology} />
-          </span>
           <div>
             {StringDecorator.toLabelSpelling(ontology.ontology_type)}
           </div>

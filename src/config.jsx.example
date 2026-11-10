@@ -1,4 +1,0 @@
-// Clone this file to Config.jsx and set all constants as required for your local installation.
-
-// Set the chemotionElnHostname to the running instance of your ELN server.
-export const chemotionElnHostname = "http://localhost:3000"
