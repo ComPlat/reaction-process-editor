@@ -6,9 +6,12 @@ import { Row, Col, Button } from 'reactstrap'
 import FormButtons from './FormButtons'
 import NumericalInput from './NumericalInput'
 import ChromatographyFractionForm from './ChromatographyFractionForm'
+import TooltipButton from './TooltipButton'
 import VialButton from './VialButton'
 
 import { useReactionsFetcher } from '../../fetchers/ReactionsFetcher';
+
+const poolingHint = 'Define 1 or more pooling fractions and assign the pooled vials along with the respective followup action to each fraction.'
 
 const ChromatographyPoolingForm = ({ activity, onCancel, onSave }) => {
 	const api = useReactionsFetcher()
@@ -187,9 +190,12 @@ const ChromatographyPoolingForm = ({ activity, onCancel, onSave }) => {
 					<Col md={1}>
 					</Col>
 					<Col md={10}>
-						<Button
-							onClick={addFraction}
-						>+ Add Fraction</Button>
+						<div className="d-flex align-items-center">
+							<TooltipButton tooltip={poolingHint} color="secondary" size="lg" className="me-2" />
+							<Button
+								onClick={addFraction}
+							>+ Add Fraction</Button>
+						</div>
 					</Col>
 				</Row>
 			</>
@@ -214,6 +220,9 @@ const ChromatographyPoolingForm = ({ activity, onCancel, onSave }) => {
 
 	return (
 		<>
+			<div className="d-flex align-items-start mb-3 text-muted">
+				<span>{poolingHint}</span>
+			</div>
 			{hasAutomationResponse && renderVialOverview()}
 			{hasAutomationResponse && renderFractionsForms()}
 			{!hasAutomationResponse && renderNoAutomationResponseHint()}

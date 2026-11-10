@@ -16,7 +16,6 @@ import IconButton from "../utilities/IconButton";
 
 import { tooltips } from "../../constants/translations";
 
-import { UncontrolledTooltip } from "reactstrap";
 import AutomationControlDecorator from "../../decorators/AutomationControlDecorator";
 
 const ActivityCard = ({
@@ -118,28 +117,30 @@ const ActivityCard = ({
     }));
   };
 
-  const renderAutomationModeTooltip = () => {
+  const renderIconWarning = (tooltipName) => {
     return (
-      <>
-        <div id={"activity_automation_mode_" + activity?.id}>
+      <div title={tooltips[tooltipName]}>
           <IconButton
             size={"sm"}
             positive={true}
             icon={"circle-info"}
             color={"danger"} />
-        </div>
-        <UncontrolledTooltip target={"activity_automation_mode_" + activity?.id}>
-          {tooltips['action_unmet_automation_mode']}
-        </UncontrolledTooltip>
-      </>
+      </div>
     )
   }
+
+
+  console.log("activity")
+  console.log(activity)
+  const isMergeSamplesForm = ['MERGE_SAMPLES'].includes(activity?.activity_name)
+  const samplesTypeUnspecified = !activity?.workup?.type
 
   const renderTitleBar = (title) => {
     return (
       <div className="d-md-flex gap-2">
-        {automationModeMismatch && formDependsOnAutomationMode && renderAutomationModeTooltip()}
-        <div id={"activity_automation_status_" + activity?.id}>
+        {automationModeMismatch && formDependsOnAutomationMode && renderIconWarning('action_unmet_automation_mode')}
+        {isMergeSamplesForm && samplesTypeUnspecified && renderIconWarning('merge_sample_type_unspecified')}
+        <div title={currentAutomationStatus.tooltip}>
           <IconButton
             disabled
             size={"sm"}
@@ -147,9 +148,6 @@ const ActivityCard = ({
             icon={currentAutomationStatus.icon}
             color={currentAutomationStatus.color} />
         </div>
-        <UncontrolledTooltip target={"activity_automation_status_" + activity?.id} >
-          {currentAutomationStatus.tooltip}
-        </UncontrolledTooltip>
         {title}
       </div>
     )

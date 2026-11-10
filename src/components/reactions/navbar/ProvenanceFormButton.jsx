@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-import { Modal, ModalHeader, ModalBody, UncontrolledTooltip } from 'reactstrap';
+import { Modal, ModalHeader, ModalBody } from 'reactstrap';
 
 import ProvenanceForm from './ProvenanceForm';
 import IconButton from "../../utilities/IconButton";
@@ -13,15 +13,12 @@ const ProvenanceFormButton = ({ provenance }) => {
   return (
     <>
       <IconButton
-        id="provenance-button"
+        title="Edit the reaction's provenance metadata"
         icon='pen'
         size='lg'
         positive={true}
         onClick={toggleModal}
       />
-      < UncontrolledTooltip target={"provenance-button"} >
-        Edit the reaction's provenance metadata
-      </UncontrolledTooltip >
       <Modal
         className='modal--primary d-flex align-items-center justify-content-center'
         isOpen={showModal}
