@@ -21,6 +21,7 @@ function useReactionsFetcher() {
     updateUserDefaultConditions,
     updateProvenance,
     downloadClap,
+    uploadClap,
     updateReactionProcessVessel,
     updateSamplePreparation,
     deleteSamplePreparation,
@@ -103,6 +104,24 @@ function useReactionsFetcher() {
 
   function downloadClap(id) {
     return api.download(`/reaction_processes/${id}/clap`)
+  }
+
+  function uploadClap(id) {
+    return api.post(
+      `/reaction_processes/${id}/clap/upload`,
+      undefined,
+      {
+        redirectOnError: false,
+        reloadOnSuccess: false,
+        showSaveIndicator: false,
+        showResponseErrorMessage: true,
+        successNotification: {
+          title: 'Send to Lab',
+          message: 'The CLAP data has been succesfully transferred to the Lab server.',
+          type: 'success',
+        }
+      }
+    )
   }
 
   function updateReactionProcessVessel(reactionProcessVessel) {
