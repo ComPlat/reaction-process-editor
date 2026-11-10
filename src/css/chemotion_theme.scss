@@ -124,6 +124,7 @@ $input-disabled-color: tint-color($input-color, 40%);
 @import "components/activities/timing/Timer";
 @import "components/layout/GlobalNotification";
 @import "components/layout/MainHeader";
+@import "components/ontologies/OntologiesEditor";
 @import "components/samples/SampleMoleculeImage";
 @import "components/utilities/AmountInput";
 @import "components/utilities/CardHeaderLabelButton";
