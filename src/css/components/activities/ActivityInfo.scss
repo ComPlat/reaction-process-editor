@@ -1,4 +1,8 @@
 .activity-info {
+  &__add {
+    display: flex;
+    align-items: flex-start;
+  }
   &__text-block {
     flex-grow: 1;
   }

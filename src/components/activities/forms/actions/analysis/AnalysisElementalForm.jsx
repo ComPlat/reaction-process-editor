@@ -1,8 +1,7 @@
 import React, { useContext } from 'react'
-import { Label, FormGroup } from 'reactstrap'
 
 import FormSection from '../../../../utilities/FormSection'
-import SamplesIconSelect from '../../../../utilities/SamplesIconSelect'
+import SampleOrMolecularEntityFormGroups from './SampleOrMolecularEntityFormGroups'
 
 import OntologyMultiSelectFormGroup from '../../formgroups/OntologyMultiSelectFormGroup'
 import OntologySelectFormGroup from '../../formgroups/OntologySelectFormGroup'
@@ -21,26 +20,14 @@ const AnalysisElementalForm = ({ workup, onWorkupChange }) => {
 
 	return (
 		<FormSection>
-			<FormGroup>
-				<Label>Sample</Label>
-				<SamplesIconSelect
-					isMulti
-					isClearable={false}
-					samples={workup.samples}
-					options={selectOptions.materials['SAMPLE']}
-					onChange={handleWorkupChange('samples')}
-				/>
-			</FormGroup>
-			<FormGroup>
-				<Label>Molecular Entity</Label>
-				<SamplesIconSelect
-					isMulti
-					isClearable={false}
-					options={molecularEntitiesOptions}
-					samples={workup.molecular_entities}
-					onChange={handleWorkupChange('molecular_entities')}
-				/>
-			</FormGroup>
+			<SampleOrMolecularEntityFormGroups
+				samples={workup.samples}
+				sampleOptions={selectOptions.materials['SAMPLE']}
+				onSamplesChange={handleWorkupChange('samples')}
+				molecularEntities={workup.molecular_entities}
+				molecularEntityOptions={molecularEntitiesOptions}
+				onMolecularEntitiesChange={handleWorkupChange('molecular_entities')}
+			/>
 			<OntologySelectFormGroup
 				key={"device" + workup.device}
 				roleName={'device'}

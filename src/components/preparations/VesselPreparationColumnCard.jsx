@@ -22,7 +22,7 @@ const VesselPreparationColumnCard = ({ reactionProcess }) => {
 
   return (
     <ProcedureCard
-      title="Vessels"
+      title="Vessel Preparations"
       type="preparation"
       showEditBtn={false}
       showMoveBtn={false}
