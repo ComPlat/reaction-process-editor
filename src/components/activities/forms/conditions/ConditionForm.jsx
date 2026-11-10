@@ -20,6 +20,7 @@ const ConditionForm = (
     onCancel,
     onWorkupChange,
     onChangeDuration,
+    processStep,
   }) => {
 
   let ontologies = useContext(SelectOptions).ontologies
@@ -36,6 +37,7 @@ const ConditionForm = (
       onCancel={onCancel}
       onWorkupChange={onWorkupChange}
       onChangeDuration={onChangeDuration}
+      automationMode={processStep?.automation_mode}
     >
       <OptionalFormSet
         subFormLabel={"Device & Method"}

@@ -137,15 +137,14 @@ const ChromatographyPoolingForm = ({ activity, onCancel, onSave }) => {
 
 		return allVials.slice(firstVial, lastVial).map((vial, idx) => {
 			return (
-				<>
+					<React.Fragment key={`vial-${trayNo}-${vial}-${idx}`}>
 					<VialButton
-						key={"vial-button-" + idx}
 						vial={vial}
 						colorGroup={fractionNoForVial(vial)}
 						onClick={moveVialToNextFraction(vial)}
 					/>
 					{renderBreak(idx)}
-				</>
+					</React.Fragment>
 			)
 		})
 	}

@@ -129,9 +129,6 @@ const ActivityCard = ({
     )
   }
 
-
-  console.log("activity")
-  console.log(activity)
   const isMergeSamplesForm = ['MERGE_SAMPLES'].includes(activity?.activity_name)
   const samplesTypeUnspecified = !activity?.workup?.type
 
@@ -207,6 +204,7 @@ const ActivityCard = ({
             onSave={onSaveForm}
             onWorkupChange={handleWorkupChange}
             onChangeDuration={setDuration}
+            processStep={processStep}
           />
         )}
       </ProcedureCard.Form>

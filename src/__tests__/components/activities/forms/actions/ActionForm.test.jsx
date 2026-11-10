@@ -159,7 +159,8 @@ describe("ActionForm variants used by reaction 1 fixture", () => {
       expect(mountedComponent.container).toHaveTextContent("Origin");
       expect(mountedComponent.container).toHaveTextContent("Sample Type");
       expect(mountedComponent.container).toHaveTextContent("Display in ELN");
-      expect(mountedComponent.container).toHaveTextContent("Description -");
+      expect(mountedComponent.container).toHaveTextContent("Description: -");
+      expect(mountedComponent.container.querySelector(".fw-normal")).toHaveTextContent("-");
 
       expect(textControlValues(mountedComponent.container)).toContain(activity.workup.name);
       expect(textControlValues(mountedComponent.container)).toContain(activity.workup.short_label);
@@ -192,6 +193,21 @@ describe("ActionForm variants used by reaction 1 fixture", () => {
       name: "automation_mode",
       value: processStep.automation_mode
     });
+  });
+
+  test("renders the empty REMOVE form in the shared action form", async () => {
+    mountedComponent = renderActionForm({
+      activity: {
+        ...saveActivities[0],
+        activity_name: "REMOVE",
+        workup: {},
+      },
+    });
+
+    await waitFor(() => {
+      expect(mountedComponent.container.querySelector(".activity-form.action-form")).toBeInTheDocument();
+    });
+    expect(mountedComponent.container).not.toHaveTextContent("Activity of type REMOVE has no Form");
   });
 
   test("renders SAVE amount variants from the fixture", async () => {

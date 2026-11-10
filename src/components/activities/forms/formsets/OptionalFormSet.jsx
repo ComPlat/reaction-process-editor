@@ -46,8 +46,6 @@ const OptionalFormSet = ({
   const hasLocalValue = !!valueSummary && !isEqualToPredefinedValue;
   const toggleFormButtonLabel = disableSave ? 'View' : hasLocalValue ? "Change" : "Set";
 
-  const labelWithSummary = subFormLabel + " " + (valueSummary || "-");
-
   const handleSave = (data) => {
     toggleShowForm();
     onSave(data);
@@ -67,7 +65,8 @@ const OptionalFormSet = ({
               "col-form-label" + (hasLocalValue ? "" : " label--disabled")
             }
           >
-            {labelWithSummary}
+            <span>{subFormLabel}:</span>{' '}
+            <span className="fw-normal">{valueSummary || "-"}</span>
           </Label>
           {!disabled &&
             <div className="optional-form-group__open-controls">
