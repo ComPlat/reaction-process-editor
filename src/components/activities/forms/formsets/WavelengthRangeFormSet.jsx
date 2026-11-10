@@ -105,7 +105,7 @@ const WavelengthRangeFormSet = (
         {
           peaks.map((peak, index) => {
             return (
-              <Row className='gx-2 py-1 px-2 mx-0' key={'peak-' + index + ' + ' + peak.value}>
+              <Row className='gx-2 py-1 px-2 mx-0' key={'peak-' + index + ' + ' + peaks.length}>
                 <div className='col-11 d-flex flex-column justify-content-end'>
                   <MetricsInputFormGroup
                     initialstep={peaks.at(-2)?.value + 1}
