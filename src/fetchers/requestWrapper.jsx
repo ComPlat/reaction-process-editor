@@ -20,8 +20,10 @@ function useRequestWrapper() {
       : {};
   }
 
-  function request(method, path, body) {
-    method === "GET" || window.dispatchEvent(new Event("indicateSave"));
+  function request(method, path, body, { showSaveIndicator = true } = {}) {
+    method === "GET"
+      || !showSaveIndicator
+      || window.dispatchEvent(new Event("indicateSave"));
 
     const requestOptions = {
       method,
