@@ -11,19 +11,23 @@ export default class OntologiesInfoDecorator {
 
   static rolesInfo = ({ ontology, ontologies }) => {
     return Object.entries(ontology.roles).map(role => {
-      return(this.dependenciesForRole({ role: role, ontologies: ontologies }))
+      return (this.dependenciesForRole({ role: role, ontologies: ontologies }))
     })
   }
 
-  static dependencyInfo = ({ dependency, ontologies }) => {
+  static dependencyInfo = ({ dependency }) => {
     return Object.entries(dependency).map(([dependencyName, dependencyIds]) => {
       return (
         <div>
           <b>
             {StringDecorator.toLabelSpelling(dependencyName) + ': '}
           </b>
-          {dependencyIds.map(dependencyId =>
-            <OntologyRichLabel ontologyId={dependencyId} />)}
+          {dependencyIds.map((dependencyId, idx) =>
+            <>
+              <OntologyRichLabel ontologyId={dependencyId} />
+              {idx < dependencyIds.length - 1 && ', '}
+            </>
+          )}
         </div>)
     })
   }
@@ -34,9 +38,12 @@ export default class OntologiesInfoDecorator {
     return dependencies.map((dependency) => {
       return (<>
         <div className='row border-bottom'>
-          <b>
-            {'=' + StringDecorator.toLabelSpelling(roleName)}
-          </b>
+          <span>
+            {'= '}
+            <b>
+              {StringDecorator.toLabelSpelling(roleName)}
+            </b>
+          </span>
           <div>
             {this.dependencyInfo({ dependency: dependency, ontologies: ontologies })}
           </div>

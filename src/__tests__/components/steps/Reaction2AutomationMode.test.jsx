@@ -81,6 +81,40 @@ describe("reaction 2 step automation mode", () => {
     resetReaction2Mocks();
   });
 
+  test("orders automation modes from manual to automated", () => {
+    const { container } = renderReaction2Steps({
+      reactionProcess: reaction2ProcessWithMode(OntologyConstants.automation_mode.automated),
+    });
+
+    openStepForm(container);
+
+    const modeButtons = screen.getByText("Mode").parentElement.querySelectorAll("button");
+    expect(Array.from(modeButtons, (button) => button.textContent)).toEqual([
+      "manual",
+      "semi-automated",
+      "automated",
+    ]);
+  });
+
+  test.each([
+    { label: "manual", mode: OntologyConstants.automation_mode.manual, visible: false },
+    { label: "semi-automated", mode: OntologyConstants.automation_mode.semiAutomated, visible: false },
+    { label: "automated", mode: OntologyConstants.automation_mode.automated, visible: true },
+  ])("shows automation controls for $label mode: $visible", ({ mode, visible }) => {
+    const { container } = renderReaction2Steps({
+      reactionProcess: reaction2ProcessWithMode(mode),
+    });
+
+    openStepForm(container);
+
+    const automationLabel = screen.queryByText("Automation:");
+    if (visible) {
+      expect(automationLabel).toBeInTheDocument();
+    } else {
+      expect(automationLabel).not.toBeInTheDocument();
+    }
+  });
+
   test.each(automationModes)("sets step automation mode to $label", async (mode) => {
     const { container } = renderReaction2Steps({
       reactionProcess: reaction2ProcessWithMode(OntologyConstants.automation_mode.automated),
