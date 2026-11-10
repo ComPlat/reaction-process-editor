@@ -46,7 +46,7 @@ describe('OntologyFormModal', () => {
     expect(filter.closest('.modal-body')).not.toBeInTheDocument();
     expect(filter).toHaveAttribute(
       'title',
-      'Filter the Ontologies in the Select Fields for a better overview'
+      'Filter the Ontologies in the Select Fields for a better overview.'
     );
     expect(screen.getByText('Selectable: 2 / 2')).toBeInTheDocument();
     const ontologySelect = screen.getByLabelText('Filtered Ontologies');
