@@ -1,7 +1,8 @@
 import React, { useContext } from 'react'
-import { Label, FormGroup, Input } from 'reactstrap';
+import { FormGroup, Input } from 'reactstrap';
 
 import AnalysisChromatographyStepForm from "./AnalysisChromatographyStepForm";
+import SampleOrMolecularEntityFormGroups from './SampleOrMolecularEntityFormGroups';
 
 import DetectorConditionsFormGroup from '../../formgroups/DetectorConditionsFormGroup';
 import MetricsInputFormGroup from '../../formgroups/MetricsInputFormGroup';
@@ -11,7 +12,6 @@ import SingleLineFormGroup from '../../formgroups/SingleLineFormGroup';
 
 import CreateButton from "../../../../utilities/CreateButton";
 import FormSection from '../../../../utilities/FormSection'
-import SamplesIconSelect from '../../../../utilities/SamplesIconSelect.jsx';
 
 import OntologiesOptionsDecorator from '../../../../../decorators/OntologiesOptionsDecorator';
 import OptionsDecorator from '../../../../../decorators/OptionsDecorator';
@@ -243,26 +243,14 @@ const AnalysisChromatographyForm = (
   return (
     <>
       <FormSection type='action'>
-        <FormGroup>
-          <Label>Sample</Label>
-          <SamplesIconSelect
-            isMulti
-            isClearable={false}
-            options={selectOptions.materials['SAMPLE']}
-            samples={workup.samples}
-            onChange={handleWorkupChange('samples')}
-          />
-        </FormGroup>
-        <FormGroup>
-          <Label>Molecular Entity</Label>
-          <SamplesIconSelect
-            isMulti
-            isClearable={false}
-            options={selectOptions.materials['MOLECULAR_ENTITY']}
-            samples={workup.molecular_entities}
-            onChange={handleWorkupChange('molecular_entities')}
-          />
-        </FormGroup>
+        <SampleOrMolecularEntityFormGroups
+          samples={workup.samples}
+          sampleOptions={selectOptions.materials['SAMPLE']}
+          onSamplesChange={handleWorkupChange('samples')}
+          molecularEntities={workup.molecular_entities}
+          molecularEntityOptions={selectOptions.materials['MOLECULAR_ENTITY']}
+          onMolecularEntitiesChange={handleWorkupChange('molecular_entities')}
+        />
 
         <OntologySelectFormGroup
           key={"type" + workup.type}

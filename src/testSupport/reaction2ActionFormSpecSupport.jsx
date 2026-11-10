@@ -151,11 +151,6 @@ export const selectFixtureSample = () => {
   fillIfPresent.select("sample_id", fixtureSample.value);
 };
 
-export const selectFixtureSampleIcon = () => {
-  const input = screen.queryAllByLabelText("Molecular Entity")[0];
-  if (input) userEvent.selectOptions(input, String(fixtureSample.value));
-};
-
 export const selectFixtureMolecularEntity = (index = 0) => {
   const input = screen.queryAllByLabelText("Molecular Entity")[index];
   if (input) userEvent.selectOptions(input, String(fixtureMolecularEntity.value));
