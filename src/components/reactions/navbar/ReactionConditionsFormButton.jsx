@@ -1,7 +1,5 @@
 import React, { useState } from 'react'
 
-import { UncontrolledTooltip } from 'reactstrap';
-
 import IconButton from "../../utilities/IconButton";
 import DefaultConditionsFormModal from "../../utilities/DefaultConditionsFormModal";
 
@@ -17,15 +15,12 @@ const ReactionConditionsFormButton = (
   return (
     <>
       <IconButton
-        id='reaction-conditions-button'
+        title="Set the reaction's base conditions"
         icon='temperature-high'
         size='lg'
         positive={true}
         onClick={toggleModal}
       />
-      < UncontrolledTooltip target='reaction-conditions-button' >
-        Set the reaction's base conditions
-      </UncontrolledTooltip >
       <DefaultConditionsFormModal
         preconditions={preconditions}
         defaultConditions={defaultConditions}

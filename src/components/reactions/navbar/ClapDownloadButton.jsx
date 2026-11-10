@@ -1,6 +1,4 @@
 import React from 'react';
-import { UncontrolledTooltip } from 'reactstrap';
-
 import { useReactionsFetcher } from '../../../fetchers/ReactionsFetcher';
 import IconButton from "../../utilities/IconButton";
 
@@ -32,16 +30,13 @@ const ClapDownloadButton = ({ reactionProcessId }) => {
   return (
     <div>
       <IconButton
-        id='clap-download-button'
+        title="Download the reaction in CLAP/JSON format."
         icon='download'
         size='lg'
         positive={true}
         onClick={downloadClap}
         target="_blank"
       />
-      <UncontrolledTooltip target={"clap-download-button"} >
-        Download the reaction in CLAP/JSON format.
-      </UncontrolledTooltip >
     </div>
   )
 };
