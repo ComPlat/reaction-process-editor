@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { Button, Label } from 'reactstrap';
+import { Button, Input, Label } from 'reactstrap';
 
 import Select from 'react-select';
 
@@ -8,12 +8,40 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import DeletableItem from './DeletableItem';
 import StringDecorator from '../../decorators/StringDecorator';
+import { OntologyConstants } from '../../constants/OntologyConstants';
+
+const automationModeOptions = [
+  { label: 'Manual', value: OntologyConstants.automation_mode.manual },
+  { label: 'Semi Automated', value: OntologyConstants.automation_mode.semiAutomated },
+  { label: 'Automated', value: OntologyConstants.automation_mode.automated },
+]
+
+export const dependencyTypeOptionsForRole = (roleName, roleTypeOptions) => {
+  const roleIndex = roleTypeOptions.findIndex(({ value }) => value === roleName)
+
+  return roleIndex < 0 ? [] : roleTypeOptions.slice(0, roleIndex)
+}
+
+export const ontologyOptionsForDependencyTypes = ({ options, dependencyTypeOptions, selectedDependencyType }) => {
+  const dependencyTypes = selectedDependencyType
+    ? [selectedDependencyType]
+    : dependencyTypeOptions.map(({ value }) => value)
+
+  return options.filter((option) =>
+    dependencyTypes.some((dependencyType) => option.roles?.[dependencyType])
+  )
+}
 
 const OntologyRoleDependenciesForm = ({ onChange, roleName, dependencies, onDelete, roleTypeOptions, selectableOntologyOptions }) => {
 
   const [addDependencyType, setDependencyType] = useState()
   const [addDependencyOntology, setDependencyOntology] = useState()
-  const [renderCountToForceStupidReactToRerenderOnStateChange, setRenderCount] = useState(0);
+  const dependencyTypeOptions = dependencyTypeOptionsForRole(roleName, roleTypeOptions)
+  const dependencyOntologyOptions = ontologyOptionsForDependencyTypes({
+    options: selectableOntologyOptions,
+    dependencyTypeOptions,
+    selectedDependencyType: addDependencyType,
+  })
 
   const addDependency = () => {
     let newDependencies = JSON.parse(JSON.stringify(dependencies))
@@ -21,8 +49,12 @@ const OntologyRoleDependenciesForm = ({ onChange, roleName, dependencies, onDele
     newDependencies[addDependencyType] ||= []
     newDependencies[addDependencyType].push(addDependencyOntology)
     setDependencyOntology(null)
-    setRenderCount(renderCountToForceStupidReactToRerenderOnStateChange + 1)
     onChange(newDependencies)
+  }
+
+  const handleDependencyTypeChange = (selectedOption) => {
+    setDependencyType(selectedOption?.value)
+    setDependencyOntology(null)
   }
 
   const deleteDependency = (dependencyType) => (ontologyId) => () => {
@@ -35,9 +67,29 @@ const OntologyRoleDependenciesForm = ({ onChange, roleName, dependencies, onDele
     onChange(newDependencies)
   }
 
+  const selectedAutomationModes = dependencies.automation_mode
+    || automationModeOptions.map(({ value }) => value)
+
+  const toggleAutomationMode = (automationMode) => (event) => {
+    let newDependencies = JSON.parse(JSON.stringify(dependencies))
+    let newAutomationModes = selectedAutomationModes.filter(mode => mode !== automationMode)
+
+    if (event.target.checked) {
+      newAutomationModes.push(automationMode)
+    }
+
+    if (newAutomationModes.length === automationModeOptions.length) {
+      delete newDependencies.automation_mode
+    } else {
+      newDependencies.automation_mode = newAutomationModes
+    }
+
+    onChange(newDependencies)
+  }
+
   const renderDependency = ([dependencyType, dependsOn]) => {
     return (
-      <div className="col-3" key={"dependencyType_" + dependencyType} >
+      <div className="col-4" key={"dependencyType_" + dependencyType} >
         <div>available for <b>{StringDecorator.toLabelSpelling(dependencyType)}:</b>
         </div>
         {dependsOn.map(dependencyId =>
@@ -47,41 +99,61 @@ const OntologyRoleDependenciesForm = ({ onChange, roleName, dependencies, onDele
     )
   }
 
-  const renderDependencies = () => Object.entries(dependencies).length > 0 ?
-    Object.entries(dependencies).map((dependency) => renderDependency(dependency)) :
-    <>Always available</>
+  const otherDependencies = Object.entries(dependencies)
+    .filter(([dependencyType]) => dependencyType !== 'automation_mode')
+
+  const renderDependencies = () => otherDependencies.length > 0 ?
+    otherDependencies.map((dependency) => renderDependency(dependency)) :
+    <>No dependencies (always selectable)</>
+
+  const renderAutomationModes = () => (
+    <div className="mt-2">
+      {automationModeOptions.map(({ label, value }) => (
+        <Label className="d-flex align-items-center gap-2 mb-1" key={value}>
+          <Input
+            checked={selectedAutomationModes.includes(value)}
+            onChange={toggleAutomationMode(value)}
+            type="checkbox"
+          />
+          {label}
+        </Label>
+      ))}
+    </div>
+  )
 
   const renderAddDependencyForm = () => {
-    return (<>
-      <div className="col-2">
+    return (
+      <div className="col-3 d-flex flex-column gap-2">
         <Select
           placeholder={'Add Dependency Type'}
           className="react-select--overwrite"
           classNamePrefix="react-select"
           name="AddDependencyType"
-          options={roleTypeOptions}
-          selected={addDependencyType}
+          options={dependencyTypeOptions}
+          value={dependencyTypeOptions.find(({ value }) => value === addDependencyType) || null}
           isClearable
-          onChange={selectedOption => setDependencyType(selectedOption?.value)}
+          onChange={handleDependencyTypeChange}
         />
-      </div>
-      <div className="col-3">
         <Select
-          key={"Need-to-provide-a-stupid-key-just-so-react-knows-that-it-is-now-supposed-to-do-what-it-was-actually-invented-for" + renderCountToForceStupidReactToRerenderOnStateChange}
-          placeholder={'Add Dependency Ontology'}
+          placeholder={'Add Dependency Ontology-based term'}
           className="react-select--overwrite"
           classNamePrefix="react-select"
           name="AddDependencyOntology"
-          options={selectableOntologyOptions}
-          selected={addDependencyOntology}
+          options={dependencyOntologyOptions}
+          value={dependencyOntologyOptions.find(({ value }) => value === addDependencyOntology) || null}
           isClearable
           onChange={selectedOption => setDependencyOntology(selectedOption?.value)}
         />
+        <Button
+          className="align-self-end"
+          color="success"
+          onClick={addDependency}
+          disabled={!addDependencyType || !addDependencyOntology}
+        >
+          + Add
+        </Button>
       </div>
-      <div className="col-1">
-        <Button color="success" onClick={addDependency} disabled={!addDependencyType || !addDependencyOntology}>+ Add</Button>
-      </div>
-    </>)
+    )
   }
 
   return (
@@ -90,18 +162,22 @@ const OntologyRoleDependenciesForm = ({ onChange, roleName, dependencies, onDele
         <Button color="danger" onClick={onDelete} size="sm" >
           <FontAwesomeIcon icon="trash" size="sm" />
         </Button>
-        <Label className="px-3">
-          {StringDecorator.toLabelSpelling(roleName)}
-        </Label>
+        <span className="px-3">
+          {"Acts as: "}
+          <Label >
+            {StringDecorator.toLabelSpelling(roleName)}
+          </Label>
+        </span>
+        {renderAutomationModes()}
       </div>
-      {roleName === 'unused' ? <>Never available</> : renderDependencies()}
-      <div className="row mt-3">
-        {roleName === 'unused' || renderAddDependencyForm()}
+      <div className="col">
+        <div className="row">
+          {roleName === 'unused' ? <>Never available</> : renderDependencies()}
+        </div>
       </div>
+      {roleName === 'unused' || renderAddDependencyForm()}
     </div >
-
   )
-
 }
 
 export default OntologyRoleDependenciesForm;

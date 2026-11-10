@@ -1,6 +1,7 @@
 import React, { useContext } from 'react'
 
 import OntologySelectFormGroup from '../formgroups/OntologySelectFormGroup';
+import FormSection from '../../../utilities/FormSection';
 
 import OptionsDecorator from '../../../../decorators/OptionsDecorator';
 
@@ -9,6 +10,7 @@ import { SelectOptions } from '../../../../contexts/SelectOptions';
 const DeviceMethodFormSet = ({
 	activity,
 	onWorkupChange,
+	formSectionType,
 }) => {
 	let ontologies = useContext(SelectOptions).ontologies
 	let workup = activity.workup
@@ -39,7 +41,7 @@ const DeviceMethodFormSet = ({
 
 	const requiresTypeSubtypeForm = ['ADD', 'TRANSFER', 'MERGE_SAMPLES', 'MIXING'].includes(activity.activity_name)
 
-	return (
+	const fields = (
 		<>
 			{requiresTypeSubtypeForm && <>
 				<OntologySelectFormGroup
@@ -72,6 +74,10 @@ const DeviceMethodFormSet = ({
 			/>
 		</>
 	);
+
+	return formSectionType
+		? <FormSection type={formSectionType}>{fields}</FormSection>
+		: fields;
 };
 
 export default DeviceMethodFormSet

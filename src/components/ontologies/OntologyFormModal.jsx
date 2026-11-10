@@ -23,6 +23,10 @@ import { tooltips } from '../../constants/translations';
 import { SelectOptions } from "../../contexts/SelectOptions";
 import { useReactionsFetcher } from '../../fetchers/ReactionsFetcher';
 
+const addRoleOptions = OntologyConstants.roleTypeOptions.filter(
+  ({ value }) => !['action', 'class'].includes(value)
+)
+
 const OntologyFormModal = ({ ontology, isOpen, onClose }) => {
 
   const api = useReactionsFetcher()
@@ -30,6 +34,7 @@ const OntologyFormModal = ({ ontology, isOpen, onClose }) => {
   const ontologies = useContext(SelectOptions).ontologies
 
   const [ontologyQuery, setOntologyQuery] = useState('');
+  const [selectedOntologyOption, setSelectedOntologyOption] = useState(null);
 
   const [currentOntology, setCurrentOntology] = useState(JSON.parse(JSON.stringify(ontology)))
 
@@ -41,7 +46,10 @@ const OntologyFormModal = ({ ontology, isOpen, onClose }) => {
 
   const filteredOntologyOptions = ontologies
     .filter(ont => ontologyMatchesQuery(ont))
-    .map(ont => OntologiesInfoDecorator.richLabelOption(ont))
+    .map(ont => ({
+      ...OntologiesInfoDecorator.richLabelOption(ont),
+      roles: ont.roles,
+    }))
 
   const handleChange = (key) => (value) => {
     setCurrentOntology({ ...currentOntology, [key]: value }
@@ -97,37 +105,35 @@ const OntologyFormModal = ({ ontology, isOpen, onClose }) => {
   }
   const renderRolesDependenciesForm = () => {
     return (
-      <>
-        <table className='table table-striped table-primary'>
-          <tbody>
-            <tr>
-              <td className="row">
-                <FormGroup className="mt-3 col-3">
-                  <Select
-                    placeholder={'Add Role'}
-                    className="bg-primary react-select--overwrite"
-                    classNamePrefix="react-select"
-                    options={OntologyConstants.roleTypeOptions}
-                    value={null}
-                    onChange={selectedOption => addRole(selectedOption?.value)}
-                  />
-                </FormGroup>
-              </td>
-            </tr>
-            {Object.entries(currentOntology.roles).map((role, index) => {
-              return (
-                <OntologyRoleForm
-                  key={"ontology-role-form-" + index}
-                  role={role}
-                  onChange={changeRole}
-                  onDelete={deleteRole(index)}
-                  selectableOntologyOptions={filteredOntologyOptions}
-                  roleTypeOptions={OntologyConstants.roleTypeOptions} />
-              )
-            })}
-          </tbody>
-        </table>
-      </>
+      <div className="d-flex align-items-start gap-3">
+        <FormGroup className="ontology-form__add-role mt-3 flex-shrink-0">
+          <Select
+            placeholder={'Add Role'}
+            className="bg-primary react-select--overwrite"
+            classNamePrefix="react-select"
+            options={addRoleOptions}
+            value={null}
+            onChange={selectedOption => addRole(selectedOption?.value)}
+          />
+        </FormGroup>
+        <div className="ontology-form__dependencies flex-grow-1">
+          <table className='table table-striped table-primary'>
+            <tbody>
+              {Object.entries(currentOntology.roles).map((role, index) => {
+                return (
+                  <OntologyRoleForm
+                    key={"ontology-role-form-" + index}
+                    role={role}
+                    onChange={changeRole}
+                    onDelete={deleteRole(index)}
+                    selectableOntologyOptions={filteredOntologyOptions}
+                    roleTypeOptions={OntologyConstants.roleTypeOptions} />
+                )
+              })}
+            </tbody>
+          </table>
+        </div>
+      </div>
     )
   }
 
@@ -224,17 +230,29 @@ const OntologyFormModal = ({ ontology, isOpen, onClose }) => {
 
   const renderOntologiesFilter = () => {
     return (
-      <div className='row mt-5'>
-        <div className='col-10'>
-          <Input
-            className={'bg-preparation bg-opacity-25'}
-            placeholder={'Filter selectable Ontology options'}
-            value={ontologyQuery}
-            onChange={(event) => setOntologyQuery(event.target.value)}
+      <div className='d-flex align-items-center gap-3 w-100'>
+        <div className='flex-shrink-0'>{modalTitle}</div>
+        <Input
+          className='bg-preparation bg-opacity-25 flex-grow-1'
+          placeholder='Filter selectable Ontology options'
+          title='Filter the Ontologies in the Select Fields for a better overview.'
+          value={ontologyQuery}
+          onChange={(event) => setOntologyQuery(event.target.value)}
+        />
+        <div
+          className='ontology-form__filtered-options'
+          title='Show filtered Ontology-terms as available in all Select fields of this form for an overview.'
+        >
+          <Select
+            aria-label='Filtered Ontologies'
+            className='react-select--overwrite'
+            classNamePrefix='react-select'
+            options={filteredOntologyOptions}
+            value={selectedOntologyOption}
+            placeholder={`Selectable: ${filteredOntologyOptions.length} / ${ontologies.length}`}
+            isClearable
+            onChange={setSelectedOntologyOption}
           />
-        </div>
-        <div className='col-2 bg-preparation bg-opacity-10'>
-          Selectable: {filteredOntologyOptions.length} / {ontologies.length}
         </div>
       </div>)
   }
@@ -251,14 +269,13 @@ const OntologyFormModal = ({ ontology, isOpen, onClose }) => {
       toggle={onClose}
       backdrop={"static"}
     >
-      <ModalHeader>{modalTitle}</ModalHeader>
+      <ModalHeader tag='div' className='d-block'>{renderOntologiesFilter()}</ModalHeader>
       <ModalBody>
         <Card className="procedure-card procedure-card--info">
           <Form className='m-3'>
             {renderMainFields()}
             {renderRolesDependenciesForm()}
             {OntologyConstants.isDevice(currentOntology.ontology_type) && renderDeviceFields()}
-            {renderOntologiesFilter()}
             <FormButtons
               onCancel={handleCancel}
               onSave={handleSave}

@@ -20,6 +20,12 @@ import { notifications } from '../../constants/translations';
 import { SelectOptions } from "../../contexts/SelectOptions";
 import NotificationContext from "../../contexts/NotificationContext";
 
+const automationModeOrder = [
+  OntologyConstants.automation_mode.manual,
+  OntologyConstants.automation_mode.semiAutomated,
+  OntologyConstants.automation_mode.automated,
+];
+
 
 const StepForm = ({ processStep, previousStep, nameSuggestionOptions, onSave, onCancel, initialSampleVessel }) => {
 
@@ -57,6 +63,13 @@ const StepForm = ({ processStep, previousStep, nameSuggestionOptions, onSave, on
   }
 
   const ontologiesByRoleName = (roleName) => OntologiesOptionsDecorator.activeOptionsForRoleName({ roleName: roleName, options: ontologies })
+  const automationModeOptions = ontologiesByRoleName('automation_mode').slice().sort((left, right) => {
+    const leftIndex = automationModeOrder.indexOf(left.value);
+    const rightIndex = automationModeOrder.indexOf(right.value);
+
+    return (leftIndex === -1 ? automationModeOrder.length : leftIndex)
+      - (rightIndex === -1 ? automationModeOrder.length : rightIndex);
+  });
 
   return (
     <>
@@ -71,7 +84,7 @@ const StepForm = ({ processStep, previousStep, nameSuggestionOptions, onSave, on
         <Label>Mode</Label>
         <ButtonGroupToggle
           value={stepForm.automation_mode}
-          options={ontologiesByRoleName('automation_mode')}
+          options={automationModeOptions}
           onChange={handleChange('automation_mode')} />
       </FormGroup>
       <VesselableFormSection
@@ -84,10 +97,12 @@ const StepForm = ({ processStep, previousStep, nameSuggestionOptions, onSave, on
         typeColor="step"
         automationMode={stepForm.automation_mode}
       />
-      <AutomationControlFormGroup
-        automationControl={stepForm.automation_control}
-        onChange={handleChange('automation_control')}
-      />
+      {OntologyConstants.isAutomated(stepForm.automation_mode) &&
+        <AutomationControlFormGroup
+          automationControl={stepForm.automation_control}
+          onChange={handleChange('automation_control')}
+        />
+      }
       <FormButtons
         onSave={handleSave}
         onCancel={onCancel}
