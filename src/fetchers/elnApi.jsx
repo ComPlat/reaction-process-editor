@@ -34,11 +34,27 @@ function useElnApi() {
   }
 
   function request(method) {
-    return (path, body) => {
-      method === "GET" || window.dispatchEvent(new Event("indicateSave"));
+    return (
+      path,
+      body,
+      {
+        redirectOnError = true,
+        reloadOnSuccess = true,
+        showSaveIndicator = true,
+        successNotification,
+        showResponseErrorMessage = false
+      } = {}
+    ) => {
       return requestWrapper
-        .request(method, path, body)
-        .then(handleResponse(method))
+        .request(method, path, body, { showSaveIndicator })
+        .then(handleResponse({
+          method,
+          redirectOnError,
+          reloadOnSuccess,
+          showSaveIndicator,
+          successNotification,
+          showResponseErrorMessage
+        }))
         .catch();
     };
   }
@@ -60,26 +76,48 @@ function useElnApi() {
     });
   }
 
-  function handleResponse(method) {
+  function handleResponse({
+    method,
+    redirectOnError,
+    reloadOnSuccess,
+    showSaveIndicator,
+    successNotification,
+    showResponseErrorMessage
+  }) {
     return function (response) {
       if (response) {
         return response.text().then((text) => {
+          let data;
+          try {
+            data = text && JSON.parse(text);
+          } catch (_error) {
+            data = text;
+          }
+
           if (response.ok) {
-            let data = text && JSON.parse(text);
-            method === "GET" ||
+            successNotification && addNotification(successNotification);
+            if (method !== "GET" && reloadOnSuccess) {
               window.dispatchEvent(new Event("requireReload"));
+            } else if (method !== "GET" && showSaveIndicator) {
+              window.dispatchEvent(new Event("reloadDone"));
+            }
             return data;
           } else {
-            let data = text;
-            let errorMessage = (data && data.message) || response.statusText || "Unknown Error";
+            let errorMessage = (showResponseErrorMessage && (
+              data?.message || (typeof data === "string" && data)
+            )) || response.statusText || "Unknown Error";
             addNotification({
               title: "Error " + response.status,
               message: errorMessage,
               type: "error",
             });
-            [401, 403].includes(response.status)
-              ? signoutAndRedirect()
-              : redirectOnGeneralError();
+            if ([401, 403].includes(response.status)) {
+              signoutAndRedirect();
+            } else if (redirectOnError) {
+              redirectOnGeneralError();
+            } else if (showSaveIndicator) {
+              window.dispatchEvent(new Event("reloadDone"));
+            }
             return {};
           }
         });
