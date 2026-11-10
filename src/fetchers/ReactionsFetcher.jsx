@@ -164,7 +164,7 @@ function useReactionsFetcher() {
   }
 
   function createFractionActivities(activity, fractions) {
-    return api.put(`/reaction_process_activities/${activity.id}/create_fraction_activities`, { 'fractions': fractions })
+    return api.put(`/reaction_process_activities/${activity.id}/create_fraction_consuming_activities`, { 'fractions': fractions })
   }
 
   function updateActivity(activity) {

@@ -3,12 +3,17 @@ A frontend UI for editing reaction processes of reactions stored in the ELN (Ele
 
 ## Installation
 
-Clone Config.jsx.example to Config.jsx
-Set the constants in Config.jsx to your local environment as explained in the file.
+Copy `.env.example` to `.env` in the project root:
 
-As of this writing there is only `chemotionElnHostname`. This App needs a running instance of the ELN as backend.
-Set chemotionElnHostname accordingly.
+```sh
+cp .env.example .env
+```
 
-run `yarn start` in the root directory.
+The app requires a running Chemotion ELN instance as its backend. Set
+`REACT_APP_CHEMOTION_ELN_HOSTNAME` to that instance's origin, without a
+trailing slash.
+
+Run `yarn start` in the root directory. Restart the development server after
+changing `.env` so the updated value is loaded.
 
 Login with your ELN credentials.

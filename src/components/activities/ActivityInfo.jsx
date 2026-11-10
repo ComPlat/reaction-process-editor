@@ -41,6 +41,7 @@ const ActivityInfo = (props) => {
       'EVAPORATION': RemoveInfo,
       'GAS_EXCHANGE': GasExchangeInfo,
       'MERGE_SAMPLES': MergeSamplesInfo,
+      'REMOVE': RemoveInfo,
       'SAVE': SaveInfo,
       'TRANSFER': TransferInfo,
       'DEFINE_FRACTION': DiscardInfo,

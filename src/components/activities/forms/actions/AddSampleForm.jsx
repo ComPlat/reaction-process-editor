@@ -55,7 +55,7 @@ const AddSampleForm = ({ workup, preconditions, onWorkupChange }) => {
     workup["acts_as"] === "DIVERSE_SOLVENT" ? "SOLVENT" : workup["acts_as"];
   const materialOptions = selectOptions.materials
 
-  const displayMolecularEntity = !["ADDITIVE", "MEDIUM", "SOLVENT"].includes(currentSampleActsAs)
+  const hasMolecularEntities = !!workup.molecular_entities?.length
   const displayAbsButton = ["SOLVENT"].includes(currentSampleActsAs)
 
   const currentMaterialOptions = (acts_as) => {
@@ -72,6 +72,7 @@ const AddSampleForm = ({ workup, preconditions, onWorkupChange }) => {
       (sample) => sample.value === workup["sample_id"] && sample.label === workup["sample_name"]
     )
   );
+  const displayMolecularEntity = !currentSample
 
   const handleMaterialChange = (actsAs) => (selection) => {
     const { sampleId, label } = selection || {};
@@ -111,19 +112,19 @@ const AddSampleForm = ({ workup, preconditions, onWorkupChange }) => {
   const renderConditionInputs = () => {
     return addFormMetricNames.map((metricName) => {
       return (
-        <>
-          <MetricsInputFormGroup
-            key={metricName}
-            metricName={metricName}
-            amount={workup[metricName]}
-            onChange={handleChange(metricName)}
-          />
-        </>
+        <MetricsInputFormGroup
+          key={metricName}
+          metricName={metricName}
+          amount={workup[metricName]}
+          onChange={handleChange(metricName)}
+        />
       );
     });
   };
 
   const renderMaterialForms = () => {
+    if (hasMolecularEntities) return []
+
     return ['SOLVENT', 'ADDITIVE', 'MEDIUM']
       .filter((materialType) => !currentSample || currentSampleActsAs === materialType)
       .map((materialType) => {
@@ -154,7 +155,7 @@ const AddSampleForm = ({ workup, preconditions, onWorkupChange }) => {
   return (
     <>
       <FormSection type="action">
-        {(!currentSample || currentSampleActsAs === 'SAMPLE') &&
+        {!hasMolecularEntities && (!currentSample || currentSampleActsAs === 'SAMPLE') &&
           <SampleSelection
             key={'SAMPLE_select' + currentSample?.value}
             sampleOptions={materialOptions['SAMPLE']}
@@ -165,6 +166,18 @@ const AddSampleForm = ({ workup, preconditions, onWorkupChange }) => {
         }
 
         {renderMaterialForms()}
+        {displayMolecularEntity &&
+          <FormGroup>
+            <Label>Molecular Entity</Label>
+            <SamplesIconSelect
+              isMulti
+              isClearable
+              options={materialOptions['MOLECULAR_ENTITY']}
+              samples={workup.molecular_entities}
+              onChange={handleChange('molecular_entities')}
+            />
+          </FormGroup>
+        }
       </FormSection>
       <FormSection type="action">
         {displayAbsButton &&
@@ -177,18 +190,6 @@ const AddSampleForm = ({ workup, preconditions, onWorkupChange }) => {
               }
             />
           </SingleLineFormGroup>
-        }
-        {displayMolecularEntity &&
-          <FormGroup>
-            <Label>Molecular Entity</Label>
-            <SamplesIconSelect
-              isMulti
-              isClearable={false}
-              options={materialOptions['MOLECULAR_ENTITY']}
-              samples={workup.molecular_entities}
-              onChange={handleChange('molecular_entities')}
-            />
-          </FormGroup>
         }
         <AmountInputSet
           amount={workup["target_amount"]}

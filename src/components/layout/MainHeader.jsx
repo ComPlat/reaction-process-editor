@@ -132,7 +132,7 @@ const MainHeader = () => {
       <SubFormController.Provider value={SubFormToggle()}>
         <Navbar className="bg-secondary main-header" dark expand={true}>
           <NavbarBrand href={brandHref} className="main-header__brand" title="Reaction Index">
-            <span className="main-header__brand-name">ELN Process Editor</span>
+            <span className="main-header__brand-name">ELN Reaction Process Editor</span>
           </NavbarBrand>
           {localStorage.getItem("username") && (
             <>

@@ -26,8 +26,6 @@ const MergeSamplesForm = ({
 
 	const currentSample = OptionsDecorator.optionForValue(workup['target_sample_id'], sampleOptions)
 
-	console.log(workup)
-
 	return (
 		<>
 			<VesselableFormSection

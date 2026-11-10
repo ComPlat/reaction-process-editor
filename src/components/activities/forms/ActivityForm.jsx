@@ -25,6 +25,7 @@ const ActivityForm = (
     onSave,
     onWorkupChange,
     onChangeDuration,
+    automationMode,
     className = ''
   }) => {
 
@@ -78,10 +79,12 @@ const ActivityForm = (
         onWorkupChange={onWorkupChange}
         displayMode={'form'}
       />
-      <AutomationControlFormGroup
-        automationControl={currentAutomationControl}
-        onChange={handleWorkupChange('automation_control')}
-      />
+      {OntologyConstants.isAutomated(automationMode) &&
+        <AutomationControlFormGroup
+          automationControl={currentAutomationControl}
+          onChange={handleWorkupChange('automation_control')}
+        />
+      }
       {currentAutomationStatus?.needsManualResolve &&
         <FormGroup className={"form-section"}>
           <ChromatographyPoolingFormModal

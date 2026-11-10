@@ -134,6 +134,24 @@ describe("reaction 2 step automation mode", () => {
   });
 
   test.each([
+    { label: "manual", mode: OntologyConstants.automation_mode.manual, visible: false },
+    { label: "semi-automated", mode: OntologyConstants.automation_mode.semiAutomated, visible: false },
+    { label: "automated", mode: OntologyConstants.automation_mode.automated, visible: true },
+  ])("shows activity automation status for $label mode: $visible", ({ mode, visible }) => {
+    renderActionFormForMode({
+      automationMode: mode,
+      buttonName: "Wait",
+    });
+
+    const automationLabel = screen.queryByText("Automation:");
+    if (visible) {
+      expect(automationLabel).toBeInTheDocument();
+    } else {
+      expect(automationLabel).not.toBeInTheDocument();
+    }
+  });
+
+  test.each([
     {
       label: "manual",
       automationMode: OntologyConstants.automation_mode.manual,

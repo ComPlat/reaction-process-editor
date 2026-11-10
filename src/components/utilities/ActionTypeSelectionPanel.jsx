@@ -5,13 +5,13 @@ import { actionTypeClusters } from "../../constants/actionTypeClusters";
 const ActionTypeSelectionPanel = ({ onSelect }) => {
   const columns = actionTypeClusters
 
-  const renderActionCluster = (cluster, cIndex) => {
+  const renderActionCluster = (cluster) => {
     return (
-      <div className="type-selection-panel__action">
+      <div key={cluster.id} className="type-selection-panel__action">
         <h5>{cluster.label}</h5>
-        {cluster.actions.map((action, aIndex) => (
+        {cluster.actions.map((action) => (
           <Button
-            key={action.id + ' ' + cIndex + ' ' + aIndex}
+            key={action.id}
             onClick={onSelect(action.activity)}
             className='col-12 btn-action'
           >
@@ -24,7 +24,7 @@ const ActionTypeSelectionPanel = ({ onSelect }) => {
   return (
     <Row className='type-selection-panel'>
       {columns.map((column, cIndex) => (
-        <Col key={" " + column.id + cIndex} className='type-selection-panel__cluster col-6'>
+        <Col key={`action-type-column-${cIndex}`} className='type-selection-panel__cluster col-6'>
           {column.map((cluster) => renderActionCluster(cluster))}
           {(cIndex > 0) &&
             <div className="type-selection-panel__action">

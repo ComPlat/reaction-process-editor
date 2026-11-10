@@ -230,7 +230,7 @@ const OntologyFormModal = ({ ontology, isOpen, onClose }) => {
         <Input
           className='bg-preparation bg-opacity-25 flex-grow-1'
           placeholder='Filter selectable Ontology options'
-          title='Filter the Ontologies in the Select Fields for a better overview.'
+          title='Filter the Ontologies in the Select Fields for a better overview'
           value={ontologyQuery}
           onChange={(event) => setOntologyQuery(event.target.value)}
         />

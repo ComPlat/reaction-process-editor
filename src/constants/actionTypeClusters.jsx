@@ -25,7 +25,7 @@ export const actionTypeClusters = [[
     label: 'Exchange / Remove',
     actions: [
       {
-        id: 'remove_exchange_sample',
+        id: 'remove_evaporate',
         createLabel: 'Evaporate',
         activity: {
           activity_name: 'EVAPORATION',
