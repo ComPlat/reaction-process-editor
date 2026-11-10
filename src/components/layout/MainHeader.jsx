@@ -131,7 +131,7 @@ const MainHeader = () => {
     <SelectOptions.Provider value={selectOptions}>
       <SubFormController.Provider value={SubFormToggle()}>
         <Navbar className="bg-secondary main-header" dark expand={true}>
-          <NavbarBrand href={brandHref} className="main-header__brand">
+          <NavbarBrand href={brandHref} className="main-header__brand" title="Reaction Index">
             <span className="main-header__brand-name">ELN Process Editor</span>
           </NavbarBrand>
           {localStorage.getItem("username") && (
@@ -155,10 +155,20 @@ const MainHeader = () => {
                 </UncontrolledDropdown>
               </Nav>
               <Nav justified navbar className="me-auto main-header__nav">
-                <OptionsQuickNavigator justified label={'Reactions'} options={reactionOptions} />
+                <OptionsQuickNavigator
+                  justified
+                  label={'Reactions'}
+                  options={reactionOptions}
+                  title="Search reactions by ID or label"
+                />
               </Nav>
               <Nav justified navbar className="me-auto main-header__nav">
-                <OptionsQuickNavigator justified label={'Samples'} options={sampleOptions} />
+                <OptionsQuickNavigator
+                  justified
+                  label={'Samples'}
+                  options={sampleOptions}
+                  title="Search samples by ID or label"
+                />
               </Nav>
               <Nav navbar className="justify-content-end align-items-center">
                 <UserMenu

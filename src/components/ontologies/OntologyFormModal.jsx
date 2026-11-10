@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 
-import { Card, Form, FormGroup, Input, Label, Modal, ModalHeader, ModalBody, UncontrolledTooltip } from 'reactstrap';
+import { Card, Form, FormGroup, Input, Label, Modal, ModalHeader, ModalBody } from 'reactstrap';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -139,14 +139,9 @@ const OntologyFormModal = ({ ontology, isOpen, onClose }) => {
 
   const renderDuplicateIdWarning = () => {
     return (
-      <>
-        <div id={"duplicate_ontology_id-" + ontology.ontology_id}>
+      <div title={tooltips['duplicate_ontology_id']}>
           <FontAwesomeIcon icon={"circle-info"} className={'icon-button icon-button--positive bg-danger'} />
-        </div>
-        <UncontrolledTooltip target={"duplicate_ontology_id-" + ontology.ontology_id}>
-          {tooltips['duplicate_ontology_id']}
-        </UncontrolledTooltip>
-      </>
+      </div>
     )
   }
 
