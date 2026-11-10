@@ -1,27 +1,18 @@
 import React from 'react';
 
-import { UncontrolledTooltip } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
-import uniqueId from './uniqueId';
 
-const TooltipButton = ({ tooltip, size }) => {
-  let tooltipId = uniqueId('tooltip-')
-
+const TooltipButton = ({ tooltip, color, size, className }) => {
   return (
-    <>
+    <span title={tooltip} className={className}>
       <FontAwesomeIcon
-        id={tooltipId}
         icon={faInfoCircle}
         size={size || "sm"}
-        className='ms-2 mt-1'
+        className={`ms-2 mt-1 text-${color || 'danger'}`}
         href="#"
       />
-      <UncontrolledTooltip
-        target={tooltipId}>
-        {tooltip}
-      </UncontrolledTooltip >
-    </>
+    </span>
   );
 };
 

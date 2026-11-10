@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdown, Input, UncontrolledTooltip } from "reactstrap";
+import { DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdown, Input } from "reactstrap";
 
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -58,13 +58,9 @@ const UserMenu = (
               type="checkbox"
               checked={showSpinner}
               onChange={toggleShowSpinner}
+              title={tooltips['reload_spinner']}
             />
             Show spinner on save.
-            <UncontrolledTooltip
-              target="reload_spinner"
-            >
-              {tooltips['reload_spinner']}
-            </UncontrolledTooltip>
           </DropdownItem>
           <DropdownItem onClick={api.signOut}>
             <FontAwesomeIcon icon='sign-out' /> Logout

@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Button, UncontrolledTooltip } from "reactstrap";
+import React from "react";
+import { Button } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import AutomationControlDecorator from "../../decorators/AutomationControlDecorator";
@@ -10,22 +10,16 @@ const AutomationStatusButton = ({ onChange, automationStatus }) => {
     onChange(AutomationControlDecorator.nextAutomationStatus(automationStatus))
   }
 
-  const [tooltipId] = useState(Math.floor(Math.random() * 1000000))
-
   return (
-    <>
-      <div id={"automation_status_" + tooltipId}>
+      <div>
         <Button
+          title={automationStatus.tooltip}
           onClick={handleChangeAutomationStatus}
           color={automationStatus.color}
         >
           <FontAwesomeIcon icon={automationStatus.icon} swapOpacity />
         </Button>
       </div>
-      <UncontrolledTooltip target={"automation_status_" + tooltipId}>
-        {automationStatus.tooltip}
-      </UncontrolledTooltip >
-    </>
   );
 };
 
