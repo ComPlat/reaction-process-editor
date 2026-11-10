@@ -3,7 +3,7 @@ import React from 'react';
 import { UncontrolledTooltip } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
-import uniqueId from './uniqueId';
+import { uniqueId } from 'react-bootstrap-typeahead/types/utils';
 
 const TooltipButton = ({ tooltip, size }) => {
   let tooltipId = uniqueId('tooltip-')

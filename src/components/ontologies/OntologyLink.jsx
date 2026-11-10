@@ -5,7 +5,7 @@ import { UncontrolledTooltip } from "reactstrap";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faExternalLink } from "@fortawesome/free-solid-svg-icons";
 
-import uniqueId from '../utilities/uniqueId';
+import { uniqueId } from 'react-bootstrap-typeahead/types/utils';
 
 const OntologyLink = ({ ontology, size="lg" }) => {
 
