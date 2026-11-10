@@ -53,7 +53,6 @@ const OntologyMultiSelectFormGroup = (
     <SingleLineFormGroup
       label={label}
       tooltip={tooltip}
-      tooltipColor={'danger'}
     >
       <Select
         className="react-select--overwrite"

@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import { uniqueId } from 'react-bootstrap-typeahead/types/utils';
 
-const TooltipButton = ({ tooltip, color, size }) => {
+const TooltipButton = ({ tooltip, size }) => {
   let tooltipId = uniqueId('tooltip-')
 
   return (
@@ -14,7 +14,7 @@ const TooltipButton = ({ tooltip, color, size }) => {
         id={tooltipId}
         icon={faInfoCircle}
         size={size || "sm"}
-        className='ms-2 mt-1 text-danger'
+        className='ms-2 mt-1'
         href="#"
       />
       <UncontrolledTooltip

@@ -6,15 +6,14 @@ const SingleLineFormGroup = (
   {
     label,
     tooltip,
-    children, 
-    tooltipColor
+    children
   }) => {
   return (
     <FormGroup className='row gx-2 pt-1'>
       <Label className='col-5 col-form-label d-flex'>
         {label}
         {tooltip &&
-          <TooltipButton tooltip={tooltip} color={tooltipColor} />
+          <TooltipButton tooltip={tooltip} />
         }
       </Label>
       <div className='col-7'>
