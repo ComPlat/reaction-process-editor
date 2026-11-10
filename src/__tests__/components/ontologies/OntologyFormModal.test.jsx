@@ -53,7 +53,7 @@ describe('OntologyFormModal', () => {
     expect(ontologySelect.closest('.modal-header')).toBeInTheDocument();
     expect(ontologySelect.closest('.ontology-form__filtered-options')).toHaveAttribute(
       'title',
-      'Preview of selectable Ontology-terms.'
+      'Show filtered Ontology-terms as available in all Select fields of this form for an overview.'
     );
   });
 

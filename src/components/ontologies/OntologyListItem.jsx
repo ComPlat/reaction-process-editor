@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 
 import { Badge } from 'reactstrap';
-import { uniqueId } from 'react-bootstrap-typeahead/types/utils';
+import uniqueId from '../utilities/uniqueId';
 
 import OntologiesInfoDecorator from '../../decorators/OntologiesInfoDecorator';
 import { SelectOptions } from "../../contexts/SelectOptions";
