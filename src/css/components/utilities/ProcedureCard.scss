@@ -77,12 +77,42 @@
   &--column {
     width: 360px;
   }
+  &.step-column-card {
+    width: 100%;
+    min-width: 280px;
+    max-width: 80vw;
+  }
   &--step {
     .step-column-card__condition-container {
       border-color: border-color("condition");
       border-style: solid;
       border-width: 0 6px 0 0;
       @include details-spacing;
+    }
+  }
+}
+
+.step-column-card {
+  &__resize-container {
+    position: relative;
+    flex: 0 0 auto;
+    min-width: 280px;
+    max-width: 80vw;
+    container: step-column / inline-size;
+  }
+  &__resize-handle {
+    position: absolute;
+    z-index: 2;
+    top: 0;
+    bottom: 0;
+    width: 10px;
+    cursor: ew-resize;
+    touch-action: none;
+    &--left {
+      left: -5px;
+    }
+    &--right {
+      right: -5px;
     }
   }
 }

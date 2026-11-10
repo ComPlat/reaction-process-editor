@@ -27,3 +27,20 @@
     }
   }
 }
+
+@container step-column (min-width: 560px) {
+  .activity-form.action-form .form-section {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    column-gap: 1rem;
+    align-items: start;
+
+    > * {
+      min-width: 0;
+    }
+
+    > .form-buttons {
+      grid-column: 1 / -1;
+    }
+  }
+}
