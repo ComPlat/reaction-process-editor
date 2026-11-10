@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDrag, useDrop } from "react-dnd";
 import { DndItemTypes } from "../../constants/dndItemTypes";
 
@@ -21,9 +21,37 @@ import { useReactionsFetcher } from "../../fetchers/ReactionsFetcher";
 const StepColumCard = ({ processStep, reactionProcess, previousStep, onCloseForm }) => {
   const isInitialised = !!processStep;
   const [showForm, setShowForm] = useState(!isInitialised);
+  const [columnWidth, setColumnWidth] = useState(360);
+  const [activeResize, setActiveResize] = useState();
   const cardTitle = isInitialised ? processStep.label : "New Step";
   const api = useReactionsFetcher();
   const isLocked = !!processStep?.locked;
+
+  useEffect(() => {
+    if (!activeResize) return undefined;
+
+    const resizeColumn = (event) => {
+      const direction = activeResize.edge === "right" ? 1 : -1;
+      const proposedWidth = activeResize.width
+        + ((event.clientX - activeResize.clientX) * direction);
+      const maximumWidth = Math.max(280, window.innerWidth * 0.8);
+      setColumnWidth(Math.min(maximumWidth, Math.max(280, proposedWidth)));
+    };
+    const stopResizing = () => setActiveResize(undefined);
+
+    window.addEventListener("pointermove", resizeColumn);
+    window.addEventListener("pointerup", stopResizing);
+    return () => {
+      window.removeEventListener("pointermove", resizeColumn);
+      window.removeEventListener("pointerup", stopResizing);
+    };
+  }, [activeResize]);
+
+  const startResizing = (edge) => (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    setActiveResize({ edge, clientX: event.clientX, width: columnWidth });
+  };
 
   const currentAutomationStatus = AutomationControlDecorator.automationStatusByName(processStep?.automation_control?.status) || AutomationControlDecorator.defaultStepAutomationStatus
 
@@ -119,20 +147,31 @@ const StepColumCard = ({ processStep, reactionProcess, previousStep, onCloseForm
           }
         >
           <StepLock.Provider value={isLocked}>
-            <ProcedureCard
-              title={renderTitleBar(cardTitle)}
-              type="step"
-              showEditBtn={!showForm && !isLocked}
-              showMoveBtn={!showForm && !isLocked}
-              showDeleteBtn={!showForm && !isLocked}
-              showCancelBtn={showForm && !isLocked}
-              onDelete={confirmDeleteStep}
-              onEdit={toggleForm}
-              onCancel={closeForm}
-              displayMode={displayMode()}
-              dragRef={dragRef}
-              customClass="procedure-card--column"
+            <div
+              className="step-column-card__resize-container"
+              style={{ width: columnWidth }}
             >
+              <div
+                aria-label="Resize step column from left edge"
+                aria-orientation="vertical"
+                className="step-column-card__resize-handle step-column-card__resize-handle--left"
+                onPointerDown={startResizing("left")}
+                role="separator"
+              />
+              <ProcedureCard
+                title={renderTitleBar(cardTitle)}
+                type="step"
+                showEditBtn={!showForm && !isLocked}
+                showMoveBtn={!showForm && !isLocked}
+                showDeleteBtn={!showForm && !isLocked}
+                showCancelBtn={showForm && !isLocked}
+                onDelete={confirmDeleteStep}
+                onEdit={toggleForm}
+                onCancel={closeForm}
+                displayMode={displayMode()}
+                dragRef={dragRef}
+                customClass="procedure-card--column step-column-card"
+              >
               <ProcedureCard.Info>
                 <StepInfo processStep={processStep} />
               </ProcedureCard.Info>
@@ -174,7 +213,15 @@ const StepColumCard = ({ processStep, reactionProcess, previousStep, onCloseForm
                   </div>
                 </ProcedureCard.ExtraButtons>
               )}
-            </ProcedureCard>
+              </ProcedureCard>
+              <div
+                aria-label="Resize step column from right edge"
+                aria-orientation="vertical"
+                className="step-column-card__resize-handle step-column-card__resize-handle--right"
+                onPointerDown={startResizing("right")}
+                role="separator"
+              />
+            </div>
           </StepLock.Provider>
         </div>
       </div>
