@@ -4,7 +4,7 @@ import { Col, Row } from "reactstrap";
 import SamplesDecorator from "../../decorators/SamplesDecorator";
 import OptionsDecorator from "../../decorators/OptionsDecorator";
 
-const SampleSelection = ({ sampleOptions, sample, onChange }) => {
+const SampleSelection = ({ sampleOptions, sample, onChange, isClearable = false }) => {
   const [previewSample, setPreviewSample] = useState(sample);
 
   const updatePreview = (id) => {
@@ -46,9 +46,11 @@ const SampleSelection = ({ sampleOptions, sample, onChange }) => {
           name="sample_id"
           options={sampleOptions}
           value={sample}
-          onChange={(selected) =>
-            onChange({ sampleId: selected.value, label: selected.label })
-          }
+          onChange={(selected) => onChange(selected && {
+            sampleId: selected.value,
+            label: selected.label,
+          })}
+          isClearable={isClearable}
           formatOptionLabel={formatOptionLabel}
         />
       </div>

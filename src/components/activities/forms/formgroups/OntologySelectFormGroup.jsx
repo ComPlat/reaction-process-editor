@@ -34,8 +34,8 @@ const OntologySelectFormGroup = (
 
   let selectedOption = OntologiesOptionsDecorator.findByOntologyId({ ontologyId: value, ontologies: selectableOptionsMatchingWorkupDependencies })
 
-  tooltip ||= selectedOption?.unavailable && tooltips['selection_unavailable']
   tooltip ||= selectedOption && !selectedOption.active && tooltips['selection_inactive']
+  tooltip ||= selectedOption?.unavailable && tooltips['selection_unavailable']
   tooltip ||= selectedOption?.unmetDependency && tooltips['selection_unmet_dependency']
 
   label ||= StringDecorator.toLabelSpelling(roleName)

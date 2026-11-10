@@ -20,7 +20,7 @@ const SamplePreparationColumnCard = ({ reactionProcess }) => {
 
   return (
     <ProcedureCard
-      title="Samples"
+      title="Sample Preparations"
       type="preparation"
       showEditBtn={false}
       showMoveBtn={false}

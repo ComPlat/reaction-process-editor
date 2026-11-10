@@ -19,10 +19,10 @@ const AddInfo = ({ activity }) => {
 	const renderSampleSvg = () => workup.acts_as === "SAMPLE" ? SamplesDecorator.sampleSvgImg(activity.sample) : <></>
 
 	return (
-		<>
+		<div className="activity-info__add">
 			{renderSampleSvg()}
 			<InfoLinesBox title={infoTitle} lines={infoLines} />
-		</>
+		</div>
 	)
 }
 

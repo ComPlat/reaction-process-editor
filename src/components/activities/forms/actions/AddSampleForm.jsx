@@ -73,7 +73,17 @@ const AddSampleForm = ({ workup, preconditions, onWorkupChange }) => {
     )
   );
 
-  const handleMaterialChange = (actsAs) => ({ sampleId, label }) => {
+  const handleMaterialChange = (actsAs) => (selection) => {
+    const { sampleId, label } = selection || {};
+
+    if (!sampleId) {
+      onWorkupChange({ name: "acts_as", value: undefined });
+      onWorkupChange({ name: "sample_id", value: undefined });
+      onWorkupChange({ name: "sample_name", value: undefined });
+      setCurrentSample(undefined);
+      return;
+    }
+
     const newSample = currentMaterialOptions(actsAs).find(
       (sample) => sample.value === sampleId && sample.label === label
     );
@@ -83,7 +93,7 @@ const AddSampleForm = ({ workup, preconditions, onWorkupChange }) => {
       onWorkupChange({ name: "sample_id", value: newSample.value });
       onWorkupChange({ name: "sample_name", value: newSample.label });
 
-      // We want to retain current amounts in workup when selected Sample has unspecified amount (Additives, Solvents …)
+      // We want to keep current amounts in workup when selected Sample has no amount specified (Additives, Solvents …)
       newSample.amount?.value &&
         onWorkupChange({ name: "target_amount", value: newSample.amount });
       newSample.amount?.value &&
@@ -114,42 +124,45 @@ const AddSampleForm = ({ workup, preconditions, onWorkupChange }) => {
   };
 
   const renderMaterialForms = () => {
+    return ['SOLVENT', 'ADDITIVE', 'MEDIUM']
+      .filter((materialType) => !currentSample || currentSampleActsAs === materialType)
+      .map((materialType) => {
+        let options = currentMaterialOptions(materialType)
+        let currentSelected = OptionsDecorator.optionForValue(currentSample?.value, options)
 
-    return ['SOLVENT', 'ADDITIVE', 'MEDIUM'].map((materialType) => {
-      let options = currentMaterialOptions(materialType)
-      let currentSelected = OptionsDecorator.optionForValue(currentSample?.value, options)
-
-      return (
-        <SingleLineFormGroup label={StringDecorator.toLabelSpelling(materialType)} key={materialType + '_select_group' + currentSample?.value}>
-          <Select
-            key={materialType + '_select' + currentSample?.value + workup.device}
-            className="react-select--overwrite"
-            classNamePrefix="react-select"
-            name={materialType + '_id'}
-            options={options}
-            value={currentSelected}
-            onChange={(selected) =>
-              handleMaterialChange(materialType)({
+        return (
+          <SingleLineFormGroup label={StringDecorator.toLabelSpelling(materialType)} key={materialType + '_select_group' + currentSample?.value}>
+            <Select
+              key={materialType + '_select' + currentSample?.value + workup.device}
+              className="react-select--overwrite"
+              classNamePrefix="react-select"
+              name={materialType + '_id'}
+              options={options}
+              value={currentSelected}
+              onChange={(selected) => handleMaterialChange(materialType)(selected && {
                 sampleId: selected.value,
                 label: selected.label,
-              })
-            }
-            isDisabled={!currentMaterialOptions.length}
-          />
-        </SingleLineFormGroup>
-      )
-    })
+              })}
+              isClearable
+              isDisabled={!currentMaterialOptions.length}
+            />
+          </SingleLineFormGroup>
+        )
+      })
   }
 
   return (
     <>
       <FormSection type="action">
-        <SampleSelection
-          key={'SAMPLE_select' + currentSample?.value}
-          sampleOptions={materialOptions['SAMPLE']}
-          sample={OptionsDecorator.optionForValue(currentSample?.value, materialOptions['SAMPLE'])}
-          onChange={handleMaterialChange('SAMPLE')}
-        />
+        {(!currentSample || currentSampleActsAs === 'SAMPLE') &&
+          <SampleSelection
+            key={'SAMPLE_select' + currentSample?.value}
+            sampleOptions={materialOptions['SAMPLE']}
+            sample={OptionsDecorator.optionForValue(currentSample?.value, materialOptions['SAMPLE'])}
+            onChange={handleMaterialChange('SAMPLE')}
+            isClearable
+          />
+        }
 
         {renderMaterialForms()}
       </FormSection>
