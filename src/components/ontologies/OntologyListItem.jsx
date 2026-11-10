@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react';
 
-import { Button } from 'reactstrap';
+import { Badge } from 'reactstrap';
+import uniqueId from '../utilities/uniqueId';
 
 import OntologiesInfoDecorator from '../../decorators/OntologiesInfoDecorator';
 import { SelectOptions } from "../../contexts/SelectOptions";
@@ -10,12 +11,14 @@ import StringDecorator from '../../decorators/StringDecorator';
 import OntologyFormModal from './OntologyFormModal';
 import OntologyRichLabel from './OntologyRichLabel';
 import OntologyLink from './OntologyLink';
+import IconButton from '../utilities/IconButton';
 
 const OntologyListItem = ({ ontology, isOpen }) => {
 
   const ontologies = useContext(SelectOptions).ontologies
 
   const [formOpen, setFormOpen] = useState(isOpen)
+  const [editTooltipId] = useState(() => uniqueId('ontology-edit-'))
   const toggleModal = () => setFormOpen(!formOpen)
 
   const renderDeviceInfoRow = (ontology) => {
@@ -56,16 +59,25 @@ const OntologyListItem = ({ ontology, isOpen }) => {
   }
 
   const renderInfoRow = (ontology) => {
-    let buttonColor = ontology?.active ? 'success' : 'condition'
+    let statusColor = ontology?.active ? 'success' : 'condition'
     return (
       <div className="row" >
         <div className="col-2">
-          <Button onClick={toggleModal} size="sm" color={buttonColor}>
-            {ontology.ontology_id}
-          </Button>
-          <span className='ms-3' >
+          <span className='me-2'>
             <OntologyLink ontology={ontology} />
           </span>
+          <Badge className="ontology-list-item__status-badge" color={statusColor}>
+            {ontology.ontology_id}
+          </Badge>
+          <IconButton
+            aria-label={`Edit ${ontology.ontology_id}`}
+            title={`Edit ${ontology.ontology_id}`}
+            className="ontology-list-item__edit-button ms-2"
+            icon="pen"
+            id={editTooltipId}
+            onClick={toggleModal}
+            size="sm"
+          />
           <div>
             {StringDecorator.toLabelSpelling(ontology.ontology_type)}
           </div>

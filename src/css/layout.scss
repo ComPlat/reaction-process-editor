@@ -2,6 +2,9 @@ html, body, #root {
   height: 100%;
 }
 #root {
+  --main-header-height: 4rem;
+
   display: flex;
   flex-direction: column;
+  padding-top: var(--main-header-height);
 }

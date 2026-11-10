@@ -1,0 +1,80 @@
+.ontologies-editor {
+  --ontology-toolbar-height: 5rem;
+
+  &__toolbar {
+    height: var(--ontology-toolbar-height);
+    position: sticky;
+    top: var(--main-header-height);
+    z-index: 1020;
+
+    .navbar {
+      flex-wrap: nowrap;
+      height: 100%;
+    }
+  }
+
+  &__table-header {
+    --bs-table-bg: #{tint-color(color("preparation"), 30%)};
+
+    color: $black;
+    position: sticky;
+    top: calc(var(--main-header-height) + var(--ontology-toolbar-height));
+    z-index: 1010;
+  }
+
+  &__close-button.icon-button {
+    --bs-btn-color: #{$red};
+    --bs-btn-hover-bg: #{$red};
+    --bs-btn-hover-color: #{$white};
+
+    width: 2rem;
+    height: 2rem;
+    margin-right: 0.75rem;
+    border: 2px solid $red;
+    border-radius: 0;
+  }
+}
+
+.icon-button.ontology-list-item__edit-button {
+  --bs-btn-color: #{color("primary")};
+  --bs-btn-hover-bg: #{color("primary")};
+  --bs-btn-hover-color: #{$white};
+}
+
+.badge.ontology-list-item__status-badge {
+  color: $black;
+  padding: 0.4rem 0.6rem;
+}
+
+.ontology-form__add-role {
+  width: calc(15ch + 4rem);
+}
+
+.ontology-form__dependencies {
+  min-width: 0;
+  padding: $spacer;
+}
+
+.ontology-form__filtered-options {
+  flex: 0 0 clamp(24rem, 40vw, 42rem);
+
+  .react-select__indicator.react-select__clear-indicator {
+    display: flex;
+    align-self: center;
+    align-items: center;
+    justify-content: center;
+    width: 1.5rem;
+    height: 1.5rem;
+    margin-top: 0;
+
+    svg {
+      display: inline-block !important;
+      width: 1.25rem;
+      height: 1.25rem;
+    }
+  }
+
+  .react-select__option {
+    white-space: nowrap;
+  }
+}

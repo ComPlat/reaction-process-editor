@@ -1,4 +1,10 @@
 .main-header {
+  height: var(--main-header-height);
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1030;
+
   .dropdown-item {
     font-size: $h4-font-size;
   }
