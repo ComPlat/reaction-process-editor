@@ -23,6 +23,7 @@ const TextInputFormSet = ({ label, value, onSave, disabled, typeColor }) => {
       <Input
         type="textarea"
         name="value"
+        aria-label={label}
         value={currentValue}
         onChange={(event) => setCurrentValue(event.target.value)}
       />

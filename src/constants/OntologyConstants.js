@@ -1,6 +1,12 @@
 import StringDecorator from "../decorators/StringDecorator";
 
 export const OntologyConstants = {
+  detector_ontology_id: {
+    PDA: "CHMO:0001728",
+    ELSD: "CHMO:0002866",
+    MS: "CHMO:0002337",
+  },
+
   class_ontology_id: {
     // Naming "class" from ELN convention
     ADD: "OBI:0000274",

@@ -10,6 +10,7 @@ import FormButtons from '../utilities/FormButtons';
 import EditableItemList from './EditableItemList';
 import EditableTextList from './EditableTextList';
 import OntologyLink from './OntologyLink';
+import OntologyDeviceMethodsForm, { validateDeviceMethods } from './OntologyDeviceMethodsForm';
 import OntologyRichLabel from './OntologyRichLabel';
 import OntologyRoleForm from './OntologyRoleForm';
 
@@ -21,6 +22,7 @@ import { OntologyConstants } from '../../constants/OntologyConstants';
 import { tooltips } from '../../constants/translations';
 
 import { SelectOptions } from "../../contexts/SelectOptions";
+import NotificationContext from '../../contexts/NotificationContext';
 import { useReactionsFetcher } from '../../fetchers/ReactionsFetcher';
 
 const addRoleOptions = OntologyConstants.roleTypeOptions.filter(
@@ -31,7 +33,9 @@ const OntologyFormModal = ({ ontology, isOpen, onClose }) => {
 
   const api = useReactionsFetcher()
 
-  const ontologies = useContext(SelectOptions).ontologies
+  const selectOptions = useContext(SelectOptions)
+  const notificationContext = useContext(NotificationContext)
+  const ontologies = selectOptions.ontologies
 
   const [ontologyQuery, setOntologyQuery] = useState('');
   const [selectedOntologyOption, setSelectedOntologyOption] = useState(null);
@@ -48,8 +52,15 @@ const OntologyFormModal = ({ ontology, isOpen, onClose }) => {
     .filter(ont => ontologyMatchesQuery(ont))
     .map(ont => ({
       ...OntologiesInfoDecorator.richLabelOption(ont),
+      ontology_id: ont.ontology_id,
+      ontology_type: ont.ontology_type,
       roles: ont.roles,
     }))
+
+  const detectorOptions = filteredOntologyOptions
+    .filter(option => option.roles?.detector?.length)
+  const deviceTypeOptions = filteredOntologyOptions
+    .filter(option => option.ontology_type === 'DEVICE_TYPE')
 
   const handleChange = (key) => (value) => {
     setCurrentOntology({ ...currentOntology, [key]: value }
@@ -83,6 +94,18 @@ const OntologyFormModal = ({ ontology, isOpen, onClose }) => {
     onClose()
   }
   const handleSave = () => {
+    if (
+      OntologyConstants.isDevice(currentOntology.ontology_type)
+      && !validateDeviceMethods(currentOntology.device_methods)
+    ) {
+      notificationContext?.addNotification({
+        title: 'Device method label required',
+        message: 'Enter a label for every device method before saving.',
+        type: 'warning',
+      })
+      return
+    }
+
     api.saveOntology(currentOntology)
     !currentOntology.ontology_id && setCurrentOntology(JSON.parse(JSON.stringify(ontology)))
     onClose()
@@ -90,7 +113,7 @@ const OntologyFormModal = ({ ontology, isOpen, onClose }) => {
 
   const renderDeviceFields = () => {
     return (
-      <div className="row bg-condition bg-opacity-25">
+      <div className="row bg-condition bg-opacity-50">
         <div className="col-4 border pb-3"  >
           <EditableItemList label={'Detector'} items={currentOntology.detectors} onChange={handleChange('detectors')} options={filteredOntologyOptions} />
         </div>
@@ -271,6 +294,14 @@ const OntologyFormModal = ({ ontology, isOpen, onClose }) => {
             {renderMainFields()}
             {renderRolesDependenciesForm()}
             {OntologyConstants.isDevice(currentOntology.ontology_type) && renderDeviceFields()}
+            {OntologyConstants.isDevice(currentOntology.ontology_type) && (
+              <OntologyDeviceMethodsForm
+                deviceMethods={currentOntology.device_methods || []}
+                detectorOptions={detectorOptions}
+                deviceTypeOptions={deviceTypeOptions}
+                onChange={handleChange('device_methods')}
+              />
+            )}
             <FormButtons
               onCancel={handleCancel}
               onSave={handleSave}
